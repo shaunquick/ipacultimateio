@@ -63,18 +63,18 @@ There are three levels of commands
 
 Folder Structure
 ================
---main folder -
+- main folder -
 Holds the main python program that you will execute :- set-ultimateio-leds.py
 
---scripts folder
+- scripts folder
 An example script (default_script.json) is provided which shows the structure of the file that you will need to adhere to, with one example of every 
 command that is offered
 
-data folder -
+- data folder -
 If you wish to use GroupNames to configure a button, the vonfiguration/definition file is held in this folder and is called 'LedGroupNameDefinitions.json'
 the LedNrRGB values will need to be configured for your set-up - additionally the LedGroupName value can also be changed to any name that you want 
 to use - remeber that in the script you will also need to reference that new name in order to use the configuration in the command.
 libs folder -
 
-docs  folder -
+- docs folder -
 Additonal documentation may be provided at a later date, not yet covered.
