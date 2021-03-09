@@ -75,7 +75,7 @@ from ..core.setledgroupname import SetLedGroupNameListFadeToOn
 
 
 def RunCommandsFromFile(DeviceID, filename):
-
+# Load the script file, validate the script fila and then execute the commands in the file.
     try:
         FileCommandList = GetLedCommandsFromFile(filename)
         RunLedCommands(DeviceID, FileCommandList)
@@ -104,10 +104,10 @@ def GetLedCommandsFromFile(filename):
         raise Exception("{0}".format(err))
 
 
-    CommandScript = json.loads(filecontent)
 
-    if type(CommandScript) is not list: raise Exception("GetLedCommandsFromFile(): file structure not valid - Expecting a json list")
     try:
+        CommandScript = json.loads(filecontent)
+        if type(CommandScript) is not list: raise Exception("GetLedCommandsFromFile(): file structure not valid - Expecting a json list")
         _isValidCommandScript(CommandScript)
     except Exception as err:
         raise Exception("GetLedCommandsFromFile(): {0}".format(err))

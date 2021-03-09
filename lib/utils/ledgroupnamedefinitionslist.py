@@ -43,8 +43,8 @@ LED_GROUP_DEFINITIONS = []
 LedGroupDefinitionsFileFound = True
 
 
-
 def InitLedGroupNameDefinitionsList():
+# Load the definitions file, validate it and keep the list in memory for later use
     global LED_GROUP_DEFINITIONS
     global LedGroupDefinitionsFileFound
     
@@ -77,7 +77,7 @@ def GetLedGroupNameDefinitions():
     return(LED_GROUP_DEFINITIONS)
 
 def _isValidLedGroupNameDefinition(LedGroupNameDefinition):
-    
+# validate the  definition    
     if not LedGroupDefinitionsFileFound : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
     if "LedGroupName" in LedGroupNameDefinition:

@@ -30,7 +30,7 @@
 
 
 
-# THis module holds the functions that communicate directly with the
+# This module holds the functions that communicate directly with the
 # ultimarc-io LED Board
 # 
 

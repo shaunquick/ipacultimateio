@@ -1,1 +1,1 @@
-# __Init__ for package utils/data
+# __Init__ for package data - this allows the program to readon the definitions file.

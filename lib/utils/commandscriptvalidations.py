@@ -1,5 +1,4 @@
 # Copyright 2021-2021 Shaun Quick
-# Copyright 2021-2021 contributors
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -53,7 +52,7 @@ from ..common.validations import _IsValidNrCommandsToRepeat
 from ..common.validations import _IsValidRGBIntensityList
 
 def _isValidCommand(Command):
-# check that we have a Command a valid Function name and eaxh function has the correct paramaters required
+# check that we have a Command a valid Function name and each function has the correct paramaters required
     if not "Command" in Command: raise Exception("Command missing: {0}".format(Command))
     if not "Function" in Command["Command"]: raise Exception("Function missing from Command : {0}".format(Command))
     if Command["Command"]["Function"] == "Wait":
@@ -76,7 +75,7 @@ def _isValidCommand(Command):
         pass
     elif Command["Command"]["Function"] == "SetLedNrIntensityList":
         if not "LedNrIntensityList" in Command["Command"]: raise Exception("LedNrIntensityList missing from command: {0}".format(Command))
-        if not _IsValidLedNrIntensityList(Command["Command"]["LedNrIntensityList"]) : raise Exception("LedNrIntensityList Invalid: {0}:{1}".format(Command,Command["Command"]["LedIntensityList"] ))
+        if not _IsValidLedNrIntensityList(Command["Command"]["LedNrIntensityList"]) : raise Exception("LedNrIntensityList Invalid: {0}:{1}".format(Command,Command["Command"]["LedNrIntensityList"] ))
     elif Command["Command"]["Function"] == "SetAllLedFlash" or \
                  Command["Command"]["Function"] == "SetAllLedRandomFlash":
         if not "FlashCount" in Command["Command"]: raise Exception("FlashCount missing from command: {0}".format(Command))

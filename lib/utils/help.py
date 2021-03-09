@@ -1,0 +1,147 @@
+# Copyright 2021-2021 Shaun Quick
+# Copyright 2021-2021 contributors
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+# 1. Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.
+#
+# 2. Redistributions in binary form must reproduce the above copyright
+# notice, this list of conditions and the following disclaimer in the
+# documentation and/or other materials provided with the distribution.
+#
+# 3. Neither the name of the copyright holder nor the names of its
+# contributors may be used to endorse or promote products derived from
+# this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+def help():
+
+    helptext= """Usage: {0} FILE
+This is for use with the ultimarc I/O Board, The FILE will hold the set of
+instructions/commands that need to be sent to the board in json format.
+This will be a json list in the format example here
+
+[
+{ \"Command\" : { \"comment\": \"Wait for x seconds\",
+        \"Function\" : \"Wait\",
+        \"WaitIntervalTime\": 1 }},
+{ \"Command\" : {  \"comment\": \"Set all LEDs to the same specified brightness level\",
+        \"Function\" : \"SetAllLedIntensities\",
+        \"IntensityLevel\": 255 }},
+{ \"Command\" : {\"comment\": \"Set a specific LED to the specified brightness level\",
+        \"Function\" : \"SetLedNrIntensity\",
+        \"LedNr\": 3,
+        \"IntensityLevel\": 255 }},
+{ \"Command\" : {\"comment\": \"Set a list of LEDs to the same specified brightness level\",
+        \"Function\" : \"SetLedNrListIntensities\",
+        \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
+        \"IntensityLevel\": 255   }},
+{ \"Command\" : { \"comment\": \"All LEDs wil be set to a random brightness\",
+        \"Function\" : \"SetAllLedRandomStates\" }},
+{ \"Command\" : {\"comment\": \"Set a list of LEDs to an LED specific brightness level\",
+        \"Function\" : \"SetLedNrIntensityList\",
+        \"LedNrIntensityList\": [   {\"LedNr\": 1, \"IntensityLevel\": 255}, 
+                    {\"LedNr\": 95, \"IntensityLevel\": 255}] }},
+{ \"Command\" : {\"comment\": \"Set All LEDs to flash x times at the flash interval specified\",
+        \"Function\" : \"SetAllLedFlash\",
+        \"FlashCount\" : 5,
+        \"FlashIntervalTime\" : 0.25 }},
+{ \"Command\" : {\"comment\": \"Set All LEDs to randomly flash x times at the flash interval specified\",
+        \"Function\" : \"SetAllLedRandomFlash\",
+        \"FlashCount\" : 5,
+        \"FlashIntervalTime\" : 0.25 }},
+{ \"Command\" : {\"comment\": \"Set a list of LEDs to flash x times at the flash interval specified\",
+       \"Function\" : \"SetLedNrListFlash",
+       \"FlashCount\" : 5,
+       \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
+       \"FlashIntervalTime\" : 0.25 }},
+{ \"Command\" : { \"comment\": \"Turn  All LEDs On or Off - when turning back on, the previous setting will be re-applied\",
+        \"Function\" : \"SetAllLedStates\",
+        \"State\": true }},
+{ \"Command\" : {\"comment\": \"Set a list LEDs On or Off - when turning back on, the previous setting will be re-applied\",
+        \"Function\" : \"SetLedNrStateList\",
+        \"LedNrStateList\": [   {\"LedNr\": 10, \"State\": true}, 
+                    {\"LedNr\": 11, \"State\": false} ] }},
+{ \"Command\" : { \"comment\": \"Fade down and then back up the list of LEDs \",
+        \"Function\" : \"SetLedNrListFadeReverb\",
+        \"LedNrList": [1,10,11,12, 13,14,15, 88,89,90,96],
+        \"FadeIncrement\": 10, 
+        \"FadeIntervalTime\": 0.2 }},
+{ \"Command\" : {\"comment\": \"Fade down and then back up All LEDs \",
+        \"Function\" : \"SetAllLedFadeReverb\",
+        \"FadeIncrement\": 20, 
+        \"FadeIntervalTime\": 0.2 }},
+{ \"Command\" : {\"comment\": \"Fade down all LEDs \",
+        \"Function\" : "SetAllLedFadeToOff\",
+        \"FadeIncrement\": 30, 
+        \"FadeIntervalTime\": 0.2 }},
+{ \"Command\" : {\"comment\": \"Fade up all LEDs \",
+        \"Function\" : \"SetAllLedFadeToOn\",
+        \"FadeIncrement\": 40, 
+        \"FadeIntervalTime\": 0.2 }},
+{ \"Command\" : {\"comment\": \"Fade down the list of LEDs \",
+        \"Function\" : \"SetLedNrListFadeToOff\",
+        \"LedNrList\": [1,3,4,5,6,7,8,9,96],
+        \"FadeIncrement\": 50, 
+        \"FadeIntervalTime\": 0.2 }},
+{ \"Command\" : {\"comment\": \"Fade up the list of LEDs \",
+        \"Function\" : \"SetLedNrListFadeToOn\",
+        \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
+        \"FadeIncrement\": 60, 
+        \"FadeIntervalTime\": 0.2  }},
+
+
+
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameIntensity", \"LedGroupName\" : \"p2b6\", \"RGBIntensity\" : [100,100,100] }},
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameListIntensities", \"LedGroupNameList\": [ \"p1b1\", \"p1b2\", \"p1b3\", \"p1b4\" ],\"IntensityLevel\": 255 }},
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameIntensity", \"LedGroupName\" : \"p1b1\", \"RGBIntensity\" : [255,11,22] }},
+
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameIntensityList\",
+                    "LedGroupNameIntensityList": [ {\"LedGroupName\" : \"p1b1\", \"RGBIntensity\" : [255,11,22] }, 
+                                        {\"LedGroupName\" : \"p1b2\", \"RGBIntensity\" : [255,11,22] }] }},
+
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameListFlash\", \"FlashCount\" : 5, 
+                    \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ], \"FlashIntervalTime\" : 0.25 }},
+
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameStateList\",
+                    \"LedGroupNameStateList\": [ {\"LedGroupName\" : \"p1b1\", \"State\": true }, 
+                                    {\"LedGroupName\" : \"p1b2\", \"State\": false } ] }},
+
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameListFadeReverb",\"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ],\"FadeIncrement\": 10, \"FadeIntervalTime\": 0.2 }},
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameListFadeToOff", \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ],\"FadeIncrement\": 50, \"FadeIntervalTime\": 0.2 }},
+{ \"Command\" : { \"Function\" : \"SetLedGroupNameListFadeToOn", \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ], \"FadeIncrement\": 60,  \"FadeIntervalTime\": 0.2  }},
+
+
+{ \"Command\" : { \"Function\" : \"RepeatLastCommands\", \"NrPreviousCommandsToRepeat\" : 14, \"NrOfRepetitions\" :3 }},
+
+{ \"Command\" : {\"comment\": \"Reset the board (and restart the firmware script \",
+                 \"Function\" : \"ResetBoard\"} }
+
+]
+
+All functions available are documented above
+Any additonal name/value pair withint the command will be ignored.
+This is helpful if you wish to provide comments on particlaur commands
+e.g.
+...
+{ \"Command\" : {\"comment\" : \"ask the script to wait this number of seconds between commands to the board\",
+               \"Function\" : \"Wait\",
+               \"WaitIntervalTime\": 1 }},
+...
+
+"""
+    return (helptext)
