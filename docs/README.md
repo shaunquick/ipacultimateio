@@ -11,10 +11,14 @@ This library and command line utility has been tested with only the current IPAC
 
 This has been written in python.
 
+It has been used successfully with the raspberry pi. It may be work in other environments but has not been tested.
 
+The library has all the python source, but it is intended to be used via the command line as a complete utility.
 
 Pre-Requisites
 ==============
+Python installed version 3.7.3
+https://projects.raspberrypi.org/en/projects/generic-python-install-python3
 
 Required Python modules
 To use this tool the following python modules need to be installed on your system.
@@ -25,7 +29,7 @@ How it works
 =============
 Once you have downloaded the github project, there will be a main python module called
 
-set-ultimateio-leds.py
+set-ultimateio-leds.py in the main folder
 
 Plug in your Ultimate I/O Board into the Raspberry Pi 4
 
@@ -38,13 +42,13 @@ $python3 set-ultimateio-leds.py
 To run your own script
 $python3 set-ultimateio-leds.py <scriptname>
 where <scriptname> is the name of the json script file that resides in the scripts sub-folder or a fully qualified filename
-The script should be placed in the sub-folder scripts (although you can pass in the full path if you do not want to hold your scrips there.
+The script should be placed in the sub-folder scripts (although you can pass in the full path if you do not want to hold your scripts there.
 
 
 Scripts
 ========
 Scripts are json files that allow you to execute a sequence of different commands to the Board. These will allow you to set the colour of a 
-button, flash a button, fade a button etc - each of those commands require a set of paramaters and informaiton to allow them to configure
+led, flash an led, fade a led etc - each of those commands require a set of paramaters and informaiton to allow them to configure
 the Leds.
 
 There are three levels of commands
@@ -73,8 +77,11 @@ command that is offered
 - data folder -
 If you wish to use GroupNames to configure a button, the vonfiguration/definition file is held in this folder and is called 'LedGroupNameDefinitions.json'
 the LedNrRGB values will need to be configured for your set-up - additionally the LedGroupName value can also be changed to any name that you want 
-to use - remeber that in the script you will also need to reference that new name in order to use the configuration in the command.
-libs folder -
+to use - remember that in the script you will also need to reference that new name in order to use the configuration in the command.
+
+- libs folder -
+A set of underlyig python modules - the core subfolder holder all the functions that cab be externally called within other programs (not tested!)
+Othe sub folders hold additional modules that are needed for this utility
 
 - docs folder -
-Additonal documentation may be provided at a later date, not yet covered.
+The full readme file is here ! Additonal documentation may be provided at a later date.
