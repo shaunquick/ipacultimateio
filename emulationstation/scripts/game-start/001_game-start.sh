@@ -8,13 +8,15 @@ pkill -f set-ultimateio-leds.py
 
 case "$2" in
         "romname1") python3 -m
-	python3 -m  ~/ipacultimateio/set-ultimateio-leds.py 1buttons.json
+        echo "running generic romname1 script" >> ~/.emulationstation/scripts/output.log
+	python3 -m  ~/ipacultimateio/set-ultimateio-leds.py 1buttons.json >> ~/.emulationstation/scripts/output.log
         ;;
         "romname2") python3 -m
-	python3 -m  ~/ipacultimateio/set-ultimateio-leds.py 2buttons.json
+        echo "running generic romname2 script" >> ~/.emulationstation/scripts/output.log
+	python3 -m  ~/ipacultimateio/set-ultimateio-leds.py 2buttons.json >> ~/.emulationstation/scripts/output.log
         ;;
         *)
-        echo "running generic button script" >> ~/.emulationstation/scripts/game-start/output.log
-        python3 -m  ~/ipacultimateio/set-ultimateio-leds.py allbuttons.json
+        echo "running generic game-start script" >> ~/.emulationstation/scripts/output.log
+        python3 -m  ~/ipacultimateio/set-ultimateio-leds.py allbuttons.json >> ~/.emulationstation/scripts/output.log
         ;;
 esac
