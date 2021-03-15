@@ -1,10 +1,8 @@
 #!/bin/bash
-# $1 is the full path of the rom
-# $2 is the rom name.
 
 # kill any other current scripts running
 pkill -f set-ultimateio-leds.py
 
-echo "running attract script" >> ~/.emulationstation/scripts/game-start/output.log
+echo "running game-end script" >> ~/.emulationstation/scripts/output.log
 
-python3 -m  ~/ipacultimateio/set-ultimateio-leds.py setallblue.json
+python3 -m  ~/ipacultimateio/set-ultimateio-leds.py setallblue.json >> ~/.emulationstation/scripts/output.log
