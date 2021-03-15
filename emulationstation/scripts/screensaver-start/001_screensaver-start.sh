@@ -5,6 +5,6 @@
 # kill any other current scripts running
 pkill -f set-ultimateio-leds.py
 
-echo "running attract script" >> ~/.emulationstation/scripts/game-start/output.log
+echo "running attract script" >> ~/.emulationstation/scripts/output.log
 
-python3 -m  ~/ipacultimateio/set-ultimateio-leds.py attract.json
+python3 -m  ~/ipacultimateio/set-ultimateio-leds.py attract.json >> ~/.emulationstation/scripts/output.log
