@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Copyright 2021-2021 Shaun Quick
 # Copyright 2021-2021 contributors
 #

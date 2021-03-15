@@ -1,0 +1,31 @@
+[
+
+{ "Command" : {"comment" : "set all buttons blue",
+		"Function" : "SetLedGroupNameIntensityList",
+		"LedGroupNameIntensityList": [  {"LedGroupName" : "pinballleft1", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "pinballleft2", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p1coin", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p1start", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p1b1", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p1b2", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p1b3", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p1b4", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p1b5", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p1b6", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "top1", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "top2", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p2coin", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p2start", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p2b1", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p2b2", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p2b3", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p2b4", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p2b5", "RGBIntensity" : [0,0,16] }, 
+					        {"LedGroupName" : "p2b6", "RGBIntensity" : [0,0,16] },
+					        {"LedGroupName" : "pinballright1", "RGBIntensity" : [0,0,16] },
+					        {"LedGroupName" : "pinballright2", "RGBIntensity" : [0,0,16] }
+						]
+						}}
+
+
+]

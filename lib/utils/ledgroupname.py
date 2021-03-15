@@ -148,8 +148,10 @@ def _convertLEDGroupNameIntensityListToLedNrIntensityList(LedGroupNameIntensityL
         for LedGroupNameDefinition in GetLedGroupNameDefinitions():
             if "LedGroupName" in LedGroupNameDefinition:
                 if LedGroupNameDefinition["LedGroupName"] == LedGroupNameIntensity["LedGroupName"] :
+                    counter = 0
                     for Led in LedGroupNameDefinition["LedNrRGB"]:
-                        LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][1]})
+                        LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][counter]})
+                        counter += 1
                     break
         
     return(LedIntensityList)
