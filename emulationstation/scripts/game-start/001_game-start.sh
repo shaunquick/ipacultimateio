@@ -7,11 +7,11 @@ pkill -f set-ultimateio-leds.py
 
 
 case "$2" in
-        "romname1") python3 -m
+        "romname1")
         echo "running generic romname1 script" >> ~/.emulationstation/scripts/output.log
 	python3  ~/ipacultimateio/set-ultimateio-leds.py 1buttons.json >> ~/.emulationstation/scripts/output.log
         ;;
-        "romname2") python3 -m
+        "romname2")
         echo "running generic romname2 script" >> ~/.emulationstation/scripts/output.log
 	python3  ~/ipacultimateio/set-ultimateio-leds.py 2buttons.json >> ~/.emulationstation/scripts/output.log
         ;;
