@@ -7,4 +7,4 @@ pkill -f set-ultimateio-leds.py
 
 echo "running attract script" >> ~/.emulationstation/scripts/output.log
 
-python3 -m  ~/ipacultimateio/set-ultimateio-leds.py attract.json >> ~/.emulationstation/scripts/output.log
+python3 ~/ipacultimateio/set-ultimateio-leds.py attract.json >> ~/.emulationstation/scripts/output.log
