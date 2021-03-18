@@ -5,6 +5,6 @@
 # kill any other current scripts running
 pkill -f set-ultimateio-leds.py
 
-echo "running screensaver end script" >> ~/.emulationstation/scripts/output.log
+echo "running screensaver stop script" >> ~/.emulationstation/scripts/output.log
 
 python3 ~/ipacultimateio/set-ultimateio-leds.py sleep.json >> ~/.emulationstation/scripts/output.log &
