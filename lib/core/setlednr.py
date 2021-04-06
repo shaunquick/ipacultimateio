@@ -237,7 +237,7 @@ def SetLedNrListFadeToOn(DeviceID, LedNrList, FadeIncrement = 10, FadeIntervalTi
 def SetLedNrListRainbow(DeviceID, LedNrList, NrCycles, CycleIntervalTime, RainbowRGBListIndex = 0):
 # Set a list  of 'LedNr' to a specific 'IntensityLevel'
 # LedNrList = [1,2,3]
-RainbowRGBList = [
+    RainbowRGBList = [
 255,0,32,
 255,0,64, 
 255,0,96, 
