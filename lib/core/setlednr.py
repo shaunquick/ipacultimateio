@@ -290,23 +290,34 @@ def SetLedNrListRainbowCycle(DeviceID, LedNrList, NrCycles, CycleIntervalTime, R
 
     RainbowRGBListLength = len(RainbowRGBList)
 
-
-    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetLedListIntensities(): DeviceID not valid")
-    if not _IsValidLedNrList(LedNrList): raise Exception("SetLedListIntensities(): LedNrList not valid")
+    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetLedNrListRainbowCycle(): DeviceID not valid")
+    if not _IsValidLedNrList(LedNrList): raise Exception("SetLedNrListRainbowCycle(): LedNrList not valid")
     curr_index = RainbowRGBListIndex * 3
     cycle_count = 0
+    first_LedNr = LedNrList[0]
     while cycle_count <= NrCycles:
-        for LedNr in LedNrList:
-            if curr_index > RainbowRGBListLength:
-                curr_index = 0
+        is_cycle_finished = False
+        while not is_cycle_finished:
+            for LedNr in LedNrList:
+                if curr_index >= RainbowRGBListLength:
+                    curr_index = 0
 
-            Set_LED_CURRENT_STATES_LedIntensity(LedNr,RainbowRGBList[curr_index])
-            Set_LED_CURRENT_STATES_LedFadeIntensity(LedNr,RainbowRGBList[curr_index])
-            Set_LED_CURRENT_STATES_LedState(LedNr,"On")
-            curr_index += 1
-        _setLedsToIndividualBrightness(DeviceID)
-        time.wait(CycleIntervalTime)
+                Set_LED_CURRENT_STATES_LedIntensity(LedNr,RainbowRGBList[curr_index])
+                Set_LED_CURRENT_STATES_LedFadeIntensity(LedNr,RainbowRGBList[curr_index])
+                Set_LED_CURRENT_STATES_LedState(LedNr,"On")
+                curr_index += 1
+            if not is_cycle_finished:
+                _setLedsToIndividualBrightness(DeviceID)
+                time.sleep(CycleIntervalTime)
+                curr_index = curr_index - len(LedNrList) + 3
+                if curr_index < 0:
+                    curr_index += len(RainbowRGBList)
+                if curr_index == RainbowRGBListIndex:
+                  is_cycle_finished = True
+
+
         cycle_count += 1
+
 
 if __name__ == '__main__':
     pass

@@ -1,23 +1,25 @@
 [
-{ "Command" : {"comment" : "Used for game that only need the fire button, player 1, player 2, coin 1 coint 2 lit up",
-		"Function" : "Wait",
-		"WaitIntervalTime": 0.1 }},
 
 
 { "Command" : { "Function" : "SetLedGroupNameListRainbowCycle", 
 		"LedGroupNameList": ["pinballleft1", "pinballleft2",
 					"p1coin","p1start",
-					"p1b1", "p1b2", "p2b1", "p2b2", "p2b5", "p1b6",
+					"p1b1","p1b4","p1b2","p1b5","p1b3","p1b6",
 					 "top1", "top2",
 					"p2coin","p2start",
-					"p2b1","p2b2","p2b3","p2b4","p2b5","p2b6","p2b1",
+					"p2b1","p2b4","p2b2","p2b5","p2b3","p2b6",
 					"pinballright1","pinballright2"
 					 ], 
-		"NrCycles": 30,  "CycleIntervalTime": 0.4  }},
+		"NrCycles": 30,  "CycleIntervalTime": 0.2  }},
+
+{ "Command" : {"comment" : "Used for game that only need the fire button, player 1, player 2, coin 1 coint 2 lit up",
+		"Function" : "Wait",
+		"WaitIntervalTime": 5 }},
+
 
 { "Command" : {"comment" : "Now repeat the flashing and fades 10 times",
 		"Function" : "RepeatLastCommands",
-		"NrPreviousCommandsToRepeat" : 1,
+		"NrPreviousCommandsToRepeat" : 2,
 		"NrOfRepetitions" :1000 }}
 
 ]
