@@ -53,8 +53,8 @@ from .globalvar import MIN_FLASH_COUNT
 from .globalvar import MAX_FLASH_COUNT
 from .globalvar import MIN_NR_CYCLES
 from .globalvar import MAX_NR_CYCLES
-
-
+from .globalvar import MIN_CYCLE_INTERVAL_TIME
+from .globalvar import MAX_CYCLE_INTERVAL_TIME
 
 def _IsValidIpacUltimateDevice(DeviceID):
 # Verify the board is an iPAC Ultimate IO
