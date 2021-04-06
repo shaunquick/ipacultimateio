@@ -72,6 +72,7 @@ from ..core.setledgroupname import SetLedGroupNameStateList
 from ..core.setledgroupname import SetLedGroupNameListFadeReverb 
 from ..core.setledgroupname import SetLedGroupNameListFadeToOff
 from ..core.setledgroupname import SetLedGroupNameListFadeToOn
+from ..core.setledgroupname import SetLedGroupNameListRainbowCycle
 
 
 def RunCommandsFromFile(DeviceID, filename):
