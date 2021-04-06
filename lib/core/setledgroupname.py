@@ -36,7 +36,6 @@
 # the spefic led Numbers - this makes it easier to control a buttons RGB values
 # for example.
 
-
 from ..utils.ledgroupname import _convertLEDGroupNameIntensityListToLedNrIntensityList
 from ..utils.ledgroupname import _convertLEDGroupNameListToLedNrList
 from ..utils.ledgroupname import _convertLEDGroupNameToLedNrList
@@ -54,7 +53,8 @@ from ..common.validations import _IsValidIntensityLevel
 from ..common.validations import _IsValidFlashIntervalTime
 from ..common.validations import _IsValidFlashCount
 from ..common.validations import _IsValidFadeIncrement
-
+from ..common.validations import _IsValidNrCycles
+from ..common.validations import _IsValidCycleIntervalTime
 
 from .setlednr import SetLedNrIntensity
 from .setlednr import SetLedNrListIntensities
@@ -165,6 +165,17 @@ def SetLedGroupNameListFadeToOn(DeviceID, LedGroupNameList, FadeIncrement = 10, 
 
     return()
 
+def SetLedGroupNameListRainbowCycle(DeviceID, LedGroupNameList, NrCycles, CycleIntervalTime):
+
+    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetLedGroupNameListRainbowCycle(): DeviceID not valid")
+    if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedGroupNameListRainbowCycle(): LedList not valid")
+    if not _IsValidNrCycles(NrCycles):  raise Exception("SetLedGroupNameListRainbowCycle(): NrCycles not valid")
+    if not _IsValidCycleIntervalTime(CycleIntervalTime):  raise Exception("SetLedGroupNameListRainbowCycle(): CycleIntervalTime not valid")
+
+
+    LedNrList= _convertLEDGroupNameListToLedNrList(LedGroupNameList)
+    SetLedNrListRainbow(DeviceID, LedNrList, NrCycles, CycleIntervalTime)
+    pass
 
 if __name__ == '__main__':
     pass

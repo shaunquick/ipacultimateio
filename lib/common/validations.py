@@ -49,6 +49,10 @@ from .globalvar import MIN_FLASH_COUNT
 from .globalvar import MAX_FLASH_COUNT
 from .globalvar import MIN_WAIT_INTERVAL_TIME
 from .globalvar import MAX_WAIT_INTERVAL_TIME
+from .globalvar import MIN_FLASH_COUNT
+from .globalvar import MAX_FLASH_COUNT
+from .globalvar import MIN_NR_CYCLES
+from .globalvar import MAX_NR_CYCLES
 
 
 
@@ -161,6 +165,21 @@ def _IsValidNrCommandsToRepeat(NrCommandsToRepeat):
     if type(NrCommandsToRepeat) is not int : return (False)
     return(True)
 
+
+def _IsValidNrCycles(NrCycles):
     
+    if type(NrCycles) is not int:
+        return (False)
+    if not (NrCycles >= MIN_NR_CYCLES and NrCycles <= MAX_NR_CYCLES):
+        return (False)
+    return(True)
+
+def _IsValidCycleIntervalTime(CycleIntervalTime):
+    if not (type(CycleIntervalTime) is int or float): return (False)
+    if not (CycleIntervalTime >= MIN_CYCLE_INTERVAL_TIME and CycleIntervalTime <= MAX_CYCLE_INTERVAL_TIME): return (False)
+    return(True)
+
+
+
 if __name__ == '__main__':
     pass

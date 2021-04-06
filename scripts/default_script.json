@@ -124,6 +124,7 @@
 { "Command" : { "Function" : "SetLedGroupNameListFadeToOff", "LedGroupNameList": ["p1b1", "p1b2", "p2b1", "p2b2", "p2b5", "p1b6" ],"FadeIncrement": 50, "FadeIntervalTime": 0.2 }},
 { "Command" : { "Function" : "SetLedGroupNameListFadeToOn", "LedGroupNameList": ["p1b1", "p1b2", "p2b1", "p2b2", "p2b5", "p1b6" ], "FadeIncrement": 60,  "FadeIntervalTime": 0.2  }},
 
+{ "Command" : { "Function" : "SetLedGroupNameListRainbowCycle", "LedGroupNameList": ["p1b1", "p1b2", "p2b1", "p2b2", "p2b5", "p1b6","p1coin","p1start","p2b1","p2b2","p2b3","p2b4","p2b5","p2b6","p2b1","p2coin","p2start", "top1", "top2" ], "NrCycles": 30,  "CycleIntervalTime": 0.4  }},
 
 
 { "Command" : { "Function" : "ResetBoard"} }

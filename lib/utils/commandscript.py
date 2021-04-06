@@ -176,6 +176,8 @@ def RunLedCommands(DeviceID, CommandScriptList):
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameListFadeToOn":
                 SetLedGroupNameListFadeToOn(DeviceID=DeviceID, LedGroupNameList=FileCommand["Command"]["LedGroupNameList"],FadeIncrement=FileCommand["Command"]["FadeIncrement"],FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
 
+            elif FileCommand["Command"]["Function"] == "SetLedGroupNameListRainbowCycle":
+                SetLedGroupNameListRainbowCycle(DeviceID=DeviceID, LedGroupNameList=FileCommand["Command"]["LedGroupNameList"],NrCycles=FileCommand["Command"]["NrCycles"],CycleIntervalTime=FileCommand["Command"]["CycleIntervalTime"])
 
             elif FileCommand["Command"]["Function"] == "RepeatLastCommands":
                 ListofCommands = _GetCommandsToRepeat(CommandScriptList=CommandScriptList, LastItemCount=Counter, NrPreviousCommandsToRepeat=FileCommand["Command"]["NrPreviousCommandsToRepeat"])

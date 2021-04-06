@@ -50,6 +50,8 @@ from ..common.validations import _IsValidFadeIncrement
 from ..common.validations import _IsValidNrOfRepetitions
 from ..common.validations import _IsValidNrCommandsToRepeat
 from ..common.validations import _IsValidRGBIntensityList
+from ..common.validations import _IsValidCycleIntervalTime
+from ..common.validations import _IsValidNrCycles
 
 def _isValidCommand(Command):
 # check that we have a Command a valid Function name and each function has the correct paramaters required
@@ -164,6 +166,17 @@ def _isValidCommand(Command):
         if not _IsValidFadeIncrement(Command["Command"]["FadeIncrement"]) : raise Exception("FadeIncrement Invalid: {0}".format(Command))
         if not "FadeIntervalTime" in Command["Command"]: raise Exception("FadeIntervalTime missing from command: {0}".format(Command))
         if not _IsValidFadeIntervalTime(Command["Command"]["FadeIntervalTime"]) : raise Exception("FadeIntervalTime Invalid: {0}".format(Command))
+
+
+    elif Command["Command"]["Function"] == "SetLedGroupNameListRainbowCycle":
+        if not "LedGroupNameList" in Command["Command"]: raise Exception("LedGroupNameList missing from command: {0}".format(Command))
+        if not _IsValidLedGroupNameList(Command["Command"]["LedGroupNameList"]) : raise Exception("LedGroupNameList Invalid: {0}".format(Command))
+        if not "NrCycles" in Command["Command"]: raise Exception("NrCycles missing from command: {0}".format(Command))
+        if not _IsValidNrCycles(Command["Command"]["NrCycles"]) : raise Exception("NrCycles Invalid: {0}".format(Command))
+        if not "CycleIntervalTime" in Command["Command"]: raise Exception("CycleIntervalTime missing from command: {0}".format(Command))
+        if not _IsValidCycleIntervalTime(Command["Command"]["CycleIntervalTime"]) : raise Exception("CycleIntervalTime Invalid: {0}".format(Command))
+
+
     elif Command["Command"]["Function"] == "RepeatLastCommands":
         if not "NrPreviousCommandsToRepeat" in Command["Command"]: raise Exception("NrPreviousCommandsToRepeat missing from command: {0}".format(Command))
         if not _IsValidNrCommandsToRepeat(Command["Command"]["NrPreviousCommandsToRepeat"]) : raise Exception("NrPreviousCommandsToRepeat Invalid: {0}".format(Command))

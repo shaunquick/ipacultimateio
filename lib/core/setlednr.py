@@ -234,8 +234,79 @@ def SetLedNrListFadeToOn(DeviceID, LedNrList, FadeIncrement = 10, FadeIntervalTi
     return()
 
 
+def SetLedNrListRainbow(DeviceID, LedNrList, NrCycles, CycleIntervalTime, RainbowRGBListIndex = 0):
+# Set a list  of 'LedNr' to a specific 'IntensityLevel'
+# LedNrList = [1,2,3]
+RainbowRGBList = [
+255,0,32,
+255,0,64, 
+255,0,96, 
+255,0,128, 
+255,0,160, 
+255,0,192, 
+255,0,224, 
+255,0,255, 
+224,0,255, 
+192,0,255, 
+160,0,255, 
+128,0,255, 
+96,0,255, 
+64,0,255, 
+32,0,255, 
+0,0,255, 
+0,32,255, 
+0,64,255, 
+0,96,255, 
+0,128,255,
+0,160,255,
+0,192,255,
+0,224,255,
+0,255,255,
+0,255,224,
+0,255,192,
+0,255,160,
+0,255,128,
+0,255,96,
+0,255,64,
+0,255,32,
+0,255,0,
+32,255,0,
+64,255,0,
+96,255,0,
+128,255,0,
+160,255,0,
+192,255,0,
+224,255,0,
+255,255,0,
+255,224,0,
+255,192,0,
+255,160,0,
+255,128,0,
+255,96,0,
+255,64,0,
+255,32,0,
+255,0,0    
+    ]
+
+    RainbowRGBListLength = len(RainbowRGBList)
 
 
+    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetLedListIntensities(): DeviceID not valid")
+    if not _IsValidLedNrList(LedNrList): raise Exception("SetLedListIntensities(): LedNrList not valid")
+    curr_index = RainbowRGBListIndex * 3
+    cycle_count = 0
+    while cycle_count <= NrCycles:
+        for LedNr in LedNrList:
+            if curr_index > RainbowRGBListLength:
+                curr_index = 0
+
+            Set_LED_CURRENT_STATES_LedIntensity(LedNr,RainbowRGBList[curr_index])
+            Set_LED_CURRENT_STATES_LedFadeIntensity(LedNr,RainbowRGBList[curr_index])
+            Set_LED_CURRENT_STATES_LedState(LedNr,"On")
+            curr_index += 1
+        _setLedsToIndividualBrightness(DeviceID)
+        time.wait(CycleIntervalTime)
+        cycle_count += 1
 
 if __name__ == '__main__':
     pass
