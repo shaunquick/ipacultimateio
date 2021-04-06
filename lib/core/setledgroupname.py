@@ -64,6 +64,7 @@ from .setlednr import SetLedNrListFadeReverb
 from .setlednr import SetLedNrListFlash
 from .setlednr import SetLedNrListFadeToOff
 from .setlednr import SetLedNrListFadeToOn
+from .setlednr import SetLedNrListRainbowCycle
 
 
 def SetLedGroupNameListIntensities(DeviceID, LedGroupNameList, IntensityLevel=60):
@@ -174,7 +175,7 @@ def SetLedGroupNameListRainbowCycle(DeviceID, LedGroupNameList, NrCycles, CycleI
 
 
     LedNrList= _convertLEDGroupNameListToLedNrList(LedGroupNameList)
-    SetLedNrListRainbow(DeviceID, LedNrList, NrCycles, CycleIntervalTime)
+    SetLedNrListRainbowCycle(DeviceID, LedNrList, NrCycles, CycleIntervalTime)
     pass
 
 if __name__ == '__main__':
