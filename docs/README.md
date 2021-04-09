@@ -129,7 +129,7 @@ different Led settings when you
 - Emulationstation goes into screensaver mode
 - Emulationstation wakes after screensaver mode
 
-This will create the folder structure exp[ected for some emulation station events to be captured (as above).
+This will create the folder structure expected for some emulation station events to be captured (as above).
 
 Once copied ensure that the script have execute access to ensure emulation station executes them for the events.
 
@@ -162,6 +162,9 @@ the LedNrRGB values will need to be configured for your set-up - additionally th
 to use - remember that in the script you will also need to reference that new name in order to use the configuration in the command.
 I would strongly recommend to backup your definitions to ensure that if, in the unfortunate event, they are overwritten then you can recover your 
 definitions.
+There is a further data file that is used for the emulation station configuration - to set Led's to the prefferred configuration per rom.
+this is a list of romnames and the script to execute. Where you want to execute a different script for a particlaur rom, just add the rom in the format
+of the examples.
 
 - libs folder -
 A set of underlyig python modules - the core subfolder holder all the functions that cab be externally called within other programs (not tested!). 
