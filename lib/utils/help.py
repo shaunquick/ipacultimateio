@@ -30,7 +30,7 @@
 
 def help():
 
-    helptext= """Usage: {0} FILE
+    helptext= """Usage: set-ultimateio-leds.py [OPTION] FILE
 This is for use with the ultimarc I/O Board, The FILE will hold the set of
 instructions/commands that need to be sent to the board in json format.
 This will be a json list in the format example here
@@ -143,5 +143,32 @@ e.g.
                \"WaitIntervalTime\": 1 }},
 ...
 
+
+
+
+Mandatory arguments to long options are mandatory for short options too.
+      --help     display this help and exit
 """
     return (helptext)
+
+
+
+def help_romleds():
+
+    helptext= """Usage: set-ultimateio-rom-leds.py [OPTION] romname
+This is for use with the ultimarc I/O Board. This command will allow
+a bespoke Led Script to be executed based on the rom name. The 1st
+parameter will be the RomName. This will be used to identify the Led
+script that should be executed
+The "data" folder holds a json file named RomScriptDefinitions.json.
+It is expected that this data file is updated to add the romname
+and the script name that will be executed for that romname. The script
+name can either be a full filename or a script that can be loaded into
+the scripts folder.
+
+Mandatory arguments to long options are mandatory for short options too.
+      --help     display this help and exit
+"""
+    return (helptext)
+
+

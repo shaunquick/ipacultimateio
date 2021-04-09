@@ -1,0 +1,6 @@
+{ 
+"comment" : "list of romnames and their corresponing led script file to execute: default script is executed where the romname is not defined in the list",
+"default" : "allbuttons.json",
+"invaders" : "1buttons.json",
+"invaders2" : "2buttons.json" 
+}
