@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs
+/data/__pycache__
+/lib/common/__pycache__
+/lib/core/__pycache__
+/lib/utils/__pycache__
+/lib/__pycache__
+/scripts/__pycache__
