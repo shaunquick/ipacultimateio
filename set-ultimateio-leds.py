@@ -2,6 +2,7 @@
 # Copyright 2021-2021 Shaun Quick
 # Copyright 2021-2021 contributors
 #
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
 # met:
