@@ -33,8 +33,8 @@
 # modules
 
 
-
-from .globalvar import UM_PRODUCT_ID
+from .globalvar import UM_VENDOR_ID_LIST
+from .globalvar import UM_PRODUCT_ID_LIST
 from .globalvar import MAX_INTENSITY_LEVEL
 from .globalvar import MAX_LEDS
 from .globalvar import MIN_LED_NR
@@ -57,8 +57,10 @@ from .globalvar import MIN_CYCLE_INTERVAL_TIME
 from .globalvar import MAX_CYCLE_INTERVAL_TIME
 
 def _IsValidIpacUltimateDevice(DeviceID):
+
+ 
 # Verify the board is an iPAC Ultimate IO
-    if (DeviceID != None and DeviceID.idProduct == UM_PRODUCT_ID):
+    if (DeviceID != None and DeviceID.idProduct in UM_PRODUCT_ID_LIST and DeviceID.idVendor in UM_VENDOR_ID_LIST ):
         return (True)
     else:
         return(False)

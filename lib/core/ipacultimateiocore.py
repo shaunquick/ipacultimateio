@@ -33,6 +33,8 @@
 # Basic Board information can also be returned by the following
 # functions
 
+
+from pickle import NONE
 import usb.core
 import usb.util
 import usb.control
@@ -46,27 +48,40 @@ from .ipacultimateioboard import _sendMessageToBoard
 
 from .setledall import SetAllLedIntensities
 
-from ..common.globalvar import UM_VENDOR_ID
-from ..common.globalvar import UM_PRODUCT_ID
+from ..common.globalvar import UM_VENDOR_ID_LIST
+from ..common.globalvar import UM_PRODUCT_ID_LIST
 from ..common.globalvar import USB_INTERFACE_INDEX
 
 
 
-def InitDevice(FreeInterface = True):
+def InitDeviceList(FreeInterface = True, board_id = None, debug = False):
 #
 #
-    DeviceID = usb.core.find(idVendor=UM_VENDOR_ID, idProduct=UM_PRODUCT_ID)
-    if (_IsValidIpacUltimateDevice(DeviceID) == False):
-        raise Exception("InitDevice(): Could not find device(VendorID:{0}), ProductID:{1}".format(UM_VENDOR_ID, UM_PRODUCT_ID))
+    FUNC_NAME="InitDeviceList(): "
+    DeviceIDList=[]
+    FoundDeviceIDs = usb.core.find(find_all=True)
+    for DeviceID in FoundDeviceIDs:
+        if debug:
+            print(FUNC_NAME)
+            print(DeviceID)
+        if (_IsValidIpacUltimateDevice(DeviceID) == True):
+            if board_id == None: # Add all the boards
+                DeviceIDList.append(DeviceID)
+            else:
+                # for the moment add the device regardless if we were suppsed to only return one board.
+                DeviceIDList.append(DeviceID)
 
-    if FreeInterface and DeviceID.is_kernel_driver_active(USB_INTERFACE_INDEX):
-        try:
-            DeviceID.detach_kernel_driver(USB_INTERFACE_INDEX)
-        except usb.core.USBError as e:
-            raise Exception("InitDevice(): Could not detatch kernel driver from interface({0}): {1}".format(USB_INTERFACE_INDEX, str(e)))
-     
-    SetAllLedIntensities(DeviceID, 0)
-    return(DeviceID)
+    for DeviceID in DeviceIDList: 
+        if FreeInterface and DeviceID.is_kernel_driver_active(USB_INTERFACE_INDEX):
+            try:
+                DeviceID.detach_kernel_driver(USB_INTERFACE_INDEX)
+            except usb.core.USBError as e:
+                raise Exception("InitDevice(): Could not detatch kernel driver from interface({0}): {1}".format(USB_INTERFACE_INDEX, str(e)))
+
+        SetAllLedIntensities(DeviceID, 0)
+
+    return(DeviceIDList)
+
 
 
 def GetDeviceType(DeviceID):
@@ -100,7 +115,7 @@ def GetSerialNumber(DeviceID):
        
 
 def GetLedIntensityStateList():
-# shoudl return a listy of format
+# shoudl return a list of format
 # LedIntensityList = [ (ledNr, Intensity), (ledNr, Intensity), ...]
     return(Get_LED_CURRENT_STATES())
 

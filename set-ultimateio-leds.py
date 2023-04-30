@@ -2,7 +2,6 @@
 # Copyright 2021-2021 Shaun Quick
 # Copyright 2021-2021 contributors
 #
-#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
 # met:
@@ -45,25 +44,61 @@
 
 
 import sys
+import getopt
 
-from lib.core.ipacultimateiocore import InitDevice
+
+from lib.core.ipacultimateiocore import InitDeviceList
 from lib.utils.commandscript import RunCommandsFromFile
 from lib.utils.help import help
 
 def main ():
-    try: arg1 = sys.argv[1]
-    except IndexError:
-        arg1 = "default_script.json"
-
-    if (arg1.upper() == "--HELP" or arg1.upper() == "-H"):
+    FUNC_NAME="main(): "
+    try:
+        arg_names = ["help", "debug", "board_id"]
+        opts, args = getopt.getopt(sys.argv[1:], "hdb:", arg_names)
+    except getopt.GetoptError:
         print(help())
+        sys.exit(0)
+
+    board_id = None
+    debug = False
+    outputfile=""
+    for option, arg in opts:
+        if option in ("-h", "--help"):
+            print(help())
+            sys.exit(0)
+
+        if option in ("-d", "--debug"):
+            debug = True
+            if debug: print(FUNC_NAME+"Debug Turned On!!")
+
+        if option in ("-b", "--board_id"):
+            board_id = arg[1:]
+ 
+
+
+    if not args:
+        myScript = "default_script.json"
     else:
-        try:
+        myScript = args[0]
+
+
+    try:
 # Initialise the board and run the script privided or run the default script
-            DeviceID = InitDevice()
-            RunCommandsFromFile(DeviceID, arg1)
-        except Exception as err:
-            print(err)
+        DeviceIDList = InitDeviceList(board_id=board_id, debug=debug)
+        if len(DeviceIDList) == 0:
+            raise Exception("Error: Could not find Ultimarc I/O Board")
+        elif len(DeviceIDList) == 1:  # Only one Ultimate IO Board found
+            RunCommandsFromFile(DeviceIDList[0], myScript, debug=debug)
+        elif len(DeviceIDList) > 1:
+            print("Multiple Ultimate IO devices found - not coded yet - uses first board found - ignores any oter boards")
+            for DeviceID in DeviceIDList:
+                print(DeviceID)
+            # an additonal option will likely be needed so that we can ideneity the specic board that the program should use
+            # until I have two boards to identify which one to use then it will be difficiualt
+            RunCommandsFromFile(DeviceIDList[0], myScript, debug=debug)
+    except Exception as err:
+        print(err)
 
 
 # If we're running in stand alone mode, run the application

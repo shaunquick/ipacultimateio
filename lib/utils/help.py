@@ -148,6 +148,7 @@ e.g.
 
 Mandatory arguments to long options are mandatory for short options too.
       --help     display this help and exit
+      --debug    allows debug messages to be shown on stdoutput
 """
     return (helptext)
 
@@ -168,6 +169,7 @@ the scripts folder.
 
 Mandatory arguments to long options are mandatory for short options too.
       --help     display this help and exit
+      --debug    allows debug messages to be shown on stdoutput
 """
     return (helptext)
 

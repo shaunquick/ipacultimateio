@@ -75,7 +75,7 @@ from ..core.setledgroupname import SetLedGroupNameListFadeToOn
 from ..core.setledgroupname import SetLedGroupNameListRainbowCycle
 
 
-def RunCommandsFromFile(DeviceID, filename):
+def RunCommandsFromFile(DeviceID, filename, debug = False):
 # Load the script file, validate the script fila and then execute the commands in the file.
     try:
         FileCommandList = GetLedCommandsFromFile(filename)
