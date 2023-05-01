@@ -34,15 +34,20 @@
 # functions
 
 
+from cgi import print_directory
 from pickle import NONE
+from xml.sax.handler import property_interning_dict
 import usb.core
 import usb.util
 import usb.control
 
 
+from ..utils.ledcurrentstateslist import InitLedStatus
+from ..utils.lednrlist import InitLedNrList
+
 from ..common.validations import _IsValidIpacUltimateDevice
 
-from ..utils.ledcurrentstateslist import Get_LED_CURRENT_STATES
+from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES
 
 from .ipacultimateioboard import _sendMessageToBoard
 
@@ -54,86 +59,110 @@ from ..common.globalvar import USB_INTERFACE_INDEX
 
 
 
-def InitDeviceList(FreeInterface = True, board_id = None, debug = False):
+def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinput_flag=False):
 #
-#
+# if DeviceUUID is passed in - this will only return tht device if it is found
     FUNC_NAME="InitDeviceList(): "
+    if debug:
+       print(FUNC_NAME)
+
     DeviceIDList=[]
     FoundDeviceIDs = usb.core.find(find_all=True)
     for DeviceID in FoundDeviceIDs:
-        if debug:
-            print(FUNC_NAME)
-            print(DeviceID)
-        if (_IsValidIpacUltimateDevice(DeviceID) == True):
-            if board_id == None: # Add all the boards
-                DeviceIDList.append(DeviceID)
+ #       if debug:
+ #          print(FUNC_NAME)
+ #           print(DeviceID)
+        if (_IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag) == True):
+            if DeviceUUID == None: # Add all the boards
+                myDevice= { "DeviceUUID": "{0}:{1}:{2}:{3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address), 
+                           "DeviceID" : DeviceID }
+                DeviceIDList.append(myDevice)
             else:
                 # for the moment add the device regardless if we were suppsed to only return one board.
-                DeviceIDList.append(DeviceID)
+                myDevice= { "DeviceUUID": "{0}:{1}:{2}:{3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address), 
+                           "DeviceID" : DeviceID }
+                DeviceIDList.append(myDevice)
 
-    for DeviceID in DeviceIDList: 
-        if FreeInterface and DeviceID.is_kernel_driver_active(USB_INTERFACE_INDEX):
+# Now initialise the LIST for holding LED status and LED Nr Status
+    InitLedNrList(DeviceIDList, debug=debug)
+    InitLedStatus(DeviceIDList, debug=debug)
+
+#    if debug: 
+#        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+#        print (DeviceIDList)
+#        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    for myDevice in DeviceIDList: 
+        if debug:
+            pass
+#            print("Device_UUID")
+#            print(myDevice["DeviceUUID"])
+#            print("DEVICE")
+#            print(myDevice["DeviceID"])
+        if FreeInterface and myDevice["DeviceID"].is_kernel_driver_active(USB_INTERFACE_INDEX):
             try:
-                DeviceID.detach_kernel_driver(USB_INTERFACE_INDEX)
+                myDevice["DeviceID"].detach_kernel_driver(USB_INTERFACE_INDEX)
             except usb.core.USBError as e:
                 raise Exception("InitDevice(): Could not detatch kernel driver from interface({0}): {1}".format(USB_INTERFACE_INDEX, str(e)))
 
-        SetAllLedIntensities(DeviceID, 0)
+        SetAllLedIntensities(DeviceUUID=None,DeviceIDList=DeviceIDList, IntensityLevel=0, debug=debug)
 
     return(DeviceIDList)
 
 
 
-def GetDeviceType(DeviceID):
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("GetDeviceType(): DeviceID not valid")
+def GetDeviceType(DeviceID, debug=False, xinput_flag=False):
+    if not _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag): raise Exception("GetDeviceType(): DeviceID not valid")
     return("DEVICE ID {0}:{1} on Bus {2} Address {3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
 
         
-def GetVendorId(DeviceID):
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("GetVendorId(): DeviceID not valid")
+def GetVendorId(DeviceID, debug=False, xinput_flag=False):
+    if not _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag): raise Exception("GetVendorId(): DeviceID not valid")
     return(hex(DeviceID.idVendor))
        
        
-def GetProductId(DeviceID):
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("GetProductId(): DeviceID not valid")
+def GetProductId(DeviceID, debug=False, xinput_flag=False):
+    if not _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag): raise Exception("GetProductId(): DeviceID not valid")
     return(hex(DeviceID.idProduct))
  
  
-def GetVendorName(DeviceID):
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("GetVendorName(): DeviceID not valid")
+def GetVendorName(DeviceID, debug=False, xinput_flag=False):
+    if not _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag): raise Exception("GetVendorName(): DeviceID not valid")
     return(DeviceID.manufacturer)
        
  
-def GetProductName(DeviceID):
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("GetProductName(): DeviceID not valid")
+def GetProductName(DeviceID, debug=False, xinput_flag=False):
+    if not _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag): raise Exception("GetProductName(): DeviceID not valid")
     return(DeviceID.product)
        
  
-def GetSerialNumber(DeviceID):
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("GetSerialNumber(): DeviceID not valid")
+def GetSerialNumber(DeviceID, debug=False, xinput_flag=False):
+    if not _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag): raise Exception("GetSerialNumber(): DeviceID not valid")
     return(DeviceID.serial_number)
        
 
-def GetLedIntensityStateList():
+#def GetLedIntensityStateList():
 # shoudl return a list of format
 # LedIntensityList = [ (ledNr, Intensity), (ledNr, Intensity), ...]
-    return(Get_LED_CURRENT_STATES())
+#    return(Get_LED_CURRENT_STATES())
 
 
-def ResetBoard(DeviceID):
-# Reset the board - this will mean the board will start to run the script previously
+def ResetDevices(DeviceUUID=None, DeviceIDList=[], debug=False, xinput_flag=False):
+# Reset one or many devices/boards - this will mean the board(s) will start to run the script previously
 # held in the firmware
+# At present the message is wrong as it does not reste - this is now commented out
     
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("ResetBoard(): DeviceID not valid")
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("ResetDevices(): DeviceID not valid")
     
-    msg=[0x03,255,0,0,0]
-    _sendMessageToBoard(DeviceID, msg)
+#            msg=[0x03,255,0,0,0]
+#            _sendMessageToBoard(myDevice["DeviceID"], msg)
     
 
-    for Led in Get_LED_CURRENT_STATES():
-        Led['LedIntensity'] = 0
-        Led['LedFadeIntensity'] = 0
-        Led['State'] = "Script"
+            for Led in Get_DEVICE_LED_CURRENT_STATES(myDevice["DeviceUUID"]):
+                Led['LedIntensity'] = 0
+                Led['LedFadeIntensity'] = 0
+                Led['State'] = "Script"
 
 
 if __name__ == '__main__':

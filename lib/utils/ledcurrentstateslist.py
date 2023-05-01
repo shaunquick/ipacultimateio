@@ -39,68 +39,74 @@ import random
 
 from ..common.globalvar import MAX_LEDS
 
-# LED_CURRENT_STATES holds the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (On or Off or (setBy)Script) 
+# LED_CURRENT_STATES holds, for each device, the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (On or Off or (setBy)Script) 
 
-LED_CURRENT_STATES = []
+LED_CURRENT_STATES = {}
 
-def InitLedStatus():
+def InitLedStatus(DeviceIDList=[], debug=False):
 # Create the list of LedNr's staring from 1 to 96
     global LED_CURRENT_STATES
 
-    LedNr = 1
-    while LedNr <= MAX_LEDS:
-        LED_CURRENT_STATES.append( {'LedIntensity': 0, 'LedFadeIntensity': 0, 'State' : "On" } )
-        LedNr += 1
+    print("InitLedStatus(): ")
+
+    LED_CURRENT_STATES={}
+
+    for aDevice in DeviceIDList:
+        LED_CURRENT_STATES[aDevice["DeviceUUID"]] = []
+        
+        LedNr = 1
+        while LedNr <= MAX_LEDS:
+            LED_CURRENT_STATES[aDevice["DeviceUUID"]].append( {'LedIntensity': 0, 'LedFadeIntensity': 0, 'State' : "On" } )
+            LedNr += 1
 
 
-def Set_LED_CURRENT_STATES_LedIntensity(LedNr,IntensityLevel):
+def Set_DEVICE_LED_CURRENT_STATES_LedIntensity(DeviceUUID,LedNr,IntensityLevel):
 # Set the intensity level in the list to the value passed in
-    LED_CURRENT_STATES[LedNr-1]['LedIntensity'] = IntensityLevel
+    LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedIntensity'] = IntensityLevel
 
-def Set_LED_CURRENT_STATES_LedFadeIntensity(LedNr,IntensityLevel):
+def Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(DeviceUUID,LedNr,IntensityLevel):
 # Set the fade intensity level in the list to the value passed in
-    LED_CURRENT_STATES[LedNr-1]['LedFadeIntensity'] = IntensityLevel
+    LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedFadeIntensity'] = IntensityLevel
 
-def Set_LED_CURRENT_STATES_LedState(LedNr,State):
+def Set_DEVICE_LED_CURRENT_STATES_LedState(DeviceUUID,LedNr,State):
 # Set the state in the list to the value passed in
-    LED_CURRENT_STATES[LedNr-1]['State'] = State
+    LED_CURRENT_STATES[DeviceUUID][LedNr-1]['State'] = State
 
 
-
-def Get_LED_CURRENT_STATES_LedIntensity(LedNr):
+def Get_DEVICE_LED_CURRENT_STATES_LedIntensity(DeviceUUID,LedNr):
 # return the current value of the led nr intensity 
-    return(LED_CURRENT_STATES[LedNr-1]['LedIntensity'])
+    return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedIntensity'])
 
-def Get_LED_CURRENT_STATES_LedFadeIntensity(LedNr):
+def Get_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(DeviceUUID,LedNr):
 # return the current value of the led nr fade intensity 
-    return(LED_CURRENT_STATES[LedNr-1]['LedFadeIntensity'])
+    return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedFadeIntensity'])
 
-def Get_LED_CURRENT_STATES_LedState(LedNr):
+def Get_DEVICE_LED_CURRENT_STATES_LedState(DeviceUUID,LedNr):
 # return the current value of the led nr state 
-    return(LED_CURRENT_STATES[LedNr-1]['State'])
+    return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['State'])
 
 
-def Get_LED_CURRENT_STATES():
+def Get_DEVICE_LED_CURRENT_STATES(DeviceUUID):
 # retrn the full list of leds and their current seetings
-    return(LED_CURRENT_STATES)
+    return(LED_CURRENT_STATES[DeviceUUID])
 
-def Set_All_LED_CURRENT_STATES_LedState(State):
+def Set_All_DEVICE_LED_CURRENT_STATES_LedState(DeviceUUID,State):
 # Set all the LED's in the list to be On or Off
-    for Led in LED_CURRENT_STATES:
+    for Led in LED_CURRENT_STATES[DeviceUUID]:
         if State: Led['State'] = "On"
         else:  Led['State'] = "Off"
 
 
-def Set_All_LED_CURRENT_STATES(IntensityLevel,FadeIntensityLevel,State):
+def Set_All_DEVICE_LED_CURRENT_STATES(DeviceUUID,IntensityLevel,FadeIntensityLevel,State):
 # Set all the LED's in the list with the same intesnity level, fade itensity level and state
-    for Led in LED_CURRENT_STATES:
+    for Led in LED_CURRENT_STATES[DeviceUUID]:
         Led['LedIntensity'] = IntensityLevel
         Led['LedFadeIntensity'] = FadeIntensityLevel
         Led['State'] = State
 
-def Set_Random_LED_CURRENT_STATES():
+def Set_Random_DEVICE_LED_CURRENT_STATES(DeviceUUID):
 # Set the led states to be random - this is used when
-    for Led in LED_CURRENT_STATES:
+    for Led in LED_CURRENT_STATES[DeviceUUID]:
         if random.randint(0,1) == 0: 
             Led['LedIntensity'] = 0
             Led['LedFadeIntensity'] = 0

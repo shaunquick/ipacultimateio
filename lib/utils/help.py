@@ -28,6 +28,21 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
+def listOfDevicesExample(DeviceIDList):
+    help_text = "Devices found are :- \n"
+    for myDevice in DeviceIDList:
+        help_text += "DeviceUUID = " + myDevice["DeviceUUID"] +"\n"
+        help_text += "Device Manufacturer = " + myDevice["DeviceID"].manufacturer +"\n"
+        help_text += "Device Product = " + myDevice["DeviceID"].product +"\n\n"
+    help_text += "Use these values in the command files such as\n"
+    help_text += """{ \"Command\" : {  \"comment\": \"Set all LEDs to the same specified brightness level\",
+        \"Function\" : \"SetAllLedIntensities\",
+        \"DeviceUUID\" : \"""" + myDevice["DeviceUUID"] + """\",
+        \"IntensityLevel\": 255 }},"""
+    return (help_text)
+
+
 def help():
 
     helptext= """Usage: set-ultimateio-leds.py [OPTION] FILE
@@ -118,6 +133,7 @@ This will be a json list in the format example here
                     \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ], \"FlashIntervalTime\" : 0.25 }},
 
 { \"Command\" : { \"Function\" : \"SetLedGroupNameStateList\",
+                  \"DeviceUUID\" : \"0456:00:00:00\",
                     \"LedGroupNameStateList\": [ {\"LedGroupName\" : \"p1b1\", \"State\": true }, 
                                     {\"LedGroupName\" : \"p1b2\", \"State\": false } ] }},
 
@@ -147,8 +163,14 @@ e.g.
 
 
 Mandatory arguments to long options are mandatory for short options too.
-      --help     display this help and exit
-      --debug    allows debug messages to be shown on stdoutput
+      -h --help             display this help and exit
+      -d --debug            allows debug messages to be shown on stdoutput
+      -i --iodev_uuid={ID}  the device ID input will be the only device that will be 
+                            have their LED's set
+      -x --xinput_flag      will treat Xinput devices as a ipacultimate LED device
+      -l --list_devices     will list all identfied devices
+
+
 """
     return (helptext)
 

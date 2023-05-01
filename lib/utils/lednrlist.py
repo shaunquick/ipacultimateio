@@ -35,19 +35,25 @@
 from ..common.globalvar import MAX_LEDS
 
 # LED_CURRENT_STATES holds the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (On or Off or (setBy)Script) 
-LED_LIST_ALL = []
+LED_LIST_ALL = {}
 
-def InitLedNrList():
+def InitLedNrList(DeviceIDList=[], debug=False):
     global LED_LIST_ALL
 
+    if debug: 
+        print("InitLedNrList(): ")
 # CReate the list of LedNr's staring from 1 to 96
-    LedNr = 1
-    while LedNr <= MAX_LEDS:
-        LED_LIST_ALL.append(LedNr)
-        LedNr += 1
+    for myDevice in DeviceIDList:
+        LED_LIST_ALL[myDevice["DeviceUUID"]] = []
 
-def Get_LED_LIST_ALL():
-    return(LED_LIST_ALL)
+        LedNr = 1
+        while LedNr <= MAX_LEDS:
+            LED_LIST_ALL[myDevice["DeviceUUID"]].append(LedNr)
+            LedNr += 1
+
+
+def Get_DEVICE_LED_LIST_ALL(DeviceUUID):
+    return(LED_LIST_ALL[DeviceUUID])
 
 
 if __name__ == '__main__':

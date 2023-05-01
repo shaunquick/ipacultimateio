@@ -67,58 +67,56 @@ from .setlednr import SetLedNrListFadeToOn
 from .setlednr import SetLedNrListRainbowCycle
 
 
-def SetLedGroupNameListIntensities(DeviceID, LedGroupNameList, IntensityLevel=60):
+def SetLedGroupNameListIntensities(DeviceUUID=None, DeviceIDList=[], LedGroupNameList=[], IntensityLevel=60, debug=False, xinput_flag=False):
 #  Set all the Leds in the group to the same intensity level
 # LedGroupNameList=[ "p1b1", "p1b2", "p1b3", "p1b4" ]
-    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetLedGroupNameListIntensities(): DeviceID not valid")
+
     if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedGroupNameListIntensities(): LedGroupNameList not valid")
-    if not _IsValidIntensityLevel(IntensityLevel): raise Exception("SetLedGroupNameListIntensities(): IntensityLevel not valid")
     
-    SetLedNrListIntensities(DeviceID=DeviceID, LedNrList = _convertLEDGroupNameListToLedNrList(LedGroupNameList), IntensityLevel=IntensityLevel)
+    SetLedNrListIntensities(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, 
+                            LedNrList = _convertLEDGroupNameListToLedNrList(LedGroupNameList), IntensityLevel=IntensityLevel)
 
 
-def SetLedGroupNameIntensityList(DeviceID,LedGroupNameIntensityList):
+def SetLedGroupNameIntensityList(DeviceUUID=None, DeviceIDList=[],LedGroupNameIntensityList=[], debug=False, xinput_flag=False):
 #  Set all the Leds in the group to different intensity level
 #    LedGroupNameIntensityList = [ {"LedGroupName" : "p1b1", "RGBIntensity" : [255,11,22] }, {"LedGroupName" : "p1b2", "RGBIntensity" : [255,11,22] }]
-    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetLedGroupNameIntensityList(): DeviceID not valid")
     if not _IsValidLedGroupNameIntensityList(LedGroupNameIntensityList): raise Exception("SetLedGroupNameIntensityList(): LedIntensityList not valid")
 
-    SetLedNrIntensityList(DeviceID=DeviceID,LedNrIntensityList= _convertLEDGroupNameIntensityListToLedNrIntensityList(LedGroupNameIntensityList))
+    SetLedNrIntensityList(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, 
+                          LedNrIntensityList= _convertLEDGroupNameIntensityListToLedNrIntensityList(LedGroupNameIntensityList))
 
-def SetLedGroupNameIntensity(DeviceID,LedGroupName, RGBIntensityList):
+def SetLedGroupNameIntensity(DeviceUUID=None, DeviceIDList=[], LedGroupName="", RGBIntensityList=[], debug=False, xinput_flag=False):
 #  Set a secific group to their specific brightness
 # LedGroupName="p1b1"
 #  RGBIntensityList=[255,11,22] - note this was designed for 3 values for the Red Green Blue Leds
-    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetLedGroupNameIntensity(): DeviceID not valid")
     if not _IsValidLedGroupName(LedGroupName):  raise Exception("SetLedGroupNameIntensity(): LedGroupName not valid")
     if not _IsValidRGBIntensityList(RGBIntensityList):  raise Exception("SetLedGroupNameIntensity(): RGBIntensityList not valid")
 
     LedsList = _convertLEDGroupNameToLedNrList(LedGroupName)
-    SetLedNrIntensity(DeviceID=DeviceID,LedNr=LedsList[0] , IntensityLevel=RGBIntensityList[0])
-    SetLedNrIntensity(DeviceID=DeviceID,LedNr=LedsList[1] , IntensityLevel=RGBIntensityList[1])
-    SetLedNrIntensity(DeviceID=DeviceID,LedNr=LedsList[2] , IntensityLevel=RGBIntensityList[2])
+    SetLedNrIntensity(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, LedNr=LedsList[0] , IntensityLevel=RGBIntensityList[0])
+    SetLedNrIntensity(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, LedNr=LedsList[1] , IntensityLevel=RGBIntensityList[1])
+    SetLedNrIntensity(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, LedNr=LedsList[2] , IntensityLevel=RGBIntensityList[2])
 
 
-def SetLedGroupNameListFlash(DeviceID, LedGroupNameList, FlashCount, FlashIntervalTime):
+def SetLedGroupNameListFlash(DeviceUUID=None, DeviceIDList=[], LedGroupNameList=[], FlashCount=3, FlashIntervalTime=3, debug=False, xinput_flag=False):
 # Set all the Leds in the group to flash
 # 'FlashCount' times
 # at a rate of 'FlashIntervalTime' seconds
 
-    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetLedListFlash(): DeviceID not valid")
     if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedListFlash(): LedNrList not valid")
-    if not _IsValidFlashIntervalTime(FlashIntervalTime) : raise Exception("SetLedListFlash(): FlashIntervalTime not valid")
-    if not _IsValidFlashCount(FlashCount) : raise Exception("SetLedListFlash(): FlashCount not valid")
     
-    SetLedNrListFlash(DeviceID=DeviceID, LedNrList = _convertLEDGroupNameListToLedNrList(LedGroupNameList), FlashCount=FlashCount, FlashIntervalTime=FlashIntervalTime)
+    SetLedNrListFlash(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, 
+                      LedNrList = _convertLEDGroupNameListToLedNrList(LedGroupNameList), 
+                      FlashCount=FlashCount, FlashIntervalTime=FlashIntervalTime)
 
-def SetLedGroupNameStateList(DeviceID, LedGroupNameStateList):
+def SetLedGroupNameStateList(DeviceUUID=None, DeviceIDList=[], LedGroupNameStateList=[], debug=False, xinput_flag=False):
 #  Set all the Leds in the group to on or off
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetLedStateList(): DeviceID not valid")
     if not _IsValidLedGroupNameStateList(LedGroupNameStateList):  raise Exception("SetLedStateList(): State not valid")
     
-    SetLedNrStateList(DeviceID=DeviceID, LedNrStateList=_convertLEDGroupNameStateListToLedStateList(LedGroupNameStateList))
+    SetLedNrStateList(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, 
+                      LedNrStateList=_convertLEDGroupNameStateListToLedStateList(LedGroupNameStateList))
 
-def SetLedGroupNameListFadeReverb(DeviceID, LedGroupNameList, FadeIncrement, FadeIntervalTime):
+def SetLedGroupNameListFadeReverb(DeviceUUID=None, DeviceIDList=[], LedGroupNameList=[], FadeIncrement=10, FadeIntervalTime=0.1, debug=False, xinput_flag=False):
 #  Set all the Leds in the group to
 # Fade down and then up  to their previously set brightness level
 # Reduce brightness by 'FadeIncrement' and reduce the fade in
@@ -127,55 +125,45 @@ def SetLedGroupNameListFadeReverb(DeviceID, LedGroupNameList, FadeIncrement, Fad
 # Increase brightness from 0 by 'FadeINcrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds
 #
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetLedListFadeReverb(): DeviceID not valid")
     if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedListFadeReverb(): LedNrList not valid")
-    if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetLedListFadeReverb(): IntervalTime not valid")
-    if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetLedListFadeReverb(): FadeIncrement not valid")
     
-    
-    SetLedNrListFadeReverb(DeviceID=DeviceID, LedNrList = _convertLEDGroupNameListToLedNrList(LedGroupNameList),
+    SetLedNrListFadeReverb(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, 
+                           LedNrList = _convertLEDGroupNameListToLedNrList(LedGroupNameList),
                            FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime)
 
     return()
 
-def SetLedGroupNameListFadeToOff(DeviceID, LedGroupNameList, FadeIncrement = 10, FadeIntervalTime = 0.1 ):
+def SetLedGroupNameListFadeToOff(DeviceUUID=None, DeviceIDList=[], LedGroupNameList=[], FadeIncrement = 10, FadeIntervalTime = 0.1, debug=False, xinput_flag=False ):
 #  Set all the Leds in the group to
 # Fade down  to their previously set brightness level
 # Reduce brightness by 'FadeIncrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds until they are all set to zero brightness
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetLedListFadeToOff(): DeviceID not valid")
     if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedListFadeToOff(): LedNrList not valid")
-    if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetLedListFadeToOff(): IntervalTime not valid")
-    if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetLedListFadeToOff(): FadeIncrement not valid")
 
-    
-    SetLedNrListFadeToOff(DeviceID=DeviceID, LedNrList= _convertLEDGroupNameListToLedNrList(LedGroupNameList), FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime )
+    SetLedNrListFadeToOff(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, 
+                          LedNrList= _convertLEDGroupNameListToLedNrList(LedGroupNameList), 
+                          FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime )
     return()
 
-def SetLedGroupNameListFadeToOn(DeviceID, LedGroupNameList, FadeIncrement = 10, FadeIntervalTime = 0.1 ):
+def SetLedGroupNameListFadeToOn(DeviceUUID=None, DeviceIDList=[], LedGroupNameList=[], FadeIncrement = 10, FadeIntervalTime = 0.1, debug=False, xinput_flag=False ):
 # Set all the Leds in the group to
 # Fade up to their previously set brightness level
 # Increase brightness from 0 by 'FadeIncrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetLedListFadeToOn(): DeviceID not valid")
     if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedListFadeToOn(): LedList not valid")
-    if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetLedListFadeToOn(): IntervalTime not valid")
-    if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetLedListFadeToOn(): FadeIncrement not valid")
 
-    SetLedNrListFadeToOn(DeviceID=DeviceID, LedNrList= _convertLEDGroupNameListToLedNrList(LedGroupNameList), FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime)
+    SetLedNrListFadeToOn(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, 
+                         LedNrList= _convertLEDGroupNameListToLedNrList(LedGroupNameList), 
+                         FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime)
 
     return()
 
-def SetLedGroupNameListRainbowCycle(DeviceID, LedGroupNameList, NrCycles, CycleIntervalTime):
+def SetLedGroupNameListRainbowCycle(DeviceUUID=None, DeviceIDList=[], LedGroupNameList=[], NrCycles=2, CycleIntervalTime=1, debug=False, xinput_flag=False):
 
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetLedGroupNameListRainbowCycle(): DeviceID not valid")
     if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedGroupNameListRainbowCycle(): LedList not valid")
-    if not _IsValidNrCycles(NrCycles):  raise Exception("SetLedGroupNameListRainbowCycle(): NrCycles not valid")
-    if not _IsValidCycleIntervalTime(CycleIntervalTime):  raise Exception("SetLedGroupNameListRainbowCycle(): CycleIntervalTime not valid")
-
 
     LedNrList= _convertLEDGroupNameListToLedNrList(LedGroupNameList)
-    SetLedNrListRainbowCycle(DeviceID, LedNrList, NrCycles, CycleIntervalTime)
+    SetLedNrListRainbowCycle(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, LedNrList=LedNrList, NrCycles=NrCycles, CycleIntervalTime=CycleIntervalTime)
     pass
 
 if __name__ == '__main__':

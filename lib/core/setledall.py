@@ -34,11 +34,11 @@
 import time
 import random
 
-from ..utils.ledcurrentstateslist import Set_All_LED_CURRENT_STATES
-from ..utils.ledcurrentstateslist import Set_Random_LED_CURRENT_STATES
-from ..utils.ledcurrentstateslist import Set_All_LED_CURRENT_STATES_LedState
+from ..utils.ledcurrentstateslist import Set_All_DEVICE_LED_CURRENT_STATES
+from ..utils.ledcurrentstateslist import Set_Random_DEVICE_LED_CURRENT_STATES
+from ..utils.ledcurrentstateslist import Set_All_DEVICE_LED_CURRENT_STATES_LedState
 
-from ..utils.lednrlist import Get_LED_LIST_ALL                   
+from ..utils.lednrlist import Get_DEVICE_LED_LIST_ALL                   
 
 from ..common.validations import _IsValidFadeIntervalTime
 from ..common.validations import _IsValidIpacUltimateDevice
@@ -59,49 +59,60 @@ from .setlednr import SetLedNrListFadeToOn
 from ..common.globalvar import MIN_LED_NR
 from ..common.globalvar import MAX_LED_NR
 
-def SetAllLedIntensities(DeviceID, IntensityLevel=88):
+def SetAllLedIntensities(DeviceUUID=None, DeviceIDList=[], IntensityLevel=88, debug=False, xinput_flag=False):
 # This sets all LED to the same 'IntensityLevel' - basically white at different strengths
-    
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetAllLedIntensities(): DeviceID not valid")
     if not _IsValidIntensityLevel(IntensityLevel): raise Exception("SetAllLedIntensities(): IntensityLevel not valid")
+
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("SetAllLedIntensities(): DeviceID not valid")
     
-    msg=[0x03,128,IntensityLevel,0,0]
-    _sendMessageToBoard(DeviceID, msg)
-    
+            msg=[0x03,128,IntensityLevel,0,0]
+            _sendMessageToBoard(myDevice["DeviceID"], msg)
+            print("REset board with intensity level of " + str(IntensityLevel))
+            print("DeviceUUIDis :- " + str(DeviceUUID))
+            print("mydevice is")
+            print(myDevice["DeviceID"].manufacturer)
+            Set_All_DEVICE_LED_CURRENT_STATES(DeviceUUID=myDevice["DeviceUUID"],IntensityLevel=IntensityLevel,FadeIntensityLevel=IntensityLevel,State="On")
 
-    Set_All_LED_CURRENT_STATES(IntensityLevel,IntensityLevel,"On")
 
-
-def SetAllLedRandomStates(DeviceID):
+def SetAllLedRandomStates(DeviceUUID=None, DeviceIDList=[], debug=False, xinput_flag=False):
 # Randomly set Leds to be turned on or off
-    
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetAllLedRandomStates(): DeviceID not valid")
-    Set_Random_LED_CURRENT_STATES()
+
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("SetAllLedRandomStates(): DeviceID not valid")
+            Set_Random_DEVICE_LED_CURRENT_STATES(myDevice["DeviceUUID"])
 
 # now use the random values and set all intensities !
     
-    _setLedsToIndividualBrightness(DeviceID)
+    _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList)
 
 
-def SetAllLedFlash(DeviceID, FlashCount=5, FlashIntervalTime=1):
+def SetAllLedFlash(DeviceUUID=None, DeviceIDList=[], FlashCount=5, FlashIntervalTime=1, debug=False, xinput_flag=False):
 # Flash all Leds  'FlashCount' times
 # at a rate of 'FlashIntervalTime' seconds
-    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetAllLedFlash(): DeviceID not valid")
     if not _IsValidFlashIntervalTime(FlashIntervalTime) : raise Exception("SetAllLedFlash(): FlashIntervalTime not valid")
     if not _IsValidFlashCount(FlashCount) : raise Exception("SetAllLedFlash(): FlashCount not valid")
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("SetAllLedFlash(): DeviceID not valid")
 
     counter1 = 0
     while counter1 < FlashCount:
-        SetAllLedStates(DeviceID, False)
+        SetAllLedStates(DeviceUUID, DeviceIDList, False)
         time.sleep(FlashIntervalTime)
-        SetAllLedStates(DeviceID, True)
+        SetAllLedStates(DeviceUUID, DeviceIDList, True)
         time.sleep(FlashIntervalTime)
         counter1 += 1
 
-def SetAllLedRandomFlash(DeviceID, FlashCount=5, FlashIntervalTime=1):
+def SetAllLedRandomFlash(DeviceUUID=None, DeviceIDList=[], FlashCount=5, FlashIntervalTime=1, debug=False, xinput_flag=False):
 # Set the Leds to a random brightness and the flash them 'FlashCount' times
 # at a rate of 'FlashIntervalTime' seconds
-    if not _IsValidIpacUltimateDevice(DeviceID):  raise Exception("SetAllLedRandomFlash(): DeviceID not valid")
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag):  raise Exception("SetAllLedRandomFlash(): DeviceID not valid")
     if not _IsValidFlashIntervalTime(FlashIntervalTime) : raise Exception("SetAllLedRandomFlash(): FlashIntervalTime not valid")
     if not _IsValidFlashCount(FlashCount) : raise Exception("SetAllLedRandomFlash(): FlashCount not valid")
 
@@ -111,58 +122,64 @@ def SetAllLedRandomFlash(DeviceID, FlashCount=5, FlashIntervalTime=1):
     while LedNr <= MAX_LED_NR:
         if random.randint(0,1) == 0: LedNrList.append(LedNr)
         LedNr += 1
-    SetLedNrListFlash(DeviceID, LedNrList, FlashCount, FlashIntervalTime)       
+    SetLedNrListFlash(DeviceUUID, DeviceIDList, LedNrList, FlashCount, FlashIntervalTime)       
 
 
-def SetAllLedStates(DeviceID, State = True):
+def SetAllLedStates(DeviceUUID=None, DeviceIDList=[], State = True, debug=False, xinput_flag=False):
 # Set all Leds to be turned on or off
 # The Leds will be turned back on at their previous brightness
     
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetAllLedStates(): DeviceID not valid")
     if not _IsValidState(State): raise Exception("SetAllLedStates(): State not valid (True or False are valid")
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("SetAllLedStates(): DeviceID not valid")
+            Set_All_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],State)
     
-    Set_All_LED_CURRENT_STATES_LedState(State)
-    
-    _setLedsToIndividualBrightness(DeviceID)
+    _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList)
 
-def SetAllLedFadeReverb(DeviceID, FadeIncrement = 10, FadeIntervalTime = 0.1 ):
+def SetAllLedFadeReverb(DeviceUUID=None, DeviceIDList=[], FadeIncrement = 10, FadeIntervalTime = 0.1, debug=False, xinput_flag=False ):
 # Fade down and then up all Leds to their previously set brightness level
 # Reduce brightness by 'FadeIncrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds until they are all set to zero brightness
 # and then..
 # Increase brightness from 0 by 'FadeINcrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds
-
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetAllLedFadeReverb(): DeviceID not valid")
-    if not _IsValidLedNrList(Get_LED_LIST_ALL()): raise Exception("SetAllLedFadeReverb(): LedList not valid : {0}".format(Get_LED_LIST_ALL()))
     if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetAllLedFadeReverb(): IntervalTime not valid")
     if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetAllLedFadeReverb(): FadeIncrement not valid")
-    SetLedNrListFadeToOff(DeviceID, Get_LED_LIST_ALL(), FadeIncrement, FadeIntervalTime)
-    SetLedNrListFadeToOn(DeviceID, Get_LED_LIST_ALL(), FadeIncrement, FadeIntervalTime)
+
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("SetAllLedFadeReverb(): DeviceID not valid")
+            if not _IsValidLedNrList(Get_DEVICE_LED_LIST_ALL(myDevice["DeviceUUID"])): raise Exception("SetAllLedFadeReverb(): LedList not valid : {0}".format(Get_LED_LIST_ALL()))
+            SetLedNrListFadeToOff(DeviceUUID, DeviceIDList, Get_DEVICE_LED_LIST_ALL(myDevice["DeviceUUID"]), FadeIncrement, FadeIntervalTime)
+            SetLedNrListFadeToOn(DeviceUUID, DeviceIDList, Get_DEVICE_LED_LIST_ALL(myDevice["DeviceUUID"]), FadeIncrement, FadeIntervalTime)
     return()
 
-def SetAllLedFadeToOff(DeviceID, FadeIncrement = 10, FadeIntervalTime = 0.1 ):
+def SetAllLedFadeToOff(DeviceUUID=None, DeviceIDList=[], FadeIncrement = 10, FadeIntervalTime = 0.1, debug=False, xinput_flag=False ):
 # Fade down all Leds to their previously set brightness level
 # Reduce brightness by 'FadeIncrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds until they are all set to zero brightness
 
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("SetAllLedFadeToOff(): DeviceID not valid")
+            if not _IsValidLedNrList(Get_DEVICE_LED_LIST_ALL(myDevice["DeviceUUID"])): raise Exception("SetAllLedFadeToOff(): LedList not valid")
+            if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetAllLedFadeToOff(): IntervalTime not valid")
+            if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetAllLedFadeToOff(): FadeIncrement not valid")
+    SetLedNrListFadeToOff(DeviceUUID, DeviceIDList, Get_DEVICE_LED_LIST_ALL(myDevice["DeviceUUID"]), FadeIncrement, FadeIntervalTime)
     
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetAllLedFadeToOff(): DeviceID not valid")
-    if not _IsValidLedNrList(Get_LED_LIST_ALL()): raise Exception("SetAllLedFadeToOff(): LedList not valid")
-    if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetAllLedFadeToOff(): IntervalTime not valid")
-    if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetAllLedFadeToOff(): FadeIncrement not valid")
-    SetLedNrListFadeToOff(DeviceID, Get_LED_LIST_ALL(), FadeIncrement, FadeIntervalTime)
-    
-def SetAllLedFadeToOn(DeviceID, FadeIncrement = 10, FadeIntervalTime = 0.1 ):
+def SetAllLedFadeToOn(DeviceUUID=None, DeviceIDList=[], FadeIncrement = 10, FadeIntervalTime = 0.1, debug=False, xinput_flag=False ):
 # Fade up all Leds to their previously set brightness level
 # Increase brightness from 0 by 'FadeIncrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds
     
-    if not _IsValidIpacUltimateDevice(DeviceID): raise Exception("SetAllLedFadeToOn(): DeviceID not valid")
-    if not _IsValidLedNrList(Get_LED_LIST_ALL()): raise Exception("SetAllLedFadeToOn(): LedList not valid")
-    if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetAllLedFadeToOn(): IntervalTime not valid")
-    if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetAllLedFadeToOn(): FadeIncrement not valid")
-    SetLedNrListFadeToOn(DeviceID, Get_LED_LIST_ALL(), FadeIncrement, FadeIntervalTime)
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("SetAllLedFadeToOn(): DeviceID not valid")
+            if not _IsValidLedNrList(Get_DEVICE_LED_LIST_ALL(myDevice["DeviceUUID"])): raise Exception("SetAllLedFadeToOn(): LedList not valid")
+            if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetAllLedFadeToOn(): IntervalTime not valid")
+            if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetAllLedFadeToOn(): FadeIncrement not valid")
+            SetLedNrListFadeToOn(DeviceUUID, DeviceIDList, Get_DEVICE_LED_LIST_ALL(myDevice["DeviceUUID"]), FadeIncrement, FadeIntervalTime)
 
 
 

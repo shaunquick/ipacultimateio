@@ -34,7 +34,7 @@
 # ultimarc-io LED Board
 # 
 
-from ..utils.ledcurrentstateslist import Get_LED_CURRENT_STATES 
+from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES 
 
 USB_BM_REQUESTTYPE_SET_CONFIGURATION = 0x21  # decimal = 33,  binary = 00100001
 USB_B_REQUEST_SET_CONFIGURATION = 9          # hex = 8,       binary = 00001000
@@ -42,7 +42,7 @@ USB_W_VALUE = 0x0203                         # decimal = 515, binary = 000000100
 USB_INTERFACE_INDEX = 2      # The USB has an array of interfaces - set the interface to the correct interface endpoint
 
 
-def _setLedsToIndividualBrightness(DeviceID, UseFadeValues = False):
+def _setLedsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValues = False):
 # Use the LED States that are stored in a list and set the intensity level based on the
 # list data
 # the list holds 3 values for each LED
@@ -51,17 +51,19 @@ def _setLedsToIndividualBrightness(DeviceID, UseFadeValues = False):
 #                  for fade values to be used instaed
 # Fade Intensity Level - and alternate intesnity level which is used when the upstream command
 # wishes to mimic a fade pattern
-    msg = [4]
-    for LedCurrent in Get_LED_CURRENT_STATES():
-        if LedCurrent['State'] == "On":
-            if UseFadeValues:
-                Intensity = LedCurrent['LedFadeIntensity']
-            else:
-                Intensity = LedCurrent['LedIntensity']
-            msg.append(Intensity)
-        else:
-            msg.append(0)    
-    _sendMessageToBoard(DeviceID, msg)
+   for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+            msg = [4]
+            for LedCurrent in Get_DEVICE_LED_CURRENT_STATES(myDevice["DeviceUUID"]):
+                if LedCurrent['State'] == "On":
+                    if UseFadeValues:
+                        Intensity = LedCurrent['LedFadeIntensity']
+                    else:
+                        Intensity = LedCurrent['LedIntensity']
+                    msg.append(Intensity)
+                else:
+                    msg.append(0)    
+            _sendMessageToBoard(myDevice["DeviceID"], msg)
     
 def _sendMessageToBoard(DeviceID, payload):
 # send a message to usb board - it is up to the upstream function to ensure

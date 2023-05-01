@@ -59,15 +59,16 @@ def main ():
 
     FUNC_NAME="main(): "
     try:
-        arg_names = ["help", "debug", "board_id"]
-        opts, args = getopt.getopt(sys.argv[1:], "hdb:", arg_names)
+        arg_names = ["help", "debug", "iodev_uuid=", "xinput_dev"]
+        opts, args = getopt.getopt(sys.argv[1:], "hdxi:", arg_names)
     except getopt.GetoptError:
         print(help_romleds())
         sys.exit(0)
 
-    board_id = None
+    DeviceUUID = None
     debug = False
     outputfile=""
+    xinput_flag=False
     for option, arg in opts:
         if option in ("-h", "--help"):
             print(help_romleds())
@@ -77,8 +78,11 @@ def main ():
             debug = True
             if debug: print(FUNC_NAME+"Debug Turned On!!")
 
-        if option in ("-b", "--board_id"):
-            board_id = arg[1:]
+        if option in ("-i", "--iodev_uuid"):
+            DeviceUUID = arg[1:]
+
+        if option in ("-x", "--xinput_flag"):
+            xinput_flag=True
  
 
 
@@ -91,18 +95,12 @@ def main ():
 # Initialise the board and run the script privided or run the default script
         ScriptName = GetScriptName(myScript)
         print(ScriptName)
-        DeviceIDList = InitDeviceList(board_id=board_id, debug=debug)
+        DeviceIDList = InitDeviceList(DeviceUUID=DeviceUUID, debug=debug, xinput_flag=xinput_flag)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
-        elif len(DeviceIDList) == 1:  # Only one Ultimate I/O Board found
-            RunCommandsFromFile(DeviceIDList[0], ScriptName)
-        elif len(DeviceIDList) > 1:
-            print("Multiple Ultimate IO devices found - not coded yet - uses first board found - ignores any oter boards")
-            for DeviceID in DeviceIDList:
-                print(DeviceID)
-            # an additonal option will likely be needed so that we can ideneity the specic board that the program should use
-            # until I have two boards to identify which one to use then it will be difficiualt
-            RunCommandsFromFile(DeviceIDList[0], ScriptName)
+        else:
+            RunCommandsFromFile(DeviceIDList, ScriptName, debug=debug, xinput_flag=xinput_flag)
+
 
     except Exception as err:
         print(err)
