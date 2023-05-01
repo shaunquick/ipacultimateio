@@ -47,7 +47,7 @@ def InitLedStatus(DeviceIDList=[], debug=False):
 # Create the list of LedNr's staring from 1 to 96
     global LED_CURRENT_STATES
 
-    print("InitLedStatus(): ")
+    if debug: print("InitLedStatus(): ")
 
     LED_CURRENT_STATES={}
 

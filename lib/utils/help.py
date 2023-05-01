@@ -35,11 +35,15 @@ def listOfDevicesExample(DeviceIDList):
         help_text += "DeviceUUID = " + myDevice["DeviceUUID"] +"\n"
         help_text += "Device Manufacturer = " + myDevice["DeviceID"].manufacturer +"\n"
         help_text += "Device Product = " + myDevice["DeviceID"].product +"\n\n"
-    help_text += "Use these values in the command files such as\n"
+    help_text += "Use these values in the command files to execute a command against a specific device \n\n"
     help_text += """{ \"Command\" : {  \"comment\": \"Set all LEDs to the same specified brightness level\",
         \"Function\" : \"SetAllLedIntensities\",
         \"DeviceUUID\" : \"""" + myDevice["DeviceUUID"] + """\",
-        \"IntensityLevel\": 255 }},"""
+        \"IntensityLevel\": 255 }},
+        
+ Please Note:  If you have only one device you can ignore the DeviceUUID and the attibute is optional
+               If you have multiple devices, all devices will be set based on the commmand unless you specifc the DeviceUUID
+        """
     return (help_text)
 
 

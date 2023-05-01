@@ -70,10 +70,10 @@ def SetAllLedIntensities(DeviceUUID=None, DeviceIDList=[], IntensityLevel=88, de
     
             msg=[0x03,128,IntensityLevel,0,0]
             _sendMessageToBoard(myDevice["DeviceID"], msg)
-            print("REset board with intensity level of " + str(IntensityLevel))
-            print("DeviceUUIDis :- " + str(DeviceUUID))
-            print("mydevice is")
-            print(myDevice["DeviceID"].manufacturer)
+            if debug: print("Reset board with intensity level of " + str(IntensityLevel))
+            if debug: print("DeviceUUIDis :- " + str(DeviceUUID))
+            if debug: print("mydevice is")
+            if debug: print(myDevice["DeviceID"].manufacturer)
             Set_All_DEVICE_LED_CURRENT_STATES(DeviceUUID=myDevice["DeviceUUID"],IntensityLevel=IntensityLevel,FadeIntensityLevel=IntensityLevel,State="On")
 
 

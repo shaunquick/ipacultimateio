@@ -14,6 +14,22 @@ This has been written in python.
 It has been used successfully with the raspberry pi, with either the Raspberry Pi OS (https://www.raspberrypi.org/software/) or 
 Retropie (https://retropie.org.uk/). It may be work in other environments but has not been tested.
 
+Multiple Boards have been coded to be supported but not fully tested
+In the command script - you can either add the DeviceUUID so that a commend will execute on a specific board or
+do not provide the DeviceUUID and it will execute the command on all identified devices.
+to obtain a list of devices either run
+$ python3 ~/ipacultimateio/set-ultimateio-leds.py -l
+or
+$ python3 ~/ipacultimateio/set-ultimateio-leds.py -xl
+depending on whether you are running any boards with X-Input mode
+
+
+X-Input - this has been coded but not fully tested - an extra option needs to be added on the command line of -x
+e.g.
+$ python3 ~/ipacultimateio/set-ultimateio-leds.py -x
+will find any devices configured as X-Input  (both Ultimarc devices and generic X-Input devices. 
+
+
 The library includes all the python source code, but it is intended to be used via the command line as a utility.
 
 
