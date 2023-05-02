@@ -37,6 +37,9 @@
 from ast import Return
 from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES 
 
+import usb.core
+import usb.util
+import usb.control
 
 
 USB_BM_REQUESTTYPE_SET_CONFIGURATION = 0x21  # decimal = 33,  binary = 00100001
@@ -124,6 +127,8 @@ def _detatchKernalDriver(DeviceID):
 
     Return(result)
 
+def _getDeviceUUID(DeviceID):
+    return("{0}:{1}:{2}:{3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
 
 if __name__ == '__main__':
     pass
