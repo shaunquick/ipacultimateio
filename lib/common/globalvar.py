@@ -38,10 +38,12 @@ UM_XINPUT_VENDOR_ID_LIST = [ 0X045e ]
 UM_XINPUT_PRODUCT_ID_LIST =[ 0X028e ]
 
 
+
 USB_BM_REQUESTTYPE_SET_CONFIGURATION = 0x21  # decimal = 33,  binary = 00100001
 USB_B_REQUEST_SET_CONFIGURATION = 9          # hex = 8,       binary = 00001000
 USB_W_VALUE = 0x0203                         # decimal = 515, binary = 0000001000000011
 USB_INTERFACE_INDEX = 2      # The USB has an array of interfaces - set the interface to the correct interface endpoint
+USB_XINPUT_INTERFACE_INDEX = 1      # The USB has an array of interfaces - set the interface to the correct interface endpoint
 
 MAX_LEDS = 96
 
