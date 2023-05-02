@@ -104,7 +104,7 @@ def main ():
         elif list_devices:
             print(listOfDevicesExample(DeviceIDList))
         else:
-            RunCommandsFromFile(DeviceIDList, myScript, debug=debug, xinput_flag=xinput_flag)
+            RunCommandsFromFile(DeviceIDList, myScript, debug=debug)
     except Exception as err:
         print("we got exception")
         print(err)

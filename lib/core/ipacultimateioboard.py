@@ -34,12 +34,22 @@
 # ultimarc-io LED Board
 # 
 
+from ast import Return
 from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES 
+
+
 
 USB_BM_REQUESTTYPE_SET_CONFIGURATION = 0x21  # decimal = 33,  binary = 00100001
 USB_B_REQUEST_SET_CONFIGURATION = 9          # hex = 8,       binary = 00001000
 USB_W_VALUE = 0x0203                         # decimal = 515, binary = 0000001000000011
+
+UM_VENDOR_ID_LIST = [ 0xD209 ] # There should only be one Vendor - but there may be an issue when setup as XInput
+UM_PRODUCT_ID_LIST = [ 0x0410, 0x0411, 0x0412, 0x0413 ]
 USB_INTERFACE_INDEX = 2      # The USB has an array of interfaces - set the interface to the correct interface endpoint
+
+UM_XINPUT_VENDOR_ID_LIST = [ 0X045e ]
+UM_XINPUT_PRODUCT_ID_LIST =[ 0X028e ]
+USB_XINPUT_INTERFACE_INDEX = 1      # The USB has an array of interfaces - set the interface to the correct interface endpoint
 
 
 def _setLedsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValues = False):
@@ -68,7 +78,51 @@ def _setLedsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValu
 def _sendMessageToBoard(DeviceID, payload):
 # send a message to usb board - it is up to the upstream function to ensure
 #message is in the correct format for the board to action it correctly
-    DeviceID.ctrl_transfer(USB_BM_REQUESTTYPE_SET_CONFIGURATION, USB_B_REQUEST_SET_CONFIGURATION, USB_W_VALUE, USB_INTERFACE_INDEX, payload)
+    if _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
+        DeviceID.ctrl_transfer(USB_BM_REQUESTTYPE_SET_CONFIGURATION, USB_B_REQUEST_SET_CONFIGURATION, USB_W_VALUE,
+                              _getUSBInterfaceNumber(DeviceID), payload)
+    else:
+        raise Exception("_sendMessageToBoard(): DeviceID not valid")
+
+def _getUSBInterfaceNumber(DeviceID, debug=False):
+# return the interface index depening if it is the io board in default mode
+# or retrun a different value 
+    if _IsValidIpacUltimateDevice(DeviceID):
+        return(USB_INTERFACE_INDEX)
+    elif _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
+        return(USB_XINPUT_INTERFACE_INDEX)
+    else:
+        raise Exception("GetUSBInterfaceNumber(): DeviceID not valid")
+
+
+def _IsValidIpacUltimateDevice(DeviceID, debug=False, xinput_flag=False):
+# Verify the board is an iPAC Ultimate IO
+    if (DeviceID != None and DeviceID.idProduct in UM_PRODUCT_ID_LIST and DeviceID.idVendor in UM_VENDOR_ID_LIST ):
+        return (True)
+    elif xinput_flag and DeviceID.idProduct in UM_XINPUT_PRODUCT_ID_LIST and DeviceID.idVendor in UM_XINPUT_VENDOR_ID_LIST:
+        return (True)
+    else:
+        return(False)
+
+
+def _isKernalDriverActive(DeviceID):
+    try:
+
+        result= DeviceID.is_kernel_driver_active(_getUSBInterfaceNumber(DeviceID))
+    except usb.core.USBError as e:
+        raise Exception("_isKernalDriverActive(): Could not check active kernel driver from interface({0}): {1}".format(_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
+
+    Return(result)
+
+
+def _detatchKernalDriver(DeviceID):
+    try:
+        result = DeviceID.detach_kernel_driver(_getUSBInterfaceNumber(DeviceID)) 
+    except usb.core.USBError as e:
+        raise Exception("InitDevice(): Could not detatch kernel driver from interface({0}): {1}".format(_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
+
+
+    Return(result)
 
 
 if __name__ == '__main__':

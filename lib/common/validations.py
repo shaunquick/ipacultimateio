@@ -33,10 +33,6 @@
 # modules
 
 
-from .globalvar import UM_VENDOR_ID_LIST
-from .globalvar import UM_PRODUCT_ID_LIST
-from .globalvar import UM_XINPUT_VENDOR_ID_LIST
-from .globalvar import UM_XINPUT_PRODUCT_ID_LIST
 from .globalvar import MAX_INTENSITY_LEVEL
 from .globalvar import MAX_LEDS
 from .globalvar import MIN_LED_NR
@@ -58,23 +54,12 @@ from .globalvar import MAX_NR_CYCLES
 from .globalvar import MIN_CYCLE_INTERVAL_TIME
 from .globalvar import MAX_CYCLE_INTERVAL_TIME
 
-def _IsValidIpacUltimateDevice(DeviceID, debug=False, xinput_flag=False):
-
- 
-# Verify the board is an iPAC Ultimate IO
-    if (DeviceID != None and DeviceID.idProduct in UM_PRODUCT_ID_LIST and DeviceID.idVendor in UM_VENDOR_ID_LIST ):
-        return (True)
-    elif xinput_flag and DeviceID.idProduct in UM_XINPUT_PRODUCT_ID_LIST and DeviceID.idVendor in UM_XINPUT_VENDOR_ID_LIST:
-        return (True)
-    else:
-        return(False)
     
 def _IsValidLedNr(LedNr):
 # Verify the LedNr is valid between 0 and 95
     if (type(LedNr) is not int): return (False)
     if not(LedNr >= MIN_LED_NR and LedNr <= MAX_LED_NR): return (False)
     return(True)
-
 
 def _IsValidLedNrList(LedNrList):
 # Verify the List of LedNrs are valid

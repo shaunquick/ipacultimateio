@@ -75,11 +75,11 @@ from ..core.setledgroupname import SetLedGroupNameListFadeToOn
 from ..core.setledgroupname import SetLedGroupNameListRainbowCycle
 
 
-def RunCommandsFromFile(DeviceIDList, filename, debug = False, xinput_flag=False):
+def RunCommandsFromFile(DeviceIDList, filename, debug = False):
 # Load the script file, validate the script fila and then execute the commands in the file.
     try:
         FileCommandList = GetLedCommandsFromFile(filename)
-        RunLedCommands(DeviceIDList=DeviceIDList, CommandScriptList=FileCommandList, debug = debug, xinput_flag=xinput_flag)
+        RunLedCommands(DeviceIDList=DeviceIDList, CommandScriptList=FileCommandList, debug = debug)
     except Exception as err:
         raise Exception("RunCommandsFromFile(): {0}".format(err))
 
@@ -115,7 +115,7 @@ def GetLedCommandsFromFile(filename, debug=False):
     return (CommandScript)
 
 
-def RunLedCommands(DeviceIDList=[], CommandScriptList=[], debug=False, xinput_flag=False):
+def RunLedCommands(DeviceIDList=[], CommandScriptList=[], debug=False):
     FUNC_NAME="RunLedCommands(): "
     
     # temporary fix to only run on one board
@@ -143,111 +143,111 @@ def RunLedCommands(DeviceIDList=[], CommandScriptList=[], debug=False, xinput_fl
                 time.sleep(FileCommand["Command"]["WaitIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetAllLedIntensities":
                 SetAllLedIntensities(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    IntensityLevel=FileCommand["Command"]["IntensityLevel"])
             elif FileCommand["Command"]["Function"] == "SetLedNrIntensity":
                 SetLedNrIntensity(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedNr=FileCommand["Command"]["LedNr"], IntensityLevel=FileCommand["Command"]["IntensityLevel"])
             elif FileCommand["Command"]["Function"] == "SetLedNrListIntensities":
                 SetLedNrListIntensities(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedNrList = FileCommand["Command"]["LedNrList"], 
                                    IntensityLevel=FileCommand["Command"]["IntensityLevel"])
             elif FileCommand["Command"]["Function"] == "SetAllLedRandomStates":
                 SetAllLedRandomStates(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag)
+                                   DeviceIDList=DeviceIDList, debug=debug)
             elif FileCommand["Command"]["Function"] == "SetLedNrIntensityList":
                 SetLedNrIntensityList(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedNrIntensityList=FileCommand["Command"]["LedNrIntensityList"])
             elif FileCommand["Command"]["Function"] == "SetAllLedFlash":
                 SetAllLedFlash(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    FlashCount=FileCommand["Command"]["FlashCount"], 
                                    FlashIntervalTime=FileCommand["Command"]["FlashIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetAllLedRandomFlash":
                 SetAllLedRandomFlash(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    FlashCount=FileCommand["Command"]["FlashCount"], 
                                    FlashIntervalTime=FileCommand["Command"]["FlashIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetLedNrListFlash":
                 SetLedNrListFlash(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedNrList = FileCommand["Command"]["LedNrList"], 
                                    FlashCount=FileCommand["Command"]["FlashCount"], 
                                    FlashIntervalTime=FileCommand["Command"]["FlashIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetAllLedStates":
                 SetAllLedStates(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    State=FileCommand["Command"]["State"])
             elif FileCommand["Command"]["Function"] == "SetLedNrStateList":
                 SetLedNrStateList(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedNrStateList=FileCommand["Command"]["LedNrStateList"])
             elif FileCommand["Command"]["Function"] == "SetLedNrListFadeReverb":
                 SetLedNrListFadeReverb(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedNrList = FileCommand["Command"]["LedNrList"], 
                                    FadeIncrement=FileCommand["Command"]["FadeIncrement"], 
                                    FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetLedNrListFadeToOn":
                 SetLedNrListFadeToOn(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedNrList = FileCommand["Command"]["LedNrList"], 
                                    FadeIncrement=FileCommand["Command"]["FadeIncrement"], 
                                    FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetLedNrListFadeToOff":
                 SetLedNrListFadeToOff(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedNrList = FileCommand["Command"]["LedNrList"], 
                                    FadeIncrement=FileCommand["Command"]["FadeIncrement"], 
                                    FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetAllLedFadeReverb":
                 SetAllLedFadeReverb(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    FadeIncrement=FileCommand["Command"]["FadeIncrement"], 
                                    FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetAllLedFadeToOff":
                 SetAllLedFadeToOff(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   FadeIncrement=FileCommand["Command"]["FadeIncrement"], 
                                   FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetAllLedFadeToOn":
                 SetAllLedFadeToOn(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   FadeIncrement=FileCommand["Command"]["FadeIncrement"], 
                                   FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
 
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameListIntensities":
                 SetLedGroupNameListIntensities(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   LedGroupNameList=FileCommand["Command"]["LedGroupNameList"], 
                                   IntensityLevel=FileCommand["Command"]["IntensityLevel"])
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameIntensity":
                 SetLedGroupNameIntensity(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   LedGroupName=FileCommand["Command"]["LedGroupName"], 
                                   RGBIntensityList=FileCommand["Command"]["RGBIntensity"])
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameIntensityList":
                 SetLedGroupNameIntensityList(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   LedGroupNameIntensityList=FileCommand["Command"]["LedGroupNameIntensityList"])
                 
                 
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameListFlash":
                 SetLedGroupNameListFlash(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   LedGroupNameList=FileCommand["Command"]["LedGroupNameList"],
                                   FlashCount= FileCommand["Command"]["FlashCount"],
                                   FlashIntervalTime= FileCommand["Command"]["FlashIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameStateList":
                 SetLedGroupNameStateList(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedGroupNameStateList=FileCommand["Command"]["LedGroupNameStateList"])
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameListFadeReverb":
                 SetLedGroupNameListFadeReverb(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   LedGroupNameList=FileCommand["Command"]["LedGroupNameList"],
                                   FadeIncrement=FileCommand["Command"]["FadeIncrement"],
                                   FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
@@ -255,21 +255,21 @@ def RunLedCommands(DeviceIDList=[], CommandScriptList=[], debug=False, xinput_fl
 
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameListFadeToOff":
                 SetLedGroupNameListFadeToOff(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   LedGroupNameList=FileCommand["Command"]["LedGroupNameList"],
                                   FadeIncrement=FileCommand["Command"]["FadeIncrement"],
                                   FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
 
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameListFadeToOn":
                 SetLedGroupNameListFadeToOn(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                    LedGroupNameList=FileCommand["Command"]["LedGroupNameList"],
                                    FadeIncrement=FileCommand["Command"]["FadeIncrement"],
                                    FadeIntervalTime=FileCommand["Command"]["FadeIntervalTime"])
 
             elif FileCommand["Command"]["Function"] == "SetLedGroupNameListRainbowCycle":
                 SetLedGroupNameListRainbowCycle(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                                   DeviceIDList=DeviceIDList, debug=debug,
                                   LedGroupNameList=FileCommand["Command"]["LedGroupNameList"],
                                   NrCycles=FileCommand["Command"]["NrCycles"],
                                   CycleIntervalTime=FileCommand["Command"]["CycleIntervalTime"])
@@ -280,14 +280,14 @@ def RunLedCommands(DeviceIDList=[], CommandScriptList=[], debug=False, xinput_fl
                 Repetitions = 0
                 while Repetitions < FileCommand["Command"]["NrOfRepetitions"]:
                     Repetitions += 1
-                    RunLedCommands(DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag,
+                    RunLedCommands(DeviceIDList=DeviceIDList, debug=debug,
                                   CommandScriptList=ListofCommands)
                 
                 pass
 
             elif FileCommand["Command"]["Function"] == "ResetBoard":
                 ResetDevices(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                           DeviceIDList=DeviceIDList, debug=debug, xinput_flag=xinput_flag)
+                           DeviceIDList=DeviceIDList, debug=debug)
             else:
                 raise Exception("RunLedCommands: Command not known: {0}".format(FileCommand))
             Counter += 1

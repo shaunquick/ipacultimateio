@@ -45,17 +45,16 @@ import usb.control
 from ..utils.ledcurrentstateslist import InitLedStatus
 from ..utils.lednrlist import InitLedNrList
 
-from ..common.validations import _IsValidIpacUltimateDevice
 
 from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES
 
+from .ipacultimateioboard import _IsValidIpacUltimateDevice
 from .ipacultimateioboard import _sendMessageToBoard
+from .ipacultimateioboard import _getUSBInterfaceNumber
+from .ipacultimateioboard import _isKernalDriverActive
+from .ipacultimateioboard import _detatchKernalDriver
 
 from .setledall import SetAllLedIntensities
-
-from ..common.globalvar import UM_VENDOR_ID_LIST
-from ..common.globalvar import UM_PRODUCT_ID_LIST
-from ..common.globalvar import USB_INTERFACE_INDEX
 
 
 
@@ -98,11 +97,9 @@ def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinpu
 #            print(myDevice["DeviceUUID"])
 #            print("DEVICE")
 #            print(myDevice["DeviceID"])
-        if FreeInterface and myDevice["DeviceID"].is_kernel_driver_active(USB_INTERFACE_INDEX):
-            try:
-                myDevice["DeviceID"].detach_kernel_driver(USB_INTERFACE_INDEX)
-            except usb.core.USBError as e:
-                raise Exception("InitDevice(): Could not detatch kernel driver from interface({0}): {1}".format(USB_INTERFACE_INDEX, str(e)))
+
+        if FreeInterface and _isKernalDriverActive(myDevice["DeviceID"]):
+            _detatchKernalDriver(myDevice["DeviceID"])
 
         SetAllLedIntensities(DeviceUUID=None,DeviceIDList=DeviceIDList, IntensityLevel=0, debug=debug)
 
@@ -138,6 +135,9 @@ def GetProductName(DeviceID, debug=False, xinput_flag=False):
 def GetSerialNumber(DeviceID, debug=False, xinput_flag=False):
     if not _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag): raise Exception("GetSerialNumber(): DeviceID not valid")
     return(DeviceID.serial_number)
+
+
+
        
 
 #def GetLedIntensityStateList():
@@ -146,14 +146,14 @@ def GetSerialNumber(DeviceID, debug=False, xinput_flag=False):
 #    return(Get_LED_CURRENT_STATES())
 
 
-def ResetDevices(DeviceUUID=None, DeviceIDList=[], debug=False, xinput_flag=False):
+def ResetDevices(DeviceUUID=None, DeviceIDList=[], debug=False):
 # Reset one or many devices/boards - this will mean the board(s) will start to run the script previously
 # held in the firmware
 # At present the message is wrong as it does not reste - this is now commented out
     
     for myDevice in DeviceIDList:
         if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
-            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=xinput_flag): raise Exception("ResetDevices(): DeviceID not valid")
+            if not _IsValidIpacUltimateDevice(myDevice["DeviceID"], xinput_flag=True): raise Exception("ResetDevices(): DeviceID not valid")
     
 #            msg=[0x03,255,0,0,0]
 #            _sendMessageToBoard(myDevice["DeviceID"], msg)

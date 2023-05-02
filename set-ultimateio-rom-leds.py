@@ -99,7 +99,7 @@ def main ():
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
         else:
-            RunCommandsFromFile(DeviceIDList, ScriptName, debug=debug, xinput_flag=xinput_flag)
+            RunCommandsFromFile(DeviceIDList, ScriptName, debug=debug)
 
 
     except Exception as err:
