@@ -93,18 +93,20 @@ def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinpu
 #        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 #        print (DeviceIDList)
 #        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-    for myDevice in DeviceIDList: 
-        if debug:
-            pass
-#            print("Device_UUID")
-#            print(myDevice["DeviceUUID"])
-#            print("DEVICE")
-#            print(myDevice["DeviceID"])
-
-        if FreeInterface and _isKernalDriverActive(myDevice["DeviceID"]):
-            _detatchKernalDriver(myDevice["DeviceID"])
+    try:    
+        for myDevice in DeviceIDList: 
+            if debug:
+                pass
+#               print(FUNC_NAME+"Device_UUID :"+str(myDevice["DeviceUUID"]))
+#               print(FUNC_NAME+"DEVICE ;"+str(myDevice["DeviceID"]))
+#            if debug: print(FUNC_NAME+"FreeInt = " + str(FreeInterface))
+#            if debug: print(FUNC_NAME+"is driver active = " + str(_isKernalDriverActive(myDevice["DeviceID"], debug=debug)))
+            if FreeInterface and _isKernalDriverActive(myDevice["DeviceID"], debug=debug):
+                _detatchKernalDriver(myDevice["DeviceID"], debug=debug)
 
         SetAllLedIntensities(DeviceUUID=None,DeviceIDList=DeviceIDList, IntensityLevel=0, debug=debug)
+    except Exception as err:
+        raise Exception("InitDeviceList(): {0}".format(err))
 
     return(DeviceIDList)
 

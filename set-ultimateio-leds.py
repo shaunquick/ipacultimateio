@@ -103,6 +103,10 @@ def main ():
             raise Exception("Error: Could not find Ultimarc I/O Board")
         elif list_devices:
             print(listOfDevicesExample(DeviceIDList))
+            if debug:
+                print(FUNC_NAME+"Device List is :-")
+                for DeviceID in DeviceIDList:
+                   print(DeviceID["DeviceID"])
         else:
             RunCommandsFromFile(DeviceIDList, myScript, debug=debug)
     except Exception as err:

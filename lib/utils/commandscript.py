@@ -123,22 +123,11 @@ def RunLedCommands(DeviceIDList=[], CommandScriptList=[], debug=False):
         raise Exception("Error: Could not find Ultimarc I/O Board")
     if debug:
         print(FUNC_NAME)
-#        print("DeviceIDlIST first item")
-#        print(DeviceIDList[0])
-#        print("fIRST ITMES dEVICE uuid")
-#        print(DeviceIDList[0]["DeviceUUID"])
+
 
     try:
         Counter = 0
         for FileCommand in CommandScriptList:
-#           myDevice = DeviceIDList[0]
-#            if debug : 
-#                print(myDevice)
-#            if FileCommand["Command"].get("DeviceUUID") != None:
-#                for aDevice in DeviceIDList:
-#                   if aDevice["DeviceUUID"] ==  FileCommand["Command"]["DeviceUUID"] :
-#                       if debug: print("Device Fiound in command")
-#                       myDevice = aDevice
             if FileCommand["Command"]["Function"] == "Wait":
                 time.sleep(FileCommand["Command"]["WaitIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetAllLedIntensities":

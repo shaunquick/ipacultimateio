@@ -34,7 +34,6 @@
 # ultimarc-io LED Board
 # 
 
-from ast import Return
 from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES 
 
 import usb.core
@@ -55,7 +54,7 @@ UM_XINPUT_PRODUCT_ID_LIST =[ 0X028e ]
 USB_XINPUT_INTERFACE_INDEX = 1      # The USB has an array of interfaces - set the interface to the correct interface endpoint
 
 
-def _setLedsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValues = False):
+def _setLedsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValues = False, debug=False):
 # Use the LED States that are stored in a list and set the intensity level based on the
 # list data
 # the list holds 3 values for each LED
@@ -76,25 +75,41 @@ def _setLedsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValu
                     msg.append(Intensity)
                 else:
                     msg.append(0)    
-            _sendMessageToBoard(myDevice["DeviceID"], msg)
+            try:
+                _sendMessageToBoard(myDevice["DeviceID"], msg, debug=debug)
+            except Exception as err:
+                raise Exception("_setLedsToIndividualBrightness(): {0}".format(err))
     
-def _sendMessageToBoard(DeviceID, payload):
+def _sendMessageToBoard(DeviceID, payload, debug=False):
+    FUNC_NAME="_sendMessageToBoard(): "
 # send a message to usb board - it is up to the upstream function to ensure
 #message is in the correct format for the board to action it correctly
     if _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
-        DeviceID.ctrl_transfer(USB_BM_REQUESTTYPE_SET_CONFIGURATION, USB_B_REQUEST_SET_CONFIGURATION, USB_W_VALUE,
+        try:
+            if debug: 
+                pass
+#                print(FUNC_NAME+"USB interface Nr:- " + str(_getUSBInterfaceNumber(DeviceID)))
+#                print(FUNC_NAME+"Payload is :-")
+#                print(payload)
+            DeviceID.ctrl_transfer(USB_BM_REQUESTTYPE_SET_CONFIGURATION, USB_B_REQUEST_SET_CONFIGURATION, USB_W_VALUE,
                               _getUSBInterfaceNumber(DeviceID), payload)
+        except Exception as err:
+            raise Exception("_sendMessageToBoard(): {0}".format(err))
     else:
         raise Exception("_sendMessageToBoard(): DeviceID not valid")
 
 def _getUSBInterfaceNumber(DeviceID, debug=False):
+    FUNC_NAME="_getUSBInterfaceNumber(): "
 # return the interface index depening if it is the io board in default mode
 # or retrun a different value 
-    if _IsValidIpacUltimateDevice(DeviceID):
+    if _IsValidIpacUltimateDevice(DeviceID, debug=debug):
+        if debug: print(FUNC_NAME+"Index=" + str(USB_INTERFACE_INDEX))
         return(USB_INTERFACE_INDEX)
-    elif _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
+    elif _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True, debug=debug):
+        if debug: print(FUNC_NAME+"Index=" + str(USB_XINPUT_INTERFACE_INDEX))
         return(USB_XINPUT_INTERFACE_INDEX)
     else:
+        if debug: print(FUNC_NAME+"Exception")
         raise Exception("GetUSBInterfaceNumber(): DeviceID not valid")
 
 
@@ -108,24 +123,32 @@ def _IsValidIpacUltimateDevice(DeviceID, debug=False, xinput_flag=False):
         return(False)
 
 
-def _isKernalDriverActive(DeviceID):
+def _isKernalDriverActive(DeviceID, debug=False):
+    FUNC_NAME="_isKernalDriverActive(): "
+    if debug: print(FUNC_NAME)
+    result=False
     try:
 
         result= DeviceID.is_kernel_driver_active(_getUSBInterfaceNumber(DeviceID))
+        if debug: print(FUNC_NAME+"Driver Active is :-" + str(result))
     except usb.core.USBError as e:
-        raise Exception("_isKernalDriverActive(): Could not check active kernel driver from interface({0}): {1}".format(_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
+        raise Exception(FUNC_NAME+"Could not check active kernel driver from interface({0}): {1}".format(_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
 
-    Return(result)
+    return(result)
 
 
-def _detatchKernalDriver(DeviceID):
+def _detatchKernalDriver(DeviceID, debug=False):
+    FUNC_NAME="_detatchKernalDriver(): "
+    if debug: print(FUNC_NAME)
+    result=False
     try:
         result = DeviceID.detach_kernel_driver(_getUSBInterfaceNumber(DeviceID)) 
+        if debug: print(FUNC_NAME+"detached driver is :-" + str(result))
     except usb.core.USBError as e:
-        raise Exception("InitDevice(): Could not detatch kernel driver from interface({0}): {1}".format(_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
+        raise Exception(FUNC_NAME+"Could not detatch kernel driver from interface({0}): {1}".format(_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
 
 
-    Return(result)
+    return(result)
 
 def _getDeviceUUID(DeviceID):
     return("{0}:{1}:{2}:{3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
