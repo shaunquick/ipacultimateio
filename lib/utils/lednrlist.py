@@ -29,31 +29,31 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-# This module creates a list with all the led numers - this can then be used for when actions need to be taken against all Leds
+# This module creates a list with all the led numers for each Device in the list - this can then be used for when actions need to be taken against all Leds
 # Get_LED_LIST_ALL returns a list of LedNrs from 1 to 96
 
 from ..common.globalvar import MAX_LEDS
 
-# LED_CURRENT_STATES holds the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (On or Off or (setBy)Script) 
-LED_LIST_ALL = {}
+# DEVICE_LED_LIST holds the led numbers for the device  
+DEVICE_LED_LIST = {}
 
-def InitLedNrList(DeviceIDList=[], debug=False):
-    global LED_LIST_ALL
+def Initialise_DeviceListLEDList(DeviceIDList=[], debug=False):
+    global DEVICE_LED_LIST
 
     if debug: 
         print("InitLedNrList(): ")
 # CReate the list of LedNr's staring from 1 to 96
     for myDevice in DeviceIDList:
-        LED_LIST_ALL[myDevice["DeviceUUID"]] = []
+        DEVICE_LED_LIST[myDevice["DeviceUUID"]] = []
 
         LedNr = 1
         while LedNr <= MAX_LEDS:
-            LED_LIST_ALL[myDevice["DeviceUUID"]].append(LedNr)
+            DEVICE_LED_LIST[myDevice["DeviceUUID"]].append(LedNr)
             LedNr += 1
 
 
-def Get_DEVICE_LED_LIST_ALL(DeviceUUID):
-    return(LED_LIST_ALL[DeviceUUID])
+def Get_DeviceLEDList(DeviceUUID):
+    return(DEVICE_LED_LIST[DeviceUUID])
 
 
 if __name__ == '__main__':

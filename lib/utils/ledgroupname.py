@@ -44,21 +44,53 @@ from .ledgroupnamedefinitionslist import IsLedGroupNameDefinitionsFileFound
 from .ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
 from .ledgroupnamedefinitionslist import GetLedGroupNameDefinitions
 
-from .ledgroupnameslist import InitLedGroupNamesList
-
-from .ledgroupnameslist import _IsValidLedGroupName
-
 from ..common.globalvar import MAX_LEDS
 
-def InitLedGroupNameModule():
+def InitLEDGroupNameModule():
 # This will initialise the LedGroupNames and pre-load the LedGroupName Definitions from the
 # file LedGroupNameDefinitions.json in the folder ultimarcio/data
     try :
         LedGroupDefsList = InitLedGroupNameDefinitionsList()
-        InitLedGroupNamesList(LedGroupDefsList)
+        Initialise_LedGroupNameList(LedGroupDefsList)
     except Exception as err:
         raise Exception("InitLedGroupNameModule {0}".format(err))
- 
+
+
+LED_GROUP_NAMES_LIST = []
+
+def Initialise_LedGroupNameList(LEDGroupNameDefinitionsList, debug=False):
+# Create a unique list of group names - these are independant of the Device that may be associated to the gruopname
+
+    global LED_GROUP_NAMES_LIST
+    LED_GROUP_NAMES_LIST = []
+    for LEDGroupNameDefinition in LEDGroupNameDefinitionsList:
+        if ("LedGroupName" in LEDGroupNameDefinition):
+            if LEDGroupNameDefinition["LedGroupName"] not in LED_GROUP_NAMES_LIST:
+                if debug: print("Added GroupName" + str(LEDGroupNameDefinition["LedGroupName"]))
+                LED_GROUP_NAMES_LIST.append(LEDGroupNameDefinition["LedGroupName"])
+            else:
+                if debug: print("Exception Add GroupName: " + str(LEDGroupNameDefinition["LedGroupName"]))
+                raise Exception("InitLEDGroupNamesList(): Groupname replicated in LedGroupNamesDefinition.json")
+                return()
+    if debug: 
+        print("InitLEDGroupNamesList(): List of LED Group names is")
+        print(LED_GROUP_NAMES_LIST)
+
+def Get_LedGroupNamesList():
+    global LED_GROUP_NAMES_LIST
+    return(LED_GROUP_NAMES_LIST)
+
+
+def _IsValidLedGroupName(LedGroupName):
+
+    if (type(LedGroupName) is not str): raise Exception("LedGroupName not in string format")
+    if LedGroupName not in LED_GROUP_NAMES_LIST: 
+        raise Exception(
+            "LedGroupName not in list of Led Group Names in definitiona file: {0}, {1}".format(LedGroupName, LED_GROUP_NAMES_LIST))
+        return(False)
+    else:
+        return(True)
+
 def _IsValidLedGroupNameList(LedGroupNameList):
     if (type(LedGroupNameList) is not list): raise Exception("_IsValidLedGroupNameList: LedGroupName is not a list")
     for LedGroupName in LedGroupNameList:
@@ -98,9 +130,7 @@ def _IsValidLedGroupNameStateList(LedGroupNameStateList):
         
     return(True)
 
-
-
-def _convertLEDGroupNameToLedNrList(LedGroupName):
+def _convertLedGroupNameToLedNrList(LedGroupName):
 # translate the LedGroupName to its corresponding LedNrs.
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     LedNrList = []
@@ -112,19 +142,16 @@ def _convertLEDGroupNameToLedNrList(LedGroupName):
                 break
     return(LedNrList)
 
-
-def _convertLEDGroupNameListToLedNrList(LedGroupNameList):
+def _convertLedGroupNameListToLedNrList(LedGroupNameList):
 # translate the LedGroupNameList to its corresponding LedNrs.
     LedNrList= []
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
     for LedGroupName in LedGroupNameList:
-        LedNrList.extend(_convertLEDGroupNameToLedNrList(LedGroupName))
+        LedNrList.extend(_convertLedGroupNameToLedNrList(LedGroupName))
     return(LedNrList)
 
-
-
-def _convertLEDGroupNameStateListToLedStateList(LedGroupNameStateList):
+def _convertLedGroupNameStateListToLedStateList(LedGroupNameStateList):
 # translate the LedGroupNameStateList to its corresponding LedNrStateList.
     LedStateList = []
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
@@ -139,7 +166,7 @@ def _convertLEDGroupNameStateListToLedStateList(LedGroupNameStateList):
     return(LedStateList)
 
 
-def _convertLEDGroupNameIntensityListToLedNrIntensityList(LedGroupNameIntensityList):
+def _convertLedGroupNameIntensityListToLedNrIntensityList(LedGroupNameIntensityList):
 # translate the LedGroupNameIntensityList to its corresponding LedNrIntensityList.
     LedIntensityList = []
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")

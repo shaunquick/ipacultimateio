@@ -42,18 +42,18 @@ import usb.util
 import usb.control
 
 
-from ..utils.ledcurrentstateslist import InitLedStatus
-from ..utils.lednrlist import InitLedNrList
+from ..utils.lednrlist import Initialise_DeviceListLEDList
 
-from ..utils.ledgroupnameslist import InitLedGroupNamesList
+from ..utils.ledgroupname import Initialise_LedGroupNameList
 from ..utils.ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
 
 
-from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES
+from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates
+from ..utils.ledcurrentstateslist import Initialise_DeviceListLEDCurrentStates
 
 from .ipacultimateioboard import _IsValidIpacUltimateDevice
 from .ipacultimateioboard import _resetDevice
-from .ipacultimateioboard import _setLedsToIndividualBrightness
+from .ipacultimateioboard import _setLEDsToIndividualBrightness
 from .ipacultimateioboard import _getUSBInterfaceNumber
 from .ipacultimateioboard import _isKernalDriverActive
 from .ipacultimateioboard import _detatchKernalDriver
@@ -64,10 +64,12 @@ from .setledall import SetAllLedIntensities
 
 
 
-def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinput_flag=False):
+def Initialise_DeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinput_flag=False):
 #
-# if DeviceUUID is passed in - this will only return tht device if it is found
-    FUNC_NAME="InitDeviceList(): "
+# if DeviceUUID is passed in - this will only return that device if it is found
+# if xinput_flag is set to true - then find all device that we hope are ultimarc ones, including where they are set in XInput mode
+# This will return a list of DeviceUUIDs and their associated usb DeviceID's
+    FUNC_NAME="Initialise_DeviceList(): "
     if debug:
        print(FUNC_NAME)
 
@@ -91,10 +93,10 @@ def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinpu
 
 # Now initialise the LIST for holding LED status and LED Nr Status
     try:    
-        LedGroupDefsList = InitLedGroupNameDefinitionsList(debug)
-        InitLedGroupNamesList(LedGroupDefsList,debug)
-        InitLedNrList(DeviceIDList, debug=debug)
-        InitLedStatus(DeviceIDList, debug=debug)
+        LEDGroupDefsList = InitLedGroupNameDefinitionsList(debug)
+        Initialise_LedGroupNameList(LEDGroupDefsList,debug)
+        Initialise_DeviceListLEDList(DeviceIDList, debug=debug)
+        Initialise_DeviceListLEDCurrentStates(DeviceIDList, debug=debug)
 
 #    if debug: 
 #        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
@@ -112,7 +114,7 @@ def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinpu
 
         SetAllLedIntensities(DeviceUUID=DeviceUUID,DeviceIDList=DeviceIDList, IntensityLevel=0, debug=debug)
     except Exception as err:
-        raise Exception("InitDeviceList(): {0}".format(err))
+        raise Exception("Initialise_DeviceList(): {0}".format(err))
 
 
     return(DeviceIDList)
@@ -155,7 +157,7 @@ def ResetDevices(DeviceUUID=None, DeviceIDList=[], debug=False):
 #            _resetDevice(myDevice["DeviceID"])
     
 
-            for Led in Get_DEVICE_LED_CURRENT_STATES(myDevice["DeviceUUID"]):
+            for Led in Get_DeviceLEDCurrentStates(myDevice["DeviceUUID"]):
                 Led['LedIntensity'] = 0
                 Led['LedFadeIntensity'] = 0
                 Led['State'] = "Script"

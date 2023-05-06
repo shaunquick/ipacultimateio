@@ -31,27 +31,26 @@
 # Board have the correct format and paramaters.
 # If there are errors an exception will be raised
 
-from .ledgroupname import _IsValidLedGroupNameList
-from .ledgroupname import _IsValidLedGroupName 
-from .ledgroupname import _IsValidLedGroupNameStateList
-from .ledgroupname import _IsValidLedGroupNameIntensityList
-
-from ..common.validations import _IsValidWaitIntervalTime
-from ..common.validations import _IsValidFadeIntervalTime
-from ..common.validations import _IsValidIntensityLevel
-from ..common.validations import _IsValidLedNr
-from ..common.validations import _IsValidLedNrList
-from ..common.validations import _IsValidLedNrIntensityList
-from ..common.validations import _IsValidFlashCount
-from ..common.validations import _IsValidFlashIntervalTime
-from ..common.validations import _IsValidState
-from ..common.validations import _IsValidLedNrStateList
-from ..common.validations import _IsValidFadeIncrement
-from ..common.validations import _IsValidNrOfRepetitions
-from ..common.validations import _IsValidNrCommandsToRepeat
-from ..common.validations import _IsValidRGBIntensityList
-from ..common.validations import _IsValidCycleIntervalTime
-from ..common.validations import _IsValidNrCycles
+from .ledgroupname          import _IsValidLedGroupNameList
+from .ledgroupname          import _IsValidLedGroupNameStateList
+from .ledgroupname          import _IsValidLedGroupNameIntensityList
+from .ledgroupname          import _IsValidLedGroupName 
+from ..common.validations   import _IsValidWaitIntervalTime
+from ..common.validations   import _IsValidFadeIntervalTime
+from ..common.validations   import _IsValidIntensityLevel
+from ..common.validations   import _IsValidLedNr
+from ..common.validations   import _IsValidLedNrList
+from ..common.validations   import _IsValidLedNrIntensityList
+from ..common.validations   import _IsValidFlashCount
+from ..common.validations   import _IsValidFlashIntervalTime
+from ..common.validations   import _IsValidState
+from ..common.validations   import _IsValidLedNrStateList
+from ..common.validations   import _IsValidFadeIncrement
+from ..common.validations   import _IsValidNrOfRepetitions
+from ..common.validations   import _IsValidNrCommandsToRepeat
+from ..common.validations   import _IsValidRGBIntensityList
+from ..common.validations   import _IsValidCycleIntervalTime
+from ..common.validations   import _IsValidNrCycles
 
 def _isValidCommand(Command):
 # check that we have a Command a valid Function name and each function has the correct paramaters required

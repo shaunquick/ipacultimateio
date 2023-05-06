@@ -34,31 +34,10 @@
 # button names. These button names are the ones that are then
 # validated against when executing the command scripts.
 
-LED_GROUP_NAMES = []
+# The below variable holds the list of all of the unique LedGroupNames
+# This is then used to validate the command scripts only refer to valid 
+# Led Group Names
 
-def InitLedGroupNamesList(LedGroupNameDefinitionsList, debug=False):
-    global LED_GROUP_NAMES
-    LED_GROUP_NAMES = []
-    for LedGroupNameDefinition in LedGroupNameDefinitionsList:
-        if ("LedGroupName" in LedGroupNameDefinition):
-            if LedGroupNameDefinition["LedGroupName"] not in LED_GROUP_NAMES:
-                if debug: print("Added GroupName" + str(LedGroupNameDefinition["LedGroupName"]))
-                LED_GROUP_NAMES.append(LedGroupNameDefinition["LedGroupName"])
-            else:
-                if debug: print("Exception Add GroupName: " + str(LedGroupNameDefinition["LedGroupName"]))
-                raise Exception("InitLedGroupNamesList(): Groupname replicated in LedGroupNamesDefinition.json")
-                return()
-
-def GetLedGroupNamesList():
-    global LED_GROUP_NAMES
-    return(LED_GROUP_NAMES)
-
-
-def _IsValidLedGroupName(LedGroupName):
-
-    if (type(LedGroupName) is not str): raise Exception("LedGroupName not in string format")
-    if LedGroupName not in LED_GROUP_NAMES: raise Exception("LedGroupName not in list of Led Group Names in definitiona file: {0}, {1}".format(LedGroupName, LED_GROUP_NAMES))
-    return(True)
 
 if __name__ == '__main__':
     pass

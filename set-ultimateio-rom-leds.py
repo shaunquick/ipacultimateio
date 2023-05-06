@@ -49,7 +49,7 @@ import json
 from importlib import  resources
 from os import path
 
-from lib.core.ipacultimateiocore import InitDeviceList
+from lib.core.ipacultimateiocore import Initialise_DeviceList
 from lib.utils.commandscript import RunCommandsFromFile
 
 from lib.utils.help import help_romleds
@@ -57,6 +57,15 @@ from lib.utils.help import listOfDevicesExample
 
 def main ():
 # arg1 should be the rom name, if none provided assume a generic default script to be run
+# there are a number of Options that can be passed in
+# With the Exception of the debug the follwoing flags are checked
+# iodev_UUID = you can pass in one device UUID and this program will only ever execute commands against it, no matter
+# how many devices are attached to the computer and will disregard other data in the config files.
+# xinput_dev - if you have configured the the ultimarc io noards from Keyboard mode to XInput mode, you
+# have to apss in this flag so that the program will recognise them
+# list_devices - where you do have multiple boards - and you want to control them individually
+# you will need to obtain the uniwue ideneitfier tha the program recognises the devie as.
+# you can then use this value in the configuration files to control that device Led's.
 
     FUNC_NAME="main(): "
     try:
@@ -100,7 +109,8 @@ def main ():
 # Initialise the board and run the script privided or run the default script
         ScriptName = GetScriptName(myScript)
         print(ScriptName)
-        DeviceIDList = InitDeviceList(DeviceUUID=DeviceUUID, debug=debug, xinput_flag=xinput_flag)
+        # - 
+        DeviceIDList = Initialise_DeviceList(DeviceUUID=DeviceUUID, debug=debug, xinput_flag=xinput_flag)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
         elif list_devices:
