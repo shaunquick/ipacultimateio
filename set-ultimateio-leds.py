@@ -110,8 +110,7 @@ def main ():
         else:
             RunCommandsFromFile(DeviceIDList, myScript, debug=debug)
     except Exception as err:
-        print("we got exception")
-        print(err)
+        print("Exception found: " + err)
 
 
 # If we're running in stand alone mode, run the application

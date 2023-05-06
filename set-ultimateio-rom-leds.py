@@ -49,18 +49,19 @@ import json
 from importlib import  resources
 from os import path
 
-from lib.utils.help import help_romleds
 from lib.core.ipacultimateiocore import InitDeviceList
 from lib.utils.commandscript import RunCommandsFromFile
 
+from lib.utils.help import help_romleds
+from lib.utils.help import listOfDevicesExample
 
 def main ():
 # arg1 should be the rom name, if none provided assume a generic default script to be run
 
     FUNC_NAME="main(): "
     try:
-        arg_names = ["help", "debug", "iodev_uuid=", "xinput_dev"]
-        opts, args = getopt.getopt(sys.argv[1:], "hdxi:", arg_names)
+        arg_names = ["help", "debug", "iodev_uuid=", "xinput_dev", "list_devices"]
+        opts, args = getopt.getopt(sys.argv[1:], "hdxli:", arg_names)
     except getopt.GetoptError:
         print(help_romleds())
         sys.exit(0)
@@ -69,6 +70,8 @@ def main ():
     debug = False
     outputfile=""
     xinput_flag=False
+    list_devices=False
+
     for option, arg in opts:
         if option in ("-h", "--help"):
             print(help_romleds())
@@ -84,6 +87,8 @@ def main ():
         if option in ("-x", "--xinput_flag"):
             xinput_flag=True
  
+        if option in ("-l", "--list_devices"):
+            list_devices=True
 
 
     if not args:
@@ -98,12 +103,18 @@ def main ():
         DeviceIDList = InitDeviceList(DeviceUUID=DeviceUUID, debug=debug, xinput_flag=xinput_flag)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
+        elif list_devices:
+            print(listOfDevicesExample(DeviceIDList))
+            if debug:
+                print(FUNC_NAME+"Device List is :-")
+                for DeviceID in DeviceIDList:
+                   print(DeviceID["DeviceID"])
         else:
             RunCommandsFromFile(DeviceIDList, ScriptName, debug=debug)
 
 
     except Exception as err:
-        print(err)
+        print("Exception found: " + err)
 
 
 def GetScriptName(RomName):
