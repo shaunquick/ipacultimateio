@@ -42,6 +42,8 @@ from ..common.globalvar import MAX_LEDS
 from ..common.validations import _IsValidIntensityLevel
 from ..common.validations import _IsValidState
 
+from ..common.validations import _IsValidLedNr
+
 
 
 # LED_CURRENT_STATES holds, for each device, the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (On or Off or (setBy)Script) 
@@ -68,35 +70,53 @@ def InitLedStatus(DeviceIDList=[], debug=False):
 def Set_DEVICE_LED_CURRENT_STATES_LedIntensity(DeviceUUID,LedNr,IntensityLevel):
 # Set the intensity level in the list to the value passed in
     if _IsValidIntensityLevel(IntensityLevel):
-        LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedIntensity'] = IntensityLevel
+        if _IsValidLedNr(LedNr):
+            LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedIntensity'] = IntensityLevel
+        else:
+            raise Exception("Set_DEVICE_LED_CURRENT_STATES_LedIntensity(): LedNr valid")
     else:
-        raise Exception("Set_DEVICE_LED_CURRENT_STATES_LedState(): State not valid")
+        raise Exception("Set_DEVICE_LED_CURRENT_STATES_LedIntensity(): State not valid")
 
 def Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(DeviceUUID,LedNr,IntensityLevel):
 # Set the fade intensity level in the list to the value passed in
     if _IsValidIntensityLevel(IntensityLevel):
-        LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedFadeIntensity'] = IntensityLevel
+        if _IsValidLedNr(LedNr):
+            LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedFadeIntensity'] = IntensityLevel
+        else:
+            raise Exception("Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(): LedNr valid")
     else:
         raise Exception("Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(): State not valid")
 
 def Set_DEVICE_LED_CURRENT_STATES_LedState(DeviceUUID,LedNr,State):
 # Set the state in the list to the value passed in
     if _IsValidState(State):
-        LED_CURRENT_STATES[DeviceUUID][LedNr-1]['State'] = State
+        if _IsValidLedNr(LedNr):
+            LED_CURRENT_STATES[DeviceUUID][LedNr-1]['State'] = State
+        else:
+            raise Exception("Set_DEVICE_LED_CURRENT_STATES_LedState(): LedNr valid")
     else:
         raise Exception("Set_DEVICE_LED_CURRENT_STATES_LedState(): State not valid")
 
 def Get_DEVICE_LED_CURRENT_STATES_LedIntensity(DeviceUUID,LedNr):
 # return the current value of the led nr intensity 
-    return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedIntensity'])
+    if _IsValidLedNr(LedNr):
+        return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedIntensity'])
+    else:
+        raise Exception("Get_DEVICE_LED_CURRENT_STATES_LedIntensity(): LedNr valid")
 
 def Get_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(DeviceUUID,LedNr):
 # return the current value of the led nr fade intensity 
-    return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedFadeIntensity'])
+    if _IsValidLedNr(LedNr):
+        return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedFadeIntensity'])
+    else:
+        raise Exception("Get_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(): LedNr valid")
 
 def Get_DEVICE_LED_CURRENT_STATES_LedState(DeviceUUID,LedNr):
 # return the current value of the led nr state 
-    return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['State'])
+    if _IsValidLedNr(LedNr):
+        return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['State'])
+    else:
+        raise Exception("Get_DEVICE_LED_CURRENT_STATES_LedState(): LedNr valid")
 
 
 def Get_DEVICE_LED_CURRENT_STATES(DeviceUUID):
