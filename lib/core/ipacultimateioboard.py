@@ -154,7 +154,10 @@ def _getDeviceUUID(DeviceID):
     return("{0}:{1}:{2}:{3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
 
 def _resetDevice(DeviceID):
-    pass
+    # 
+# Commented out as this command is not working on the board.    
+#            msg=[0x03,255,0,0,0]
+#            _sendMessageToBoard(myDevice["DeviceID"], msg)   pass
 
 
 

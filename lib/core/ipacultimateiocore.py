@@ -49,7 +49,7 @@ from ..utils.lednrlist import InitLedNrList
 from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES
 
 from .ipacultimateioboard import _IsValidIpacUltimateDevice
-from .ipacultimateioboard import _sendMessageToBoard
+from .ipacultimateioboard import _resetDevice
 from .ipacultimateioboard import _setLedsToIndividualBrightness
 from .ipacultimateioboard import _getUSBInterfaceNumber
 from .ipacultimateioboard import _isKernalDriverActive
@@ -144,9 +144,9 @@ def ResetDevices(DeviceUUID=None, DeviceIDList=[], debug=False):
     
     for myDevice in DeviceIDList:
         if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
-# Commented out as this command is not working on the board.    
-#            msg=[0x03,255,0,0,0]
-#            _sendMessageToBoard(myDevice["DeviceID"], msg)
+# Commented out as this command is not working on the board.  
+# # This should then run the default script  
+#            _resetDevice(myDevice["DeviceID"])
     
 
             for Led in Get_DEVICE_LED_CURRENT_STATES(myDevice["DeviceUUID"]):
@@ -154,6 +154,7 @@ def ResetDevices(DeviceUUID=None, DeviceIDList=[], debug=False):
                 Led['LedFadeIntensity'] = 0
                 Led['State'] = "Script"
 
+     # as we cannot call _resetDevice - just set the LED's to the resetted values
      _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList)
 
 if __name__ == '__main__':
