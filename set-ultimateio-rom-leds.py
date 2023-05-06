@@ -114,7 +114,7 @@ def main ():
 
 
     except Exception as err:
-        print("Exception found: " + err)
+        print("Exception found: {0}".format(err))
 
 
 def GetScriptName(RomName):

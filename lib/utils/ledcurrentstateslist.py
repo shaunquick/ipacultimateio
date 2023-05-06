@@ -39,6 +39,11 @@ import random
 
 from ..common.globalvar import MAX_LEDS
 
+from ..common.validations import _IsValidIntensityLevel
+from ..common.validations import _IsValidState
+
+
+
 # LED_CURRENT_STATES holds, for each device, the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (On or Off or (setBy)Script) 
 
 LED_CURRENT_STATES = {}

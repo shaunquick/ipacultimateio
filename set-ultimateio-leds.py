@@ -110,7 +110,7 @@ def main ():
         else:
             RunCommandsFromFile(DeviceIDList, myScript, debug=debug)
     except Exception as err:
-        print("Exception found: " + err)
+        print("Exception found:  {0}".format(err))
     if debug: print(FUNC_NAME+ "Finished Successfully")
 
 
