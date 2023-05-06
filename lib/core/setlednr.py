@@ -178,9 +178,9 @@ def SetLedNrListFadeToOff(DeviceUUID=None, DeviceIDList=[], LedNrList=[], FadeIn
 
     maxIntensity = 0
 
-    for LedNr in LedNrList:
-        for myDevice in DeviceIDList:
-            if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+            for LedNr in LedNrList:
                 LedIntensity = Get_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr)
                 Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr, LedIntensity)
                 if (LedIntensity> maxIntensity): maxIntensity = LedIntensity
@@ -189,9 +189,9 @@ def SetLedNrListFadeToOff(DeviceUUID=None, DeviceIDList=[], LedNrList=[], FadeIn
     NrOfIterations = int(maxIntensity/FadeIncrement)
     counter1 = 1
     while counter1 < NrOfIterations + 1:
-        for LedNr in LedNrList:
-            for myDevice in DeviceIDList:
-                if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+        for myDevice in DeviceIDList:
+            if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+                for LedNr in LedNrList:
                     NewLedIntensity = Get_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr) - FadeIncrement
                     if NewLedIntensity >= 0 :
                         Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,NewLedIntensity)
@@ -214,9 +214,9 @@ def SetLedNrListFadeToOn(DeviceUUID=None, DeviceIDList=[], LedNrList=[], FadeInc
 
     maxIntensity = 0
     
-    for LedNr in LedNrList:
-        for myDevice in DeviceIDList:
-            if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+            for LedNr in LedNrList:
                 Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,0)
                 LedIntensity = Get_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr)
                 if (LedIntensity > maxIntensity): maxIntensity = LedIntensity           
@@ -225,9 +225,9 @@ def SetLedNrListFadeToOn(DeviceUUID=None, DeviceIDList=[], LedNrList=[], FadeInc
     NrOfIterations = int(maxIntensity/FadeIncrement)
     counter1 = 1
     while counter1 < NrOfIterations + 1:
-        for LedNr in LedNrList:
-            for myDevice in DeviceIDList:
-                if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+        for myDevice in DeviceIDList:
+            if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+                for LedNr in LedNrList:
                     MaxSetLedIntensity = Get_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr)
                     NewFadeLedIntensity = Get_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr) + FadeIncrement
                     if NewFadeLedIntensity < MaxSetLedIntensity:
@@ -304,9 +304,9 @@ def SetLedNrListRainbowCycle(DeviceUUID=None, DeviceIDList=[], LedNrList=[], NrC
     while cycle_count <= NrCycles:
         is_cycle_finished = False
         while not is_cycle_finished:
-            for LedNr in LedNrList:
-                for myDevice in DeviceIDList:
-                    if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+            for myDevice in DeviceIDList:
+                if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+                    for LedNr in LedNrList:
                         if curr_index >= RainbowRGBListLength:
                             curr_index = 0
 

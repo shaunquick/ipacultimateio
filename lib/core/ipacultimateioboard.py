@@ -153,5 +153,10 @@ def _detatchKernalDriver(DeviceID, debug=False):
 def _getDeviceUUID(DeviceID):
     return("{0}:{1}:{2}:{3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
 
+def _resetDevice(DeviceID):
+    pass
+
+
+
 if __name__ == '__main__':
     pass

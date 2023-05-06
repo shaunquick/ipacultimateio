@@ -50,6 +50,7 @@ from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES
 
 from .ipacultimateioboard import _IsValidIpacUltimateDevice
 from .ipacultimateioboard import _sendMessageToBoard
+from .ipacultimateioboard import _setLedsToIndividualBrightness
 from .ipacultimateioboard import _getUSBInterfaceNumber
 from .ipacultimateioboard import _isKernalDriverActive
 from .ipacultimateioboard import _detatchKernalDriver
@@ -153,6 +154,7 @@ def ResetDevices(DeviceUUID=None, DeviceIDList=[], debug=False):
                 Led['LedFadeIntensity'] = 0
                 Led['State'] = "Script"
 
+     _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList)
 
 if __name__ == '__main__':
     pass
