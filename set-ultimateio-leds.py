@@ -111,6 +111,7 @@ def main ():
             RunCommandsFromFile(DeviceIDList, myScript, debug=debug)
     except Exception as err:
         print("Exception found: " + err)
+    if debug: print(FUNC_NAME+ "Finished Successfully")
 
 
 # If we're running in stand alone mode, run the application
