@@ -51,7 +51,7 @@ from ..common.validations import _IsValidLedNrIntensityList
 from ..common.validations import _IsValidLedNrStateList
 
 from .ipacultimateioboard import _setLedsToIndividualBrightness
-from .ipacultimateioboard import _sendMessageToBoard
+#from .ipacultimateioboard import _sendMessageToBoard
 from .ipacultimateioboard import _IsValidIpacUltimateDevice
 
 from ..utils.ledcurrentstateslist import Set_DEVICE_LED_CURRENT_STATES_LedIntensity    
@@ -68,13 +68,17 @@ def SetLedNrIntensity(DeviceUUID=None, DeviceIDList=[], LedNr = 3, IntensityLeve
     if not _IsValidIntensityLevel(IntensityLevel): raise Exception("SetLedIntensity(): IntensityLevel not valid")
 
     for myDevice in DeviceIDList:   
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
         # when interfacing with the board the LedNr starts from 0 - so we need to decrement by 1
-        msg=[0x03,LedNr-1,IntensityLevel,0,0]
-        _sendMessageToBoard(myDevice["DeviceID"], msg)
+# WE have many devices - just re-use now the standard of calling     _setLedsToIndividualBrightness
+# #
+##        msg=[0x03,LedNr-1,IntensityLevel,0,0]
+#        _sendMessageToBoard(myDevice["DeviceID"], msg)
 
-        Set_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
-        Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
-        Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,"On")
+            Set_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
+            Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
+            Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,"On")
+    _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList, debug==debug)
 
 def SetLedNrListIntensities(DeviceUUID=None, DeviceIDList=[], LedNrList=[], IntensityLevel=60, debug=False):
 # Set a list  of 'LedNr' to a specific 'IntensityLevel'
@@ -137,6 +141,7 @@ def SetLedNrStateList(DeviceUUID=None, DeviceIDList=[], LedNrStateList=[], debug
     if not _IsValidLedNrStateList(LedNrStateList):  raise Exception("SetLedStateList(): State not valid")
     
     for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
             for LedState in LedNrStateList:
                 LedNr = LedState['LedNr']
                 LedState = LedState['State']
