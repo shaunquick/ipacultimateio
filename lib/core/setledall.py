@@ -78,7 +78,7 @@ def SetAllLedIntensities(DeviceUUID=None, DeviceIDList=[], IntensityLevel=88, de
             if debug: print(FUNC_NAME+"Set board with intensity level of " + str(IntensityLevel))
             if debug: print(FUNC_NAME+"DeviceUUID is :- " + str(DeviceUUID))
             if debug: print(FUNC_NAME+"mydevice is"+str(myDevice["DeviceID"].manufacturer))
-            Set_All_DEVICE_LED_CURRENT_STATES(DeviceUUID=myDevice["DeviceUUID"],IntensityLevel=IntensityLevel,FadeIntensityLevel=IntensityLevel,State="On")
+            Set_All_DEVICE_LED_CURRENT_STATES(DeviceUUID=myDevice["DeviceUUID"],IntensityLevel=IntensityLevel,FadeIntensityLevel=IntensityLevel,State=True)
     _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList, debug=debug)
 
 def SetAllLedRandomStates(DeviceUUID=None, DeviceIDList=[], debug=False):
@@ -101,9 +101,9 @@ def SetAllLedFlash(DeviceUUID=None, DeviceIDList=[], FlashCount=5, FlashInterval
 
     counter1 = 0
     while counter1 < FlashCount:
-        SetAllLedStates(DeviceUUID, DeviceIDList, False)
-        time.sleep(FlashIntervalTime)
         SetAllLedStates(DeviceUUID, DeviceIDList, True)
+        time.sleep(FlashIntervalTime)
+        SetAllLedStates(DeviceUUID, DeviceIDList, False)
         time.sleep(FlashIntervalTime)
         counter1 += 1
 

@@ -67,7 +67,7 @@ def _setLedsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValu
         if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
             msg = [4]
             for LedCurrent in Get_DEVICE_LED_CURRENT_STATES(myDevice["DeviceUUID"]):
-                if LedCurrent['State'] == "On":
+                if LedCurrent['State']:
                     if UseFadeValues:
                         Intensity = LedCurrent['LedFadeIntensity']
                     else:

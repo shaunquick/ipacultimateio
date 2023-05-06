@@ -36,7 +36,7 @@
 import time
 
 
-# LED_CURRENT_STATES holds the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (On or Off or (setBy)Script) 
+# LED_CURRENT_STATES holds the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (True{On} or False{Off} or (setBy)Script) 
 #from .ipacultimateio import LED_LIST_ALL
 #from .corevariables import LED_CURRENT_STATES
 
@@ -77,7 +77,7 @@ def SetLedNrIntensity(DeviceUUID=None, DeviceIDList=[], LedNr = 3, IntensityLeve
 
             Set_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
             Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
-            Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,"On")
+            Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,True)
     _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList, debug==debug)
 
 def SetLedNrListIntensities(DeviceUUID=None, DeviceIDList=[], LedNrList=[], IntensityLevel=60, debug=False):
@@ -91,7 +91,7 @@ def SetLedNrListIntensities(DeviceUUID=None, DeviceIDList=[], LedNrList=[], Inte
             for LedNr in LedNrList:
                 Set_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
                 Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
-                Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,"On")
+                Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,True)
     
     _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList, debug==debug)
 
@@ -109,7 +109,7 @@ def SetLedNrIntensityList(DeviceUUID=None, DeviceIDList=[], LedNrIntensityList=[
                 IntensityLevel = LedIntensity['IntensityLevel']
                 Set_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
                 Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
-                Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,"On")        
+                Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,True)        
     
     _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList, debug=debug)
 
@@ -148,8 +148,8 @@ def SetLedNrStateList(DeviceUUID=None, DeviceIDList=[], LedNrStateList=[], debug
             for LedState in LedNrStateList:
                 LedNr = LedState['LedNr']
                 LedState = LedState['State']
-                if LedState: Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,"On")
-                else:        Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,"Off")
+                if LedState : Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,True)
+                else:        Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,False)
     _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList, debug=debug)
         
 
@@ -317,7 +317,7 @@ def SetLedNrListRainbowCycle(DeviceUUID=None, DeviceIDList=[], LedNrList=[], NrC
 
                         Set_DEVICE_LED_CURRENT_STATES_LedIntensity(myDevice["DeviceUUID"],LedNr,RainbowRGBList[curr_index])
                         Set_DEVICE_LED_CURRENT_STATES_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,RainbowRGBList[curr_index])
-                        Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,"On")
+                        Set_DEVICE_LED_CURRENT_STATES_LedState(myDevice["DeviceUUID"],LedNr,True)
                         curr_index += 1
             if not is_cycle_finished:
                 _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList)
