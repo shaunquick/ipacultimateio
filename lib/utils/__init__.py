@@ -1,14 +1,15 @@
 # __Init__ for package lib/utils
 
 #from .buttonname import InitButtonNameModule
-from .ledgroupnameslist import InitLedGroupNamesList
-from .ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
+#from .ledgroupnameslist import InitLedGroupNamesList
+#from .ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
 #from .ledcurrentstateslist import InitLedStatus
 #from .lednrlist import InitLedNrList
 
 try:
-    LedGroupDefsList = InitLedGroupNameDefinitionsList()
-    InitLedGroupNamesList(LedGroupDefsList)
+    pass
+#    LedGroupDefsList = InitLedGroupNameDefinitionsList()
+#    InitLedGroupNamesList(LedGroupDefsList)
 #    InitLedStatus()
 #    InitLedNrList()
 

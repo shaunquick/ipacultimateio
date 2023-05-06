@@ -36,12 +36,18 @@
 
 LED_GROUP_NAMES = []
 
-def InitLedGroupNamesList(LedGroupNameDefinitionsList):
+def InitLedGroupNamesList(LedGroupNameDefinitionsList, debug=False):
     global LED_GROUP_NAMES
     LED_GROUP_NAMES = []
     for LedGroupNameDefinition in LedGroupNameDefinitionsList:
         if ("LedGroupName" in LedGroupNameDefinition):
-            LED_GROUP_NAMES.append(LedGroupNameDefinition["LedGroupName"])
+            if LedGroupNameDefinition["LedGroupName"] not in LED_GROUP_NAMES:
+                if debug: print("Added GroupName" + str(LedGroupNameDefinition["LedGroupName"]))
+                LED_GROUP_NAMES.append(LedGroupNameDefinition["LedGroupName"])
+            else:
+                if debug: print("Exception Add GroupName: " + str(LedGroupNameDefinition["LedGroupName"]))
+                raise Exception("InitLedGroupNamesList(): Groupname replicated in LedGroupNamesDefinition.json")
+                return()
 
 def GetLedGroupNamesList():
     global LED_GROUP_NAMES

@@ -45,6 +45,9 @@ import usb.control
 from ..utils.ledcurrentstateslist import InitLedStatus
 from ..utils.lednrlist import InitLedNrList
 
+from ..utils.ledgroupnameslist import InitLedGroupNamesList
+from ..utils.ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
+
 
 from ..utils.ledcurrentstateslist import Get_DEVICE_LED_CURRENT_STATES
 
@@ -87,14 +90,16 @@ def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinpu
                     DeviceIDList.append(myDevice)
 
 # Now initialise the LIST for holding LED status and LED Nr Status
-    InitLedNrList(DeviceIDList, debug=debug)
-    InitLedStatus(DeviceIDList, debug=debug)
+    try:    
+        LedGroupDefsList = InitLedGroupNameDefinitionsList(debug)
+        InitLedGroupNamesList(LedGroupDefsList,debug)
+        InitLedNrList(DeviceIDList, debug=debug)
+        InitLedStatus(DeviceIDList, debug=debug)
 
 #    if debug: 
 #        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 #        print (DeviceIDList)
 #        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-    try:    
         for myDevice in DeviceIDList: 
             if debug:
                 pass
@@ -108,6 +113,7 @@ def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinpu
         SetAllLedIntensities(DeviceUUID=DeviceUUID,DeviceIDList=DeviceIDList, IntensityLevel=0, debug=debug)
     except Exception as err:
         raise Exception("InitDeviceList(): {0}".format(err))
+
 
     return(DeviceIDList)
 

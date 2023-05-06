@@ -43,7 +43,7 @@ LED_GROUP_DEFINITIONS = []
 LedGroupDefinitionsFileFound = True
 
 
-def InitLedGroupNameDefinitionsList():
+def InitLedGroupNameDefinitionsList(debug=False):
 # Load the definitions file, validate it and keep the list in memory for later use
     global LED_GROUP_DEFINITIONS
     global LedGroupDefinitionsFileFound
