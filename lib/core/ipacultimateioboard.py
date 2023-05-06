@@ -158,7 +158,7 @@ def _resetDevice(DeviceID):
 # Commented out as this command is not working on the board.    
 #            msg=[0x03,255,0,0,0]
 #            _sendMessageToBoard(myDevice["DeviceID"], msg)   pass
-
+    pass
 
 
 if __name__ == '__main__':

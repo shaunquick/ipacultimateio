@@ -155,7 +155,7 @@ def ResetDevices(DeviceUUID=None, DeviceIDList=[], debug=False):
                 Led['State'] = "Script"
 
      # as we cannot call _resetDevice - just set the LED's to the resetted values
-     _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList)
+    _setLedsToIndividualBrightness(DeviceUUID, DeviceIDList)
 
 if __name__ == '__main__':
     pass
