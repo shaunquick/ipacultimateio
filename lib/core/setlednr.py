@@ -123,17 +123,20 @@ def SetLedNrListFlash(DeviceUUID=None, DeviceIDList=[], LedNrList=[], FlashCount
 
     LedNrStateListOn = []
     LedNrStateListOff = []
-    for LedNr in LedNrList:
-        LedNrStateListOn.append({'LedNr': LedNr, 'State': True})
-        LedNrStateListOff.append({'LedNr': LedNr, 'State': False})
 
-    counter1 = 0
-    while counter1 < FlashCount:
-        SetLedNrStateList(DeviceUUID, DeviceIDList, LedNrStateListOff)
-        time.sleep(FlashIntervalTime)
-        SetLedNrStateList(DeviceUUID, DeviceIDList, LedNrStateListOn)
-        time.sleep(FlashIntervalTime)
-        counter1 += 1
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+            for LedNr in LedNrList:
+                LedNrStateListOn.append({'LedNr': LedNr, 'State': True})
+                LedNrStateListOff.append({'LedNr': LedNr, 'State': False})
+
+            counter1 = 0
+            while counter1 < FlashCount:
+                SetLedNrStateList(myDevice["DeviceUUID"], DeviceIDList, LedNrStateListOff)
+                time.sleep(FlashIntervalTime)
+                SetLedNrStateList(myDevice["DeviceUUID"], DeviceIDList, LedNrStateListOn)
+                time.sleep(FlashIntervalTime)
+                counter1 += 1
 
 def SetLedNrStateList(DeviceUUID=None, DeviceIDList=[], LedNrStateList=[], debug=False):
 # Set a list of Led's to a uniques state - either on or off
@@ -162,8 +165,10 @@ def SetLedNrListFadeReverb(DeviceUUID=None, DeviceIDList=[], LedNrList=[], FadeI
     if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetLedListFadeReverb(): IntervalTime not valid")
     if not _IsValidFadeIncrement(FadeIncrement):  raise Exception("SetLedListFadeReverb(): FadeIncrement not valid")
   
-    SetLedNrListFadeToOff(DeviceUUID,DeviceIDList, LedNrList, FadeIncrement, FadeIntervalTime)
-    SetLedNrListFadeToOn(DeviceUUID,DeviceIDList, LedNrList, FadeIncrement, FadeIntervalTime)
+    for myDevice in DeviceIDList:
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+            SetLedNrListFadeToOff(myDevice["DeviceUUID"],DeviceIDList, LedNrList, FadeIncrement, FadeIntervalTime)
+            SetLedNrListFadeToOn(myDevice["DeviceUUID"],DeviceIDList, LedNrList, FadeIncrement, FadeIntervalTime)
     return()
 
 
