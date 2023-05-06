@@ -104,7 +104,7 @@ def InitDeviceList(FreeInterface = True, DeviceUUID = None, debug = False, xinpu
             if FreeInterface and _isKernalDriverActive(myDevice["DeviceID"], debug=debug):
                 _detatchKernalDriver(myDevice["DeviceID"], debug=debug)
 
-        SetAllLedIntensities(DeviceUUID=None,DeviceIDList=DeviceIDList, IntensityLevel=0, debug=debug)
+        SetAllLedIntensities(DeviceUUID=DeviceUUID,DeviceIDList=DeviceIDList, IntensityLevel=0, debug=debug)
     except Exception as err:
         raise Exception("InitDeviceList(): {0}".format(err))
 
