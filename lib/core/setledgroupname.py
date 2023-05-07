@@ -115,7 +115,7 @@ def SetLedGroupNameIntensity(DeviceUUID=None, LedGroupName="", RGBIntensityList=
 
 
                         
-        for myDevice in     _convertLedGroupNameToDevicesLedNrDict(LedGroupName):
+        for myDevice in     _convertLedGroupNameToDevicesLedNrList(LedGroupName,debug=debug):
             LedsList=[1,2,3]
             SetLedNrIntensity(DeviceUUID=DeviceUUID, LedNr=LedsList[0] , IntensityLevel=RGBIntensityList[0])
             SetLedNrIntensity(DeviceUUID=DeviceUUID, LedNr=LedsList[1] , IntensityLevel=RGBIntensityList[1])

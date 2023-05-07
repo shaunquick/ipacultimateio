@@ -210,9 +210,10 @@ def _convertLedGroupNameToDevicesLedNrList(LedGroupName, debug=False):
                         LedNrList.append(Led)
                     break
         for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
-            if debug: print(myDeviceGroupName)
+            if debug: 
+            #print(myDeviceGroupName)
 
-            pass
+                pass
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
@@ -231,7 +232,7 @@ def _convertLedGroupNameListToDevicesLedNrList(LedGroupNameList, debug=False):
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
         for LedGroupName in LedGroupNameList:
-            myNewDevicesLedNrDict=_convertLedGroupNameToDevicesLedNrDict(LedGroupName)
+            myNewDevicesLedNrDict=_convertLedGroupNameToDevicesLedNrList(LedGroupName, debug=debug)
             # Now I need to add to mey existing digtaionay
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))

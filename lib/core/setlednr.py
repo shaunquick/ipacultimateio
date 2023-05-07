@@ -108,7 +108,7 @@ def SetLedNrListIntensities(DeviceUUID=None, LedNrList=[], IntensityLevel=60, de
                     Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
                     Set_DeviceLEDCurrentStates_LedState(myDevice["DeviceUUID"],LedNr,True,debug)
         if debug: print("Shoudl come out after")
-        _setLEDsToIndividualBrightness(DeviceUUID, debug==debug)
+        _setLEDsToIndividualBrightness(DeviceUUID, debug=debug)
         if debug: print("Shoudl come out after2")
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
