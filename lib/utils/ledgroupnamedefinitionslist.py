@@ -209,11 +209,12 @@ def _convertLedGroupNameToDevicesLedNrList(LedGroupName, debug=False):
                     for Led in LedGroupNameDefinition["LedNrRGB"]:
                         LedNrList.append(Led)
                     break
-        for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
+        for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions().items():
             if debug: 
-            #print(myDeviceGroupName)
-
                 pass
+            print(myDeviceUUID)
+            print(myDeviceLedGroupNames)
+
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
