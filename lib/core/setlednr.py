@@ -320,8 +320,11 @@ def SetLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
     if debug: print(FUNC_NAME)
 
 
-
-#    DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", LedNrList :[1,2,3]}]
+# is a list of a paired set of LEDs and DeviceUUID
+#    DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", LedNrList :[1,2,3]},
+#                       {"DeviceUUID":"0:0:0:1", LedNrList :[1,2,3]},
+#                       {"DeviceUUID":"0:0:0:1", LedNrList :[4,5,6]},
+#    ]
 
 # Set a list  of 'LedNr' to a specific 'IntensityLevel'
 # LedNrList = [1,2,3]
