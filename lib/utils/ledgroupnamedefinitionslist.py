@@ -183,9 +183,9 @@ def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions, debug=False):
 
 
 
-def _convertLedGroupNameToDevicesLedNrDict(LedGroupName, debug=False):
-# DevicesLedNrDict={    "0:0:0:0" : [1,2,3]
-#                       "0:0:0:1" : [1,2,3] }
+def _convertLedGroupNameToDevicesLedNrList(LedGroupName, debug=False):
+# DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", "LedNrList" : [1,2,3] },
+#                   {"DeviceUUID":"0:0:0:1", "LedNrList" : [1,2,3] }]
 # 
 # DEVICE_LED_GROUP_DEFINITIONS = {'53769:1040:1:3': [{'LedGroupName': 'p1b1', 'LedNrRGB': [16, 17, 18]}, 
 #                                                    {'LedGroupName': 'p1b4', 'LedNrRGB': [19, 20, 21]}],
@@ -201,7 +201,7 @@ def _convertLedGroupNameToDevicesLedNrDict(LedGroupName, debug=False):
 
     try:
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-        DevicesLedNrDict = {}
+        DevicesLedNrList = {}
         LedNrList = []
         for LedGroupNameDefinition in GetLedGroupNameDefinitions():
             if "LedGroupName" in LedGroupNameDefinition:
@@ -219,15 +219,15 @@ def _convertLedGroupNameToDevicesLedNrDict(LedGroupName, debug=False):
     return(DevicesLedNrDict)
 
 
-def _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList, debug=False):
-# DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", "LedNrList" : [1,2,3] },{}]
+def _convertLedGroupNameListToDevicesLedNrList(LedGroupNameList, debug=False):
+# DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", "LedNrList" : [1,2,3] },
+#                   {"DeviceUUID":"0:0:0:1", "LedNrList" : [1,2,3] }]
 # We can then reference the values as DeviceLedNr["DevicUUID"] and DeviceLedNr["LedNrList"]
 # # translate the LedGroupNameList to its corresponding Devices and LedNrs.
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
 
     try:
-        DevicesLedNrDict = {}
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
         for LedGroupName in LedGroupNameList:

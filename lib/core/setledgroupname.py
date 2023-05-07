@@ -40,8 +40,8 @@ from ast import Try
 from ..common.common_lib import my_func_name
 
 from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameIntensityListToDevicesLedNrIntensityDict
-from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameListToDevicesLedNrDict
-from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameToDevicesLedNrDict
+from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameListToDevicesLedNrList
+from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameToDevicesLedNrList
 from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameStateListToDevicesLedStateDict 
 
 from ..utils.ledgroupname import _IsValidLedGroupName
