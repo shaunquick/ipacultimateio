@@ -58,7 +58,7 @@ def InitLEDGroupNameModule(debug=False):
         LedGroupDefsList = InitLedGroupNameDefinitionsList()
         Initialise_LedGroupNameList(LedGroupDefsList)
     except Exception as err:
-        raise Exception("InitLedGroupNameModule {0}".format(err))
+        raise Exception("{0} {1}".format(FUNC_NAME,err))
 
 
 LED_GROUP_NAMES_LIST = []
@@ -73,15 +73,15 @@ def Initialise_LedGroupNameList(LEDGroupNameDefinitionsList, debug=False):
     for LEDGroupNameDefinition in LEDGroupNameDefinitionsList:
         if ("LedGroupName" in LEDGroupNameDefinition):
             if LEDGroupNameDefinition["LedGroupName"] not in LED_GROUP_NAMES_LIST:
-                if debug: print("Added GroupName" + str(LEDGroupNameDefinition["LedGroupName"]))
+                # if debug: print("Added GroupName" + str(LEDGroupNameDefinition["LedGroupName"]))
                 LED_GROUP_NAMES_LIST.append(LEDGroupNameDefinition["LedGroupName"])
             else:
-                if debug: print("Exception Add GroupName: " + str(LEDGroupNameDefinition["LedGroupName"]))
-                raise Exception("InitLEDGroupNamesList(): Groupname replicated in LedGroupNamesDefinition.json")
+                # if debug: print("Exception Add GroupName: " + str(LEDGroupNameDefinition["LedGroupName"]))
+                raise Exception("{0} Groupname replicated in LedGroupNamesDefinition.json".format(FUNC_NAME))
                 return()
-    if debug: 
-        print("InitLEDGroupNamesList(): List of LED Group names is")
-        print(LED_GROUP_NAMES_LIST)
+#    if debug: 
+#        print("InitLEDGroupNamesList(): List of LED Group names is")
+#        print(LED_GROUP_NAMES_LIST)
 
 def Get_LedGroupNamesList(debug=False):
     FUNC_NAME=my_func_name()
@@ -98,7 +98,7 @@ def _IsValidLedGroupName(LedGroupName, debug=False):
     if (type(LedGroupName) is not str): raise Exception("LedGroupName not in string format")
     if LedGroupName not in LED_GROUP_NAMES_LIST: 
         raise Exception(
-            "LedGroupName not in list of Led Group Names in definitiona file: {0}, {1}".format(LedGroupName, LED_GROUP_NAMES_LIST))
+            "{0} LedGroupName not in list of Led Group Names in definitiona file: {1}, {2}".format(FUNC_NAME, LedGroupName, LED_GROUP_NAMES_LIST))
         return(False)
     else:
         return(True)
@@ -112,7 +112,7 @@ def _IsValidLedGroupNameList(LedGroupNameList,debug=False):
         try:
             _IsValidLedGroupName(LedGroupName)
         except Exception as err:
-            raise Exception("_IsValidLedGroupNameList:{0} {1}".format(LedGroupName, err))        
+            raise Exception("{0}:{1} {2}".format(FUNC_NAME,LedGroupName, err))        
     return(True)
 
 
@@ -130,7 +130,7 @@ def _IsValidLedGroupNameIntensityList(LedGroupNameIntensityList, debug=False):
             _IsValidLedGroupName(LedGroupNameIntensity['LedGroupName'])
             _IsValidRGBIntensityList(LedGroupNameIntensity['RGBIntensity'])
         except Exception as err:
-            raise Exception("_IsValidLedGroupNameIntensityList:{0} {1}".format(LedGroupNameIntensity, err))        
+            raise Exception("{0}:{1} {2}".format(FUNC_NAME, LedGroupNameIntensity, err))        
             
     return(True)
 
@@ -147,7 +147,7 @@ def _IsValidLedGroupNameStateList(LedGroupNameStateList, debug=False):
             _IsValidLedGroupName(LedGroupNameState['LedGroupName'])
             _IsValidState(LedGroupNameState['State'])
         except Exception as err:
-            raise Exception("_IsValidLedGroupNameStateList{0}: {1}".format(LedGroupNameState, err))        
+            raise Exception("{0}{1}: {2}".format(FUNC_NAME,LedGroupNameState, err))        
         
     return(True)
 

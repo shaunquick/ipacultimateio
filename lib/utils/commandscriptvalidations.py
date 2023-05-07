@@ -31,6 +31,8 @@
 # Board have the correct format and paramaters.
 # If there are errors an exception will be raised
 
+from ..common.common_lib import my_func_name
+
 from .ledgroupname          import _IsValidLedGroupNameList
 from .ledgroupname          import _IsValidLedGroupNameStateList
 from .ledgroupname          import _IsValidLedGroupNameIntensityList
@@ -52,7 +54,10 @@ from ..common.validations   import _IsValidRGBIntensityList
 from ..common.validations   import _IsValidCycleIntervalTime
 from ..common.validations   import _IsValidNrCycles
 
-def _isValidCommand(Command):
+def _isValidCommand(Command, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
 # check that we have a Command a valid Function name and each function has the correct paramaters required
     if not "Command" in Command: raise Exception("Command missing: {0}".format(Command))
     if not "Function" in Command["Command"]: raise Exception("Function missing from Command : {0}".format(Command))
@@ -185,17 +190,20 @@ def _isValidCommand(Command):
     elif Command["Command"]["Function"] == "ResetBoard":
         pass
     else:
-        raise Exception("Unknown 'Function': {0}".format(Command))
+        raise Exception("{0}Unknown 'Function': {1}".format(FUNC_NAME, Command))
     return (True)
 
 
-def _isValidCommandScript(CommandScriptList):
+def _isValidCommandScript(CommandScriptList, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
 # verify that the script and its commands are in the correct format, if not raise an exception
     for Command in CommandScriptList:
         try:
             not _isValidCommand(Command)
         except Exception as err:
-            raise Exception("_isValidCommandScript: {0}".format(err))
+            raise Exception("{0} {1}".format(FUNC_NAME,err))
     return(True)
 
 

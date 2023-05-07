@@ -35,6 +35,8 @@
 
 import time
 
+from ..common.common_lib import my_func_name
+
 from ..common.validations import _IsValidFadeIntervalTime
 from ..common.validations import _IsValidIntensityLevel
 from ..common.validations import _IsValidLedNrList
@@ -59,8 +61,9 @@ from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates_LedFadeInten
 
 def SetLedNrIntensity(DeviceUUID=None, LedNr = 3, IntensityLevel=100, debug=False):
 # Set a specific 'LedNr' to a specific 'IntensityLevel'
-    FUNC_NAME="SetLedNrIntensity(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
 
     if not _IsValidLedNr(LedNr): raise Exception("SetLedIntensity(): LedNr not valid")
     if not _IsValidIntensityLevel(IntensityLevel): raise Exception("SetLedIntensity(): IntensityLevel not valid")
@@ -84,8 +87,9 @@ def SetLedNrIntensity(DeviceUUID=None, LedNr = 3, IntensityLevel=100, debug=Fals
 def SetLedNrListIntensities(DeviceUUID=None, LedNrList=[], IntensityLevel=60, debug=False):
 # Set a list  of 'LedNr' to a specific 'IntensityLevel'
 # LedNrList = [1,2,3]
-    FUNC_NAME="SetLedNrListIntensities(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
 
     if not _IsValidLedNrList(LedNrList): raise Exception("SetLedListIntensities(): LedNrList not valid")
     if not _IsValidIntensityLevel(IntensityLevel): raise Exception("SetLedListIntensities(): IntensityLevel not valid")
@@ -104,8 +108,9 @@ def SetLedNrListIntensities(DeviceUUID=None, LedNrList=[], IntensityLevel=60, de
 def SetLedNrIntensityList(DeviceUUID=None, LedNrIntensityList=[], debug=False):
 # Set a list of Led's to a unique intensity level
 # LedIntensityList = [ {"LedNr": 1, "IntensityLevel": 122}, {ledNr, IntensityLevel), ...]
-    FUNC_NAME="SetLedNrIntensityList(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
 
     if not _IsValidLedNrIntensityList(LedNrIntensityList): raise Exception("SetLedIntensityList(): LedIntensityList not valid")
     
@@ -127,8 +132,9 @@ def SetLedNrListFlash(DeviceUUID=None, LedNrList=[], FlashCount=3, FlashInterval
 # Flash a list Leds  'FlashCount' times
 # at a rate of 'FlashIntervalTime' seconds
 # LedNrList = [1,2,3]
-    FUNC_NAME="SetLedNrListFlash(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
 
     try:
         if not _IsValidLedNrList(LedNrList): raise Exception("SetLedListFlash(): LedNrList not valid - {}".format(LedNrList))
@@ -162,8 +168,9 @@ def SetLedNrListFlash(DeviceUUID=None, LedNrList=[], FlashCount=3, FlashInterval
 def SetLedNrStateList(DeviceUUID=None, LedNrStateList=[], debug=False):
 # Set a list of Led's to a uniques state - either on or off
 # LedNrStateList = [ {"ledNr": 1, "State" : True}, {"ledNr": 1, "State" : False} ...]
-    FUNC_NAME="SetLedNrStateList(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
 
     #if debug: print("LedNrStateList")
     #if debug: print(LedNrStateList)
@@ -191,8 +198,9 @@ def SetLedNrListFadeReverb(DeviceUUID=None, LedNrList=[], FadeIncrement = 10, Fa
 # and then..
 # Increase brightness from 0 by 'FadeINcrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds
-    FUNC_NAME="SetLedNrListFadeReverb(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
 
     if not _IsValidLedNrList(LedNrList): raise Exception("SetLedListFadeReverb(): LedNrList not valid")
     if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetLedListFadeReverb(): IntervalTime not valid")
@@ -208,8 +216,9 @@ def SetLedNrListFadeToOff(DeviceUUID=None, LedNrList=[], FadeIncrement = 10, Fad
 # Fade down a list of Leds to their previously set brightness level
 # Reduce brightness by 'FadeIncrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds until they are all set to zero brightness
-    FUNC_NAME="SetLedNrListFadeToOff(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
     
     if not _IsValidLedNrList(LedNrList): raise Exception("SetLedListFadeToOff(): LedNrList not valid")
     if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetLedListFadeToOff(): IntervalTime not valid")
@@ -246,8 +255,9 @@ def SetLedNrListFadeToOn(DeviceUUID=None, LedNrList=[], FadeIncrement = 10, Fade
 # Fade up a list of Leds to their previously set brightness level
 # Increase brightness from 0 by 'FadeIncrement' and reduce the fade in
 # steps of 'FadeIntervalTime' seconds
-    FUNC_NAME="SetLedNrListFadeToOn(); "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
 
     if not _IsValidLedNrList(LedNrList): raise Exception("SetLedListFadeToOn(): LedList not valid")
     if not _IsValidFadeIntervalTime(FadeIntervalTime):  raise Exception("SetLedListFadeToOn(): IntervalTime not valid")
@@ -284,8 +294,9 @@ def SetLedNrListFadeToOn(DeviceUUID=None, LedNrList=[], FadeIncrement = 10, Fade
 
 def SetLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3, 
                              CycleIntervalTime=3, RainbowRGBListIndex = 0, debug=False):
-    FUNC_NAME="SetLedNrListRainbowCycle(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
 
 
     DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", LedNrList :[1,2,3]}]

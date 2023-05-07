@@ -61,18 +61,14 @@ from .ipacultimateiovalidations import _IsValidIpacUltimateDevice
 DEVICE_LIST =[]
 
 def Initialise_DeviceList(DeviceUUID = None, debug = False, xinput_flag=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
 #
 # if DeviceUUID is passed in - this will only return that device if it is found
 # if xinput_flag is set to true - then find all device that we hope are ultimarc ones, including where they are set in XInput mode
 # This will return a list of DeviceUUIDs and their associated usb DeviceID's
-    FUNC_NAME="Initialise_DeviceList(): "
-    if debug:
-       print(FUNC_NAME)
 
     global DEVICE_LIST
-
-
-
 
     FoundDeviceIDs = usb.core.find(find_all=True)
     for DeviceID in FoundDeviceIDs:
@@ -95,6 +91,9 @@ def Initialise_DeviceList(DeviceUUID = None, debug = False, xinput_flag=False):
     return(DEVICE_LIST)
 
 def Get_DeviceList(DeviceUUID=None, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     global DEVICE_LIST
     if DeviceUUID == None:
         return(DEVICE_LIST)

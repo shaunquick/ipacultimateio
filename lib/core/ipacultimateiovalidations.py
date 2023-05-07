@@ -37,7 +37,7 @@ import usb.core
 import usb.util
 import usb.control
 
-
+from ..common.common_lib import my_func_name
 
 
 UM_VENDOR_ID_LIST = [ 0xD209 ] # There should only be one Vendor - but there may be an issue when setup as XInput
@@ -48,6 +48,11 @@ UM_XINPUT_PRODUCT_ID_LIST =[ 0X028e ]
 
 
 def _IsValidIpacUltimateDevice(DeviceID, debug=False, xinput_flag=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
+
+
 # Verify the board is an iPAC Ultimate IO
     if (DeviceID != None and DeviceID.idProduct in UM_PRODUCT_ID_LIST and DeviceID.idVendor in UM_VENDOR_ID_LIST ):
         return (True)

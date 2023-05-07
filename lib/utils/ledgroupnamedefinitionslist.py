@@ -85,8 +85,6 @@ def InitLedGroupNameDefinitionsList(debug=False):
             for myDevice in DeviceIDList:
                 DEVICE_LED_GROUP_DEFINITIONS[myDevice["DeviceUUID"]] = []
                 for LedGroupDefinition in LED_GROUP_DEFINITIONS:
-                    print("We are here")
-                    if debug: print("MAde it")
                     if LedGroupDefinition.get("DeviceUUID") != None:
                         if LedGroupDefinition["DeviceUUID"] == myDevice["DeviceUUID"]:
                             #if debug: print("the device is matched add to current device")
@@ -113,11 +111,11 @@ def InitLedGroupNameDefinitionsList(debug=False):
                             DEVICE_LED_GROUP_DEFINITIONS[myDevice["DeviceUUID"]].append(myVals)
         except Exception as err:
             raise Exception("{0}LedGroupNameDefinitions.json not in expected format: {1}".format(FUNC_NAME, err))
-        if debug:
-           print("\n\n\n\nDEVICE_LED_GROUP_DEFINITIONS")
-           print(DEVICE_LED_GROUP_DEFINITIONS)
-           print("\n\n\n\nLED_GROUP_DEFINITIONS")
-           print(LED_GROUP_DEFINITIONS)
+#        if debug:
+#           print("\n\n\n\nDEVICE_LED_GROUP_DEFINITIONS")
+#           print(DEVICE_LED_GROUP_DEFINITIONS)
+#           print("\n\n\n\nLED_GROUP_DEFINITIONS")
+#           print(LED_GROUP_DEFINITIONS)
 
     return(LED_GROUP_DEFINITIONS)
 

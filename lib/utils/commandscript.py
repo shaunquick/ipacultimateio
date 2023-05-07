@@ -39,6 +39,8 @@ import json
 from importlib import  resources
 from os import path
 
+from ..common.common_lib import my_func_name
+
 # Load all the functions as their names - to be used across the utility
 
 #from libs.globalvar import *  # load the global variable
@@ -77,13 +79,19 @@ from ..core.setledgroupname import SetLedGroupNameListRainbowCycle
 
 def RunCommandsFromFile(filename, debug = False):
 # Load the script file, validate the script fila and then execute the commands in the file.
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     try:
         FileCommandList = GetLedCommandsFromFile(filename)
         RunLedCommands(CommandScriptList=FileCommandList, debug = debug)
     except Exception as err:
-        raise Exception("RunCommandsFromFile(): {0}".format(err))
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
 
 def GetLedCommandsFromFile(filename, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
 # use the default test script if no filename is provided
     if filename == "":
         filename = "default_script.json"
@@ -100,27 +108,24 @@ def GetLedCommandsFromFile(filename, debug=False):
             with open(filename, "r") as read_file:
                 filecontent = read_file.read()
         else:
-            raise Exception("File is not found : {0}".format(filename))
+            raise Exception("{0} File is not found : {1}".format(FUNC_NAME,filename))
     except Exception as err:
-        raise Exception("{0}".format(err))
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
 
 
 
     try:
         CommandScript = json.loads(filecontent)
-        if type(CommandScript) is not list: raise Exception("GetLedCommandsFromFile(): file structure not valid - Expecting a json list")
+        if type(CommandScript) is not list: raise Exception("{0}): file structure not valid - Expecting a json list".format(FUNC_NAME))
         _isValidCommandScript(CommandScript)
     except Exception as err:
-        raise Exception("GetLedCommandsFromFile(): {0}".format(err))
+        raise Exception("{0} {1}".format(FUNC_NAME,err))
     return (CommandScript)
 
 
 def RunLedCommands(CommandScriptList=[], debug=False):
-    FUNC_NAME="RunLedCommands(): "
-    
- 
-    if debug:
-        print(FUNC_NAME)
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
 
 
     try:
@@ -278,13 +283,16 @@ def RunLedCommands(CommandScriptList=[], debug=False):
                 ResetDevices(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
                            debug=debug)
             else:
-                raise Exception("RunLedCommands: Command not known: {0}".format(FileCommand))
+                raise Exception("{0} Command not known: {1}".format(FUNC_NAME, FileCommand))
             Counter += 1
     except Exception as err:
-        raise Exception("RunLedCommands: {0}".format(err))
+        raise Exception("{0}{1}".format(FUNC_NAME, err))
     
 
 def _GetCommandsToRepeat(CommandScriptList, LastItemCount, NrPreviousCommandsToRepeat, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     NewCommandScriptList = CommandScriptList[LastItemCount-NrPreviousCommandsToRepeat:LastItemCount]
     return(NewCommandScriptList)
 

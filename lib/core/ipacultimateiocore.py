@@ -102,31 +102,49 @@ def Initialise_DeviceLists(FreeInterface = True, DeviceUUID = None, debug = Fals
     return(myDeviceList)
 
 def GetDeviceType(DeviceUUID, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return("DEVICE ID {0}:{1} on Bus {2} Address {3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
 
         
 def GetVendorId(DeviceUUID, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(hex(DeviceID.idVendor))
        
        
 def GetProductId(DeviceUUID, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(hex(DeviceID.idProduct))
  
  
 def GetVendorName(DeviceUUID, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(DeviceID.manufacturer)
        
  
 def GetProductName(DeviceUUID, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(DeviceID.product)
        
  
 def GetSerialNumber(DeviceUUID, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(DeviceID.serial_number)
 

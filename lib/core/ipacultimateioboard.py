@@ -100,7 +100,8 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False, debug
 
 
 def _sendMessageToBoard(DeviceID, payload, debug=False):
-    FUNC_NAME="_sendMessageToBoard(): "
+    FUNC_NAME=my_func_name()
+#    if debug: print(FUNC_NAME)
 #    if debug: print(FUNC_NAME)
 # send a message to usb board - it is up to the upstream function to ensure
 #message is in the correct format for the board to action it correctly
@@ -122,7 +123,8 @@ def _sendMessageToBoard(DeviceID, payload, debug=False):
 
 
 def _getUSBInterfaceNumber(DeviceID, debug=False):
-    FUNC_NAME="_getUSBInterfaceNumber(): "
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
 # return the interface index depening if it is the io board in default mode
 # or retrun a different value 
     if _IsValidIpacUltimateDevice(DeviceID, debug=debug):
@@ -140,35 +142,38 @@ def _getUSBInterfaceNumber(DeviceID, debug=False):
 
 
 def _isKernalDriverActive(DeviceID, debug=False):
-    FUNC_NAME="_isKernalDriverActive(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
+
     result=False
     try:
 
         result= DeviceID.is_kernel_driver_active(_getUSBInterfaceNumber(DeviceID))
         if debug: print(FUNC_NAME+"Driver Active is :-" + str(result))
     except usb.core.USBError as e:
-        raise Exception(FUNC_NAME+"Could not check active kernel driver from interface({0}): {1}".format(_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
+        raise Exception("{0}Could not check active kernel driver from interface({1}): {2}".format(FUNC_NAME,_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
 
     return(result)
 
 
 def _detatchKernalDriver(DeviceID, debug=False):
-    FUNC_NAME="_detatchKernalDriver(): "
+    FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
     result=False
     try:
         result = DeviceID.detach_kernel_driver(_getUSBInterfaceNumber(DeviceID)) 
         if debug: print(FUNC_NAME+"detached driver is :-" + str(result))
     except usb.core.USBError as e:
-        raise Exception(FUNC_NAME+"Could not detatch kernel driver from interface({0}): {1}".format(_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
+        raise Exception("{0}Could not detatch kernel driver from interface({1}): {2}".format(FUNC_NAME,_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
 
 
     return(result)
 
 
 
-def _resetDevice(DeviceID):
+def _resetDevice(DeviceID, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
     # 
 # Commented out as this command is not working on the board.    
 #            msg=[0x03,255,0,0,0]

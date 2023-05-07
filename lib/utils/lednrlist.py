@@ -31,6 +31,8 @@
 
 # This module creates a list with all the led numers for each Device in the list - this can then be used for when actions need to be taken against all Leds
 # Get_LED_LIST_ALL returns a list of LedNrs from 1 to 96
+from ..common.common_lib import my_func_name
+
 
 from ..common.globalvar import MAX_LEDS
 
@@ -40,8 +42,9 @@ DEVICE_LED_LIST = {}
 def Initialise_DeviceListLEDList(DeviceIDList=[], debug=False):
     global DEVICE_LED_LIST
 
-    if debug: 
-        print("InitLedNrList(): ")
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
 # CReate the list of LedNr's staring from 1 to 96
     for myDevice in DeviceIDList:
         DEVICE_LED_LIST[myDevice["DeviceUUID"]] = []
@@ -52,7 +55,10 @@ def Initialise_DeviceListLEDList(DeviceIDList=[], debug=False):
             LedNr += 1
 
 
-def Get_DeviceLEDList(DeviceUUID):
+def Get_DeviceLEDList(DeviceUUID, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     return(DEVICE_LED_LIST[DeviceUUID])
 
 
