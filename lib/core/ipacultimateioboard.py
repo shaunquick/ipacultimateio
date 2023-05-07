@@ -34,8 +34,10 @@
 # ultimarc-io LED Board
 # 
 
-from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates 
-from .ipacultimateiodevicelist import Get_DeviceList 
+from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates
+
+
+from .ipacultimateiodevicelist import Get_DeviceList
 
 
 import usb.core
@@ -66,7 +68,6 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False, debug
 # Fade Intensity Level - and alternate intesnity level which is used when the upstream command
 # wishes to mimic a fade pattern
    DeviceIDList = Get_DeviceList(DeviceUUID)
-#   DeviceIDList = []
    for myDevice in DeviceIDList:
         if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
             msg = [4]
@@ -84,6 +85,9 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False, debug
             except Exception as err:
                 raise Exception("_setLedsToIndividualBrightness(): {0}".format(err))
     
+
+
+
 def _sendMessageToBoard(DeviceID, payload, debug=False):
     FUNC_NAME="_sendMessageToBoard(): "
 # send a message to usb board - it is up to the upstream function to ensure
