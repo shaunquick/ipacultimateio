@@ -81,7 +81,7 @@ def SetLedGroupNameListIntensities(DeviceUUID=None, LedGroupNameList=[], Intensi
     for myDevice in _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList,debug):
 
         SetLedNrListIntensities(DeviceUUID=myDevice["DeviceUUID"],  
-                            LedNrList = [], IntensityLevel=IntensityLevel)
+                            LedNrList = [], IntensityLevel=IntensityLevel,debug=debug)
 
 
 def SetLedGroupNameIntensityList(DeviceUUID=None, LedGroupNameIntensityList=[], debug=False):
@@ -93,7 +93,7 @@ def SetLedGroupNameIntensityList(DeviceUUID=None, LedGroupNameIntensityList=[], 
     if not _IsValidLedGroupNameIntensityList(LedGroupNameIntensityList): raise Exception("SetLedGroupNameIntensityList(): LedIntensityList not valid")
     for myDevice in _convertLedGroupNameIntensityListToDevicesLedNrIntensityDict(LedGroupNameIntensityList):
         SetLedNrIntensityList(DeviceUUID=DeviceUUID,  
-                          LedNrIntensityList= [])
+                          LedNrIntensityList= [], debug=debug)
 
 def SetLedGroupNameIntensity(DeviceUUID=None, LedGroupName="", RGBIntensityList=[], debug=False):
     FUNC_NAME=my_func_name()
@@ -155,7 +155,7 @@ def SetLedGroupNameListFadeReverb(DeviceUUID=None, LedGroupNameList=[], FadeIncr
     for myDevice in _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList):
         SetLedNrListFadeReverb(DeviceUUID=DeviceUUID, DeviceIDList=DeviceIDList, 
                            LedNrList = [],
-                           FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime)
+                           FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime, debug=debug)
 
     return()
 

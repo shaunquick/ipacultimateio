@@ -209,6 +209,7 @@ def _convertLedGroupNameToDevicesLedNrDict(LedGroupName, debug=False):
                 break
     for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
         if debug: print(myDeviceGroupName)
+
         pass
     return(DevicesLedNrDict)
 
@@ -224,7 +225,7 @@ def _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList, debug=False):
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
     for LedGroupName in LedGroupNameList:
-        myNewDevicesLedNrDict=_convertLedGroupNameToDevicesLedNrList(LedGroupName)
+        myNewDevicesLedNrDict=_convertLedGroupNameToDevicesLedNrDict(LedGroupName)
         # Now I need to add to mey existing digtaionay
 
     return(DevicesLedNrDict)
