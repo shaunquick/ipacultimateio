@@ -46,13 +46,16 @@ def Initialise_DeviceListLEDList(DeviceIDList=[], debug=False):
     if debug: print(FUNC_NAME)
 
 # CReate the list of LedNr's staring from 1 to 96
-    for myDevice in DeviceIDList:
-        DEVICE_LED_LIST[myDevice["DeviceUUID"]] = []
+    try:
+        for myDevice in DeviceIDList:
+            DEVICE_LED_LIST[myDevice["DeviceUUID"]] = []
 
-        LedNr = 1
-        while LedNr <= MAX_LEDS:
-            DEVICE_LED_LIST[myDevice["DeviceUUID"]].append(LedNr)
-            LedNr += 1
+            LedNr = 1
+            while LedNr <= MAX_LEDS:
+                DEVICE_LED_LIST[myDevice["DeviceUUID"]].append(LedNr)
+                LedNr += 1
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
 
 
 def Get_DeviceLEDList(DeviceUUID, debug=False):

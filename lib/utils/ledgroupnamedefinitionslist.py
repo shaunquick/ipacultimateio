@@ -35,6 +35,7 @@
 
 
 #from dataclasses import dataclass
+from ast import Try
 import json
 from importlib import resources
 
@@ -198,19 +199,23 @@ def _convertLedGroupNameToDevicesLedNrDict(LedGroupName, debug=False):
     if debug: print(FUNC_NAME)
 
 
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-    DevicesLedNrDict = {}
-    LedNrList = []
-    for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-        if "LedGroupName" in LedGroupNameDefinition:
-            if LedGroupNameDefinition["LedGroupName"] == LedGroupName : 
-                for Led in LedGroupNameDefinition["LedNrRGB"]:
-                    LedNrList.append(Led)
-                break
-    for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
-        if debug: print(myDeviceGroupName)
+    try:
+        if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
+        DevicesLedNrDict = {}
+        LedNrList = []
+        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
+            if "LedGroupName" in LedGroupNameDefinition:
+                if LedGroupNameDefinition["LedGroupName"] == LedGroupName : 
+                    for Led in LedGroupNameDefinition["LedNrRGB"]:
+                        LedNrList.append(Led)
+                    break
+        for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
+            if debug: print(myDeviceGroupName)
 
-        pass
+            pass
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
+
     return(DevicesLedNrDict)
 
 
@@ -221,12 +226,15 @@ def _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList, debug=False):
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
 
-    DevicesLedNrDict = {}
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
+    try:
+        DevicesLedNrDict = {}
+        if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
-    for LedGroupName in LedGroupNameList:
-        myNewDevicesLedNrDict=_convertLedGroupNameToDevicesLedNrDict(LedGroupName)
-        # Now I need to add to mey existing digtaionay
+        for LedGroupName in LedGroupNameList:
+            myNewDevicesLedNrDict=_convertLedGroupNameToDevicesLedNrDict(LedGroupName)
+            # Now I need to add to mey existing digtaionay
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
 
     return(DevicesLedNrDict)
 
@@ -236,20 +244,23 @@ def _convertLedGroupNameStateListToDevicesLedStateDict(LedGroupNameStateList, de
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
 
-    DevicesLedStateDict = {}
-    LedStateList = []
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
+    try:
+        DevicesLedStateDict = {}
+        LedStateList = []
+        if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
-    for LedGroupNameState in LedGroupNameStateList:
-        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-            if "LedGroupName" in LedGroupNameDefinition:
-                if LedGroupNameDefinition["LedGroupName"] == LedGroupNameState["LedGroupName"] :
-                    for Led in LedGroupNameDefinition["LedNrRGB"]:
-                        LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
-                    break
+        for LedGroupNameState in LedGroupNameStateList:
+            for LedGroupNameDefinition in GetLedGroupNameDefinitions():
+                if "LedGroupName" in LedGroupNameDefinition:
+                    if LedGroupNameDefinition["LedGroupName"] == LedGroupNameState["LedGroupName"] :
+                        for Led in LedGroupNameDefinition["LedNrRGB"]:
+                            LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
+                        break
 
-    for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
-        pass
+        for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
+            pass
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
 
     return(DevicesLedStateDict)
 
@@ -260,18 +271,21 @@ def _convertLedGroupNameIntensityListToDevicesLedNrIntensityDict(LedGroupNameInt
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
 
-    LedIntensityList = []
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")
+    try:
+        LedIntensityList = []
+        if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")
     
-    for LedGroupNameIntensity in LedGroupNameIntensityList:
-        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-            if "LedGroupName" in LedGroupNameDefinition:
-                if LedGroupNameDefinition["LedGroupName"] == LedGroupNameIntensity["LedGroupName"] :
-                    counter = 0
-                    for Led in LedGroupNameDefinition["LedNrRGB"]:
-                        LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][counter]})
-                        counter += 1
-                    break
+        for LedGroupNameIntensity in LedGroupNameIntensityList:
+            for LedGroupNameDefinition in GetLedGroupNameDefinitions():
+                if "LedGroupName" in LedGroupNameDefinition:
+                    if LedGroupNameDefinition["LedGroupName"] == LedGroupNameIntensity["LedGroupName"] :
+                        counter = 0
+                        for Led in LedGroupNameDefinition["LedNrRGB"]:
+                            LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][counter]})
+                            counter += 1
+                        break
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
         
     return(LedIntensityList)
 

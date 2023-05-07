@@ -37,6 +37,7 @@
 # THere is no check that this happends so you could if you really
 # wanted to is to sleect multple led nrs and string them into a list
 
+from ast import Try
 from ..common.common_lib import my_func_name
 
 from ..common.validations import _IsValidRGBIntensityList
@@ -68,20 +69,24 @@ def Initialise_LedGroupNameList(LEDGroupNameDefinitionsList, debug=False):
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
 
-    global LED_GROUP_NAMES_LIST
-    LED_GROUP_NAMES_LIST = []
-    for LEDGroupNameDefinition in LEDGroupNameDefinitionsList:
-        if ("LedGroupName" in LEDGroupNameDefinition):
-            if LEDGroupNameDefinition["LedGroupName"] not in LED_GROUP_NAMES_LIST:
-                # if debug: print("Added GroupName" + str(LEDGroupNameDefinition["LedGroupName"]))
-                LED_GROUP_NAMES_LIST.append(LEDGroupNameDefinition["LedGroupName"])
-            else:
-                # if debug: print("Exception Add GroupName: " + str(LEDGroupNameDefinition["LedGroupName"]))
-                raise Exception("{0} Groupname replicated in LedGroupNamesDefinition.json".format(FUNC_NAME))
-                return()
-#    if debug: 
-#        print("InitLEDGroupNamesList(): List of LED Group names is")
-#        print(LED_GROUP_NAMES_LIST)
+    try:
+        global LED_GROUP_NAMES_LIST
+        LED_GROUP_NAMES_LIST = []
+        for LEDGroupNameDefinition in LEDGroupNameDefinitionsList:
+            if ("LedGroupName" in LEDGroupNameDefinition):
+                if LEDGroupNameDefinition["LedGroupName"] not in LED_GROUP_NAMES_LIST:
+                    # if debug: print("Added GroupName" + str(LEDGroupNameDefinition["LedGroupName"]))
+                    LED_GROUP_NAMES_LIST.append(LEDGroupNameDefinition["LedGroupName"])
+                else:
+                    # if debug: print("Exception Add GroupName: " + str(LEDGroupNameDefinition["LedGroupName"]))
+                    raise Exception("{0} Groupname replicated in LedGroupNamesDefinition.json".format(FUNC_NAME))
+                    return()
+    #    if debug: 
+    #        print("InitLEDGroupNamesList(): List of LED Group names is")
+    #        print(LED_GROUP_NAMES_LIST)
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
+
 
 def Get_LedGroupNamesList(debug=False):
     FUNC_NAME=my_func_name()
@@ -121,16 +126,19 @@ def _IsValidLedGroupNameIntensityList(LedGroupNameIntensityList, debug=False):
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
 
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
+    try:
+        if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
 
-    if (type(LedGroupNameIntensityList) is not list): raise Exception("LedGroupNameIntensityList is not a list")
-    if len(LedGroupNameIntensityList) > MAX_LEDS: raise Exception("LedGroupNameIntensityList is > 96 Leds")
-    for LedGroupNameIntensity in LedGroupNameIntensityList:
-        try:
-            _IsValidLedGroupName(LedGroupNameIntensity['LedGroupName'])
-            _IsValidRGBIntensityList(LedGroupNameIntensity['RGBIntensity'])
-        except Exception as err:
-            raise Exception("{0}:{1} {2}".format(FUNC_NAME, LedGroupNameIntensity, err))        
+        if (type(LedGroupNameIntensityList) is not list): raise Exception("LedGroupNameIntensityList is not a list")
+        if len(LedGroupNameIntensityList) > MAX_LEDS: raise Exception("LedGroupNameIntensityList is > 96 Leds")
+        for LedGroupNameIntensity in LedGroupNameIntensityList:
+            try:
+                _IsValidLedGroupName(LedGroupNameIntensity['LedGroupName'])
+                _IsValidRGBIntensityList(LedGroupNameIntensity['RGBIntensity'])
+            except Exception as err:
+                raise Exception("{0}:{1} {2}".format(FUNC_NAME, LedGroupNameIntensity, err))        
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
             
     return(True)
 
