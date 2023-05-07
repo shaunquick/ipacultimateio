@@ -53,8 +53,8 @@ LED_CURRENT_STATES = {}
 def Initialise_DeviceListLEDCurrentStates(DeviceIDList=[], debug=False):
 # Create the list of LedNr's staring from 1 to 96
     global LED_CURRENT_STATES
-
-    if debug: print("InitLedStatus(): ")
+    FUNC_NAME="Initialise_DeviceListLEDCurrentStates(): "
+    if debug: print(FUNC_NAME)
 
     LED_CURRENT_STATES={}
 
@@ -91,9 +91,10 @@ def Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceUUID,LedNr,IntensityLevel)
     else:
         raise Exception("Set_DeviceLEDCurrentStates_LedFadeIntensity(): State not valid")
 
-def Set_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr,State):
+def Set_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr,State,debug):
     global LED_CURRENT_STATES
-    
+    FUNC_NAME="Set_DeviceLEDCurrentStates_LedState(): "
+    if debug: print(FUNC_NAME)
     # Set the state in the list to the value passed in
     if _IsValidState(State):
         if _IsValidLedNr(LedNr):

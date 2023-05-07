@@ -37,8 +37,13 @@
 #from dataclasses import dataclass
 import json
 from importlib import resources
-#from pickle import NONE
-#from types import NoneType
+
+from ..common.common_lib import my_func_name
+
+
+from ..core.ipacultimateiodevicelist import  Get_DeviceList
+
+
 
 from ..common.globalvar import MAX_LEDS
 
@@ -47,12 +52,18 @@ LedGroupDefinitionsFileFound = True
 DEVICE_LED_GROUP_DEFINITIONS = {}
 
 
-def InitLedGroupNameDefinitionsList(DeviceIDList=[], debug=False):
+def InitLedGroupNameDefinitionsList(debug=False):
 # Load the definitions file, validate it and keep the list in memory for later use
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     global LED_GROUP_DEFINITIONS
     global LedGroupDefinitionsFileFound
     global DEVICE_LED_GROUP_DEFINITIONS
-
+# DEVICE_LED_GROUP_DEFINITIONS = {'53769:1040:1:3': [{'LedGroupName': 'p1b1', 'LedNrRGB': [16, 17, 18]}, 
+#                                                    {'LedGroupName': 'p1b4', 'LedNrRGB': [19, 20, 21]}],
+#                                  '53769:1040:1:4': [{'LedGroupName': 'p1b1', 'LedNrRGB': [16, 17, 18]}, 
+#                                                    {'LedGroupName': 'p1b4', 'LedNrRGB': [19, 20, 21]}]                  }
 
     try :
 #    with open("LedGroupNameDefinitions.json", "r") as read_file:
@@ -62,7 +73,7 @@ def InitLedGroupNameDefinitionsList(DeviceIDList=[], debug=False):
 # the LedGroupNameDefinitions.json is not found - the flag is set to False which will be used IF the input script tries to use a 'LedGroupName' coommand
         LedGroupDefinitionsFileFound = False
     except Exception as err:
-        raise Exception("InitLedGroupNameDefinitionsList {0}".format(err))
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
 
     if  LedGroupDefinitionsFileFound:
         LED_GROUP_DEFINITIONS = json.loads(filecontent)
@@ -70,13 +81,12 @@ def InitLedGroupNameDefinitionsList(DeviceIDList=[], debug=False):
             _isValidLedGroupNameDefinitions(LED_GROUP_DEFINITIONS)
             # so we know that the file is good - we now need to create the multiple devices with their LedGroupNames
             # especially when the device is not specified
+            DeviceIDList=Get_DeviceList()
             for myDevice in DeviceIDList:
                 DEVICE_LED_GROUP_DEFINITIONS[myDevice["DeviceUUID"]] = []
                 for LedGroupDefinition in LED_GROUP_DEFINITIONS:
-                    pass
-                    if debug:
-                        pass
-                        #if debug: print(LedGroupDefinition)
+                    print("We are here")
+                    if debug: print("MAde it")
                     if LedGroupDefinition.get("DeviceUUID") != None:
                         if LedGroupDefinition["DeviceUUID"] == myDevice["DeviceUUID"]:
                             #if debug: print("the device is matched add to current device")
@@ -102,7 +112,7 @@ def InitLedGroupNameDefinitionsList(DeviceIDList=[], debug=False):
                         if len(myVals) > 0 :
                             DEVICE_LED_GROUP_DEFINITIONS[myDevice["DeviceUUID"]].append(myVals)
         except Exception as err:
-            raise Exception("InitLedGroupNameDefinitionsList(): LedGroupNameDefinitions.json not in expected format: {0}".format(err))
+            raise Exception("{0}LedGroupNameDefinitions.json not in expected format: {1}".format(FUNC_NAME, err))
         if debug:
            print("\n\n\n\nDEVICE_LED_GROUP_DEFINITIONS")
            print(DEVICE_LED_GROUP_DEFINITIONS)
@@ -111,21 +121,35 @@ def InitLedGroupNameDefinitionsList(DeviceIDList=[], debug=False):
 
     return(LED_GROUP_DEFINITIONS)
 
-def IsLedGroupNameDefinitionsFileFound():
+def IsLedGroupNameDefinitionsFileFound(debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     global LedGroupDefinitionsFileFound
     return(LedGroupDefinitionsFileFound)
 
-def GetLedGroupNameDefinitions():
+def GetLedGroupNameDefinitions(debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
     global LED_GROUP_DEFINITIONS
     return(LED_GROUP_DEFINITIONS)
 
-def GetDeviceLedGroupNameDefinitions(DeviceUUID):
-    global LED_GROUP_DEFINITIONS
-    return(LED_GROUP_DEFINITIONS[DeviceUUID])
+def GetDeviceLedGroupNameDefinitions(DeviceUUID=None, debug=False):
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
+    global DEVICE_LED_GROUP_DEFINITIONS
+    if DeviceUUID == None:
+        return(DEVICE_LED_GROUP_DEFINITIONS)
+    else:
+        return(DEVICE_LED_GROUP_DEFINITIONS[DeviceUUID])
 
 
-def _isValidLedGroupNameDefinition(LedGroupNameDefinition):
+def _isValidLedGroupNameDefinition(LedGroupNameDefinition, debug=False):
 # validate the  definition    
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     if not LedGroupDefinitionsFileFound : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
     if "LedGroupName" in LedGroupNameDefinition:
@@ -142,8 +166,11 @@ def _isValidLedGroupNameDefinition(LedGroupNameDefinition):
             
     return (True)
 
-def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions):
+def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions, debug=False):
 # validate the  definitions file content 
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     if not LedGroupDefinitionsFileFound : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")
     
     if type(LedGroupNameDefinitions) is not list: raise Exception("LedGroupNameDefinitions is not a list")
@@ -156,9 +183,25 @@ def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions):
 
 
 
-def _convertLedGroupNameToLedNrList(LedGroupName):
+
+def _convertLedGroupNameToDevicesLedNrDict(LedGroupName, debug=False):
+# DevicesLedNrDict={    "0:0:0:0" : [1,2,3]
+#                       "0:0:0:1" : [1,2,3] }
+# 
+# DEVICE_LED_GROUP_DEFINITIONS = {'53769:1040:1:3': [{'LedGroupName': 'p1b1', 'LedNrRGB': [16, 17, 18]}, 
+#                                                    {'LedGroupName': 'p1b4', 'LedNrRGB': [19, 20, 21]}],
+#                                  '53769:1040:1:4': [{'LedGroupName': 'p1b1', 'LedNrRGB': [16, 17, 18]}, 
+#                                                    {'LedGroupName': 'p1b4', 'LedNrRGB': [19, 20, 21]}]
+
+
+
 # translate the LedGroupName to its corresponding LedNrs.
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
+
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
+    DevicesLedNrDict = {}
     LedNrList = []
     for LedGroupNameDefinition in GetLedGroupNameDefinitions():
         if "LedGroupName" in LedGroupNameDefinition:
@@ -166,19 +209,35 @@ def _convertLedGroupNameToLedNrList(LedGroupName):
                 for Led in LedGroupNameDefinition["LedNrRGB"]:
                     LedNrList.append(Led)
                 break
-    return(LedNrList)
+    for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
+        if debug: print(myDeviceGroupName)
+        pass
+    return(DevicesLedNrDict)
 
-def _convertLedGroupNameListToLedNrList(LedGroupNameList):
-# translate the LedGroupNameList to its corresponding LedNrs.
-    LedNrList= []
+
+def _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList, debug=False):
+# DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", "LedNrList" : [1,2,3] },{}]
+# We can then reference the values as DeviceLedNr["DevicUUID"] and DeviceLedNr["LedNrList"]
+# # translate the LedGroupNameList to its corresponding Devices and LedNrs.
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
+    DevicesLedNrDict = {}
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
     for LedGroupName in LedGroupNameList:
-        LedNrList.extend(_convertLedGroupNameToLedNrList(LedGroupName))
-    return(LedNrList)
+        myNewDevicesLedNrDict=_convertLedGroupNameToDevicesLedNrList(LedGroupName)
+        # Now I need to add to mey existing digtaionay
 
-def _convertLedGroupNameStateListToLedStateList(LedGroupNameStateList):
+    return(DevicesLedNrDict)
+
+#def _convertLedGroupNameStateListToDevicesLedStateDict(LedGroupNameStateList):
+def _convertLedGroupNameStateListToDevicesLedStateDict(LedGroupNameStateList, debug=False):
 # translate the LedGroupNameStateList to its corresponding LedNrStateList.
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
+    DevicesLedStateDict = {}
     LedStateList = []
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
@@ -189,11 +248,19 @@ def _convertLedGroupNameStateListToLedStateList(LedGroupNameStateList):
                     for Led in LedGroupNameDefinition["LedNrRGB"]:
                         LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
                     break
-    return(LedStateList)
+
+    for myDeviceGroupName in GetDeviceLedGroupNameDefinitions():
+        pass
+
+    return(DevicesLedStateDict)
 
 
-def _convertLedGroupNameIntensityListToLedNrIntensityList(LedGroupNameIntensityList):
+#def _convertLedGroupNameIntensityListToDevicesLedNrIntensityDict(LedGroupNameIntensityList):
+def _convertLedGroupNameIntensityListToDevicesLedNrIntensityDict(LedGroupNameIntensityList, debug=False):
 # translate the LedGroupNameIntensityList to its corresponding LedNrIntensityList.
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
     LedIntensityList = []
     if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")
     

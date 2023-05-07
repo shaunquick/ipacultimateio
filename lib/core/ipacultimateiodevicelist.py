@@ -38,6 +38,7 @@ import usb.core
 import usb.util
 import usb.control
 
+from ..common.common_lib import my_func_name
 
 #from ..utils.lednrlist import Initialise_DeviceListLEDList
 
@@ -48,14 +49,12 @@ import usb.control
 #from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates
 #from ..utils.ledcurrentstateslist import Initialise_DeviceListLEDCurrentStates
 
-from .ipacultimateioboard import _IsValidIpacUltimateDevice
+from .ipacultimateiovalidations import _IsValidIpacUltimateDevice
 #from .ipacultimateioboard import _resetDevice
 #from .ipacultimateioboard import _setLEDsToIndividualBrightness
 #from .ipacultimateioboard import _getUSBInterfaceNumber
 #from .ipacultimateioboard import _isKernalDriverActive
 #from .ipacultimateioboard import _detatchKernalDriver
-
-from .ipacultimateioboard import  _getDeviceUUID
 
 #from .setledall import SetAllLedIntensities
 
@@ -71,6 +70,9 @@ def Initialise_DeviceList(DeviceUUID = None, debug = False, xinput_flag=False):
        print(FUNC_NAME)
 
     global DEVICE_LIST
+
+
+
 
     FoundDeviceIDs = usb.core.find(find_all=True)
     for DeviceID in FoundDeviceIDs:
@@ -97,6 +99,17 @@ def Get_DeviceList(DeviceUUID=None, debug=False):
     if DeviceUUID == None:
         return(DEVICE_LIST)
     else:
-        if debug: print([DEVICE_LIST[DeviceUUID]])
-        return([DEVICE_LIST[DeviceUUID]])
+        NEW_DEVICE_LIST = []
+        for myDevice in DEVICE_LIST:
+ #           if debug: print("myDevice")
+ #           if debug: print(myDevice)
+ #           if debug: print("myDevice[DeviceUUID]")
+ #           if debug: print(myDevice["DeviceUUID"])
+            if DeviceUUID == myDevice["DeviceUUID"]:
+                NEW_DEVICE_LIST.append(myDevice)
+        if debug: print(NEW_DEVICE_LIST)
+        return(NEW_DEVICE_LIST)
 
+
+def _getDeviceUUID(DeviceID):
+    return("{0}:{1}:{2}:{3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))

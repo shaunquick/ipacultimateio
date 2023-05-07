@@ -35,9 +35,11 @@
 # 
 
 from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates
-
+from ..common.common_lib import my_func_name
 
 from .ipacultimateiodevicelist import Get_DeviceList
+
+from .ipacultimateiovalidations import _IsValidIpacUltimateDevice
 
 
 import usb.core
@@ -49,12 +51,8 @@ USB_BM_REQUESTTYPE_SET_CONFIGURATION = 0x21  # decimal = 33,  binary = 00100001
 USB_B_REQUEST_SET_CONFIGURATION = 9          # hex = 8,       binary = 00001000
 USB_W_VALUE = 0x0203                         # decimal = 515, binary = 0000001000000011
 
-UM_VENDOR_ID_LIST = [ 0xD209 ] # There should only be one Vendor - but there may be an issue when setup as XInput
-UM_PRODUCT_ID_LIST = [ 0x0410, 0x0411, 0x0412, 0x0413 ]
 USB_INTERFACE_INDEX = 2      # The USB has an array of interfaces - set the interface to the correct interface endpoint
 
-UM_XINPUT_VENDOR_ID_LIST = [ 0X045e ]
-UM_XINPUT_PRODUCT_ID_LIST =[ 0X028e ]
 USB_XINPUT_INTERFACE_INDEX = 1      # The USB has an array of interfaces - set the interface to the correct interface endpoint
 
 
@@ -67,68 +65,78 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False, debug
 #                  for fade values to be used instaed
 # Fade Intensity Level - and alternate intesnity level which is used when the upstream command
 # wishes to mimic a fade pattern
-   DeviceIDList = Get_DeviceList(DeviceUUID)
-   for myDevice in DeviceIDList:
-        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
-            msg = [4]
-            for LEDCurrent in Get_DeviceLEDCurrentStates(myDevice["DeviceUUID"]):
-                if LEDCurrent['State']:
-                    if UseFadeValues:
-                        Intensity = LEDCurrent['LedFadeIntensity']
+
+    FUNC_NAME=my_func_name()
+    if debug: print(FUNC_NAME)
+
+
+    try:
+#        if debug: print("retriving Device IDs with id of ")
+#        if debug: print(DeviceUUID)
+#        if debug: print("End of DeviceUUID")
+        DeviceIDList = Get_DeviceList(DeviceUUID, debug)
+#        if debug: print("retrived Device IDs")
+        for myDevice in DeviceIDList:
+            if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+                msg = [4]
+#                if debug: print("myDevice")
+#                if debug: print(myDevice)
+#                if debug: print("EndmyDevice")
+                for LEDCurrent in Get_DeviceLEDCurrentStates(myDevice["DeviceUUID"]):
+#                    if debug: print(LEDCurrent)
+                    if LEDCurrent['State']:
+                        if UseFadeValues:
+                            Intensity = LEDCurrent['LedFadeIntensity']
+                        else:
+                            Intensity = LEDCurrent['LedIntensity']
+                        msg.append(Intensity)
                     else:
-                        Intensity = LEDCurrent['LedIntensity']
-                    msg.append(Intensity)
-                else:
-                    msg.append(0)    
-            try:
-                _sendMessageToBoard(myDevice["DeviceID"], msg, debug=debug)
-            except Exception as err:
-                raise Exception("_setLedsToIndividualBrightness(): {0}".format(err))
+                        msg.append(0)    
+                    _sendMessageToBoard(myDevice["DeviceID"], msg, debug=debug)
     
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
 
 
 
 def _sendMessageToBoard(DeviceID, payload, debug=False):
     FUNC_NAME="_sendMessageToBoard(): "
+#    if debug: print(FUNC_NAME)
 # send a message to usb board - it is up to the upstream function to ensure
 #message is in the correct format for the board to action it correctly
-    if _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
-        try:
+    try:
+        if _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
             if debug: 
                 pass
 #                print(FUNC_NAME+"USB interface Nr:- " + str(_getUSBInterfaceNumber(DeviceID)))
 #                print(FUNC_NAME+"Payload is :-")
 #                print(payload)
             DeviceID.ctrl_transfer(USB_BM_REQUESTTYPE_SET_CONFIGURATION, USB_B_REQUEST_SET_CONFIGURATION, USB_W_VALUE,
-                              _getUSBInterfaceNumber(DeviceID), payload)
-        except Exception as err:
-            raise Exception("_sendMessageToBoard(): {0}".format(err))
-    else:
-        raise Exception("_sendMessageToBoard(): DeviceID not valid")
+                                _getUSBInterfaceNumber(DeviceID), payload)
+        else:
+            raise Exception("{0}{1}".format(FUNC_NAME,"DeviceID not valid"))
+
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
+
+
 
 def _getUSBInterfaceNumber(DeviceID, debug=False):
     FUNC_NAME="_getUSBInterfaceNumber(): "
 # return the interface index depening if it is the io board in default mode
 # or retrun a different value 
     if _IsValidIpacUltimateDevice(DeviceID, debug=debug):
-        if debug: print(FUNC_NAME+"Index=" + str(USB_INTERFACE_INDEX))
+#        if debug: print(FUNC_NAME+"Index=" + str(USB_INTERFACE_INDEX))
         return(USB_INTERFACE_INDEX)
     elif _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True, debug=debug):
-        if debug: print(FUNC_NAME+"Index=" + str(USB_XINPUT_INTERFACE_INDEX))
+#        if debug: print(FUNC_NAME+"Index=" + str(USB_XINPUT_INTERFACE_INDEX))
         return(USB_XINPUT_INTERFACE_INDEX)
     else:
-        if debug: print(FUNC_NAME+"Exception")
+#        if debug: print(FUNC_NAME+"Exception")
         raise Exception("GetUSBInterfaceNumber(): DeviceID not valid")
 
 
-def _IsValidIpacUltimateDevice(DeviceID, debug=False, xinput_flag=False):
-# Verify the board is an iPAC Ultimate IO
-    if (DeviceID != None and DeviceID.idProduct in UM_PRODUCT_ID_LIST and DeviceID.idVendor in UM_VENDOR_ID_LIST ):
-        return (True)
-    elif xinput_flag and DeviceID.idProduct in UM_XINPUT_PRODUCT_ID_LIST and DeviceID.idVendor in UM_XINPUT_VENDOR_ID_LIST:
-        return (True)
-    else:
-        return(False)
+
 
 
 def _isKernalDriverActive(DeviceID, debug=False):
@@ -158,8 +166,7 @@ def _detatchKernalDriver(DeviceID, debug=False):
 
     return(result)
 
-def _getDeviceUUID(DeviceID):
-    return("{0}:{1}:{2}:{3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
+
 
 def _resetDevice(DeviceID):
     # 

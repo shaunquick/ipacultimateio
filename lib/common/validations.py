@@ -31,7 +31,7 @@
 
 # This module has all of the common validations used across multiple
 # modules
-
+from .common_lib import my_func_name
 
 from .globalvar import MAX_INTENSITY_LEVEL
 from .globalvar import MAX_LEDS

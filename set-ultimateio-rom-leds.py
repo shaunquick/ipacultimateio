@@ -49,7 +49,7 @@ import json
 from importlib import  resources
 from os import path
 
-from lib.core.ipacultimateiocore import Initialise_DeviceList
+from lib.core.ipacultimateiocore import Initialise_DeviceLists
 from lib.utils.commandscript import RunCommandsFromFile
 
 from lib.utils.help import help_romleds
@@ -110,7 +110,7 @@ def main ():
         ScriptName = GetScriptName(myScript)
         print(ScriptName)
         # - 
-        DeviceIDList = Initialise_DeviceList(DeviceUUID=DeviceUUID, debug=debug, xinput_flag=xinput_flag)
+        DeviceIDList = Initialise_DeviceLists(DeviceUUID=DeviceUUID, debug=debug, xinput_flag=xinput_flag)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
         elif list_devices:
@@ -120,7 +120,7 @@ def main ():
                 for DeviceID in DeviceIDList:
                    print(DeviceID["DeviceID"])
         else:
-            RunCommandsFromFile(DeviceIDList, ScriptName, debug=debug)
+            RunCommandsFromFile(ScriptName, debug=debug)
 
 
     except Exception as err:
