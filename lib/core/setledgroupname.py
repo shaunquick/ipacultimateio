@@ -75,10 +75,10 @@ def SetLedGroupNameListIntensities(DeviceUUID=None, LedGroupNameList=[], Intensi
 
     if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedGroupNameListIntensities(): LedGroupNameList not valid")
     
-    for myDevice in _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList):
+    for myDevice in _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList,debug):
 
         SetLedNrListIntensities(DeviceUUID=myDevice["DeviceUUID"],  
-                            LedNrList = _convertLedGroupNameListToDevicesLedNrDict(LedGroupNameList), IntensityLevel=IntensityLevel)
+                            LedNrList = [], IntensityLevel=IntensityLevel)
 
 
 def SetLedGroupNameIntensityList(DeviceUUID=None, LedGroupNameIntensityList=[], debug=False):
@@ -87,7 +87,7 @@ def SetLedGroupNameIntensityList(DeviceUUID=None, LedGroupNameIntensityList=[], 
     if not _IsValidLedGroupNameIntensityList(LedGroupNameIntensityList): raise Exception("SetLedGroupNameIntensityList(): LedIntensityList not valid")
     for myDevice in _convertLedGroupNameIntensityListToDevicesLedNrIntensityDict(LedGroupNameIntensityList):
         SetLedNrIntensityList(DeviceUUID=DeviceUUID,  
-                          LedNrIntensityList= 1)
+                          LedNrIntensityList= [])
 
 def SetLedGroupNameIntensity(DeviceUUID=None, LedGroupName="", RGBIntensityList=[], debug=False):
 #  Set a secific group to their specific brightness
@@ -99,7 +99,7 @@ def SetLedGroupNameIntensity(DeviceUUID=None, LedGroupName="", RGBIntensityList=
 
                         
     for myDevice in     _convertLedGroupNameToDevicesLedNrDict(LedGroupName):
-        LedsList=[]
+        LedsList=[1,2,3]
         SetLedNrIntensity(DeviceUUID=DeviceUUID, LedNr=LedsList[0] , IntensityLevel=RGBIntensityList[0])
         SetLedNrIntensity(DeviceUUID=DeviceUUID, LedNr=LedsList[1] , IntensityLevel=RGBIntensityList[1])
         SetLedNrIntensity(DeviceUUID=DeviceUUID, LedNr=LedsList[2] , IntensityLevel=RGBIntensityList[2])
