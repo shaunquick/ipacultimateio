@@ -35,6 +35,8 @@
 # 
 
 from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates 
+from .ipacultimateiodevicelist import Get_DeviceList 
+
 
 import usb.core
 import usb.util
@@ -54,7 +56,7 @@ UM_XINPUT_PRODUCT_ID_LIST =[ 0X028e ]
 USB_XINPUT_INTERFACE_INDEX = 1      # The USB has an array of interfaces - set the interface to the correct interface endpoint
 
 
-def _setLEDsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValues = False, debug=False):
+def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False, debug=False):
 # Use the LED States that are stored in a list and set the intensity level based on the
 # list data
 # the list holds 3 values for each LED
@@ -63,6 +65,8 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, DeviceIDList=[], UseFadeValu
 #                  for fade values to be used instaed
 # Fade Intensity Level - and alternate intesnity level which is used when the upstream command
 # wishes to mimic a fade pattern
+   DeviceIDList = Get_DeviceList(DeviceUUID)
+#   DeviceIDList = []
    for myDevice in DeviceIDList:
         if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
             msg = [4]

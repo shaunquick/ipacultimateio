@@ -42,7 +42,7 @@ from ..common.validations import _IsValidState
 
 from .ledgroupnamedefinitionslist import IsLedGroupNameDefinitionsFileFound
 from .ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
-from .ledgroupnamedefinitionslist import GetLedGroupNameDefinitions
+#from .ledgroupnamedefinitionslist import GetLedGroupNameDefinitions
 
 from ..common.globalvar import MAX_LEDS
 
@@ -130,58 +130,6 @@ def _IsValidLedGroupNameStateList(LedGroupNameStateList):
         
     return(True)
 
-def _convertLedGroupNameToLedNrList(LedGroupName):
-# translate the LedGroupName to its corresponding LedNrs.
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-    LedNrList = []
-    for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-        if "LedGroupName" in LedGroupNameDefinition:
-            if LedGroupNameDefinition["LedGroupName"] == LedGroupName : 
-                for Led in LedGroupNameDefinition["LedNrRGB"]:
-                    LedNrList.append(Led)
-                break
-    return(LedNrList)
-
-def _convertLedGroupNameListToLedNrList(LedGroupNameList):
-# translate the LedGroupNameList to its corresponding LedNrs.
-    LedNrList= []
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-    
-    for LedGroupName in LedGroupNameList:
-        LedNrList.extend(_convertLedGroupNameToLedNrList(LedGroupName))
-    return(LedNrList)
-
-def _convertLedGroupNameStateListToLedStateList(LedGroupNameStateList):
-# translate the LedGroupNameStateList to its corresponding LedNrStateList.
-    LedStateList = []
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-    
-    for LedGroupNameState in LedGroupNameStateList:
-        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-            if "LedGroupName" in LedGroupNameDefinition:
-                if LedGroupNameDefinition["LedGroupName"] == LedGroupNameState["LedGroupName"] :
-                    for Led in LedGroupNameDefinition["LedNrRGB"]:
-                        LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
-                    break
-    return(LedStateList)
-
-
-def _convertLedGroupNameIntensityListToLedNrIntensityList(LedGroupNameIntensityList):
-# translate the LedGroupNameIntensityList to its corresponding LedNrIntensityList.
-    LedIntensityList = []
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")
-    
-    for LedGroupNameIntensity in LedGroupNameIntensityList:
-        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-            if "LedGroupName" in LedGroupNameDefinition:
-                if LedGroupNameDefinition["LedGroupName"] == LedGroupNameIntensity["LedGroupName"] :
-                    counter = 0
-                    for Led in LedGroupNameDefinition["LedNrRGB"]:
-                        LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][counter]})
-                        counter += 1
-                    break
-        
-    return(LedIntensityList)
 
 
 if __name__ == '__main__':
