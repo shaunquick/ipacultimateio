@@ -183,7 +183,7 @@ def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions, debug=False):
 
 
 
-def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False) -> list:
+def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False):
 
 #    DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", LedNrList :[1,2,3]},
 #                       {"DeviceUUID":"0:0:0:1", LedNrList :[1,2,3]},
@@ -245,7 +245,8 @@ def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, deb
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
         DevicesLedNrList =[]
         for LedGroupName in LedGroupNameList:
-            DevicesLedNrList.append(_convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=debug))
+            for DeviceLedNrList in _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=debug):
+                DevicesLedNrList.append(DeviceLedNrList)
             # Now I need to add to mey existing digtaionay
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -257,6 +258,13 @@ def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, deb
 
 def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameStateList, debug=False):
 # translate the LedGroupNameStateList to its corresponding LedNrStateList.
+#			"LedGroupNameStateList": [{"LedGroupName": "p1b1", "State": true},
+#				{"LedGroupName": "p1b2","State": false}
+#			]
+
+
+
+
 # DevicesLedStateList=[{ "DeviceUUID":"0:0:0:0", "LedStateList": [ { "LedNr": "1", "State": True},  { "LedNr": "2", "State": True}],
 #                    { "DeviceUUID":"0:0:0:2", "LedStateList": [ "LedNr": "3", "State": True}, { "LedNr": "1", "State": True}],
 #                    { "DeviceUUID":"0:0:0:0", "LedStateList": [ "LedNr": "5", "State": True}, { "LedNr": "1", "State": True}],
@@ -283,12 +291,13 @@ def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameS
             if (DeviceUUID == None) or (DeviceUUID == myDeviceUUID): 
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
-                    if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
-                        DevicesLedStateList.append({"DeviceUUID" : myDeviceUUID, "LedStateList" : LedStateList })
+                    for LedGroupNameState in LedGroupNameStateList:
+                        if myDeviceLedGroupName['LedGroupName'] == LedGroupNameState["LedGroupName"]:
+                            DevicesLedStateList.append({"DeviceUUID" : myDeviceUUID, "LedStateList" : LedStateList })
 
-                        break
-                    if debug: 
-                        pass
+                            break
+                        if debug: 
+                            pass
 
         if debug: print(DevicesLedStateList)
 
@@ -329,11 +338,16 @@ def _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, Led
             if (DeviceUUID == None) or (DeviceUUID == myDeviceUUID): 
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
-                    if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
-                        DevicesLedIntensityList.append({"DeviceUUID" : myDeviceUUID, "LedIntensityList" : LedIntensityList})
-                        break
-                if debug: 
-                    pass
+
+                    for LedGroupNameIntensity in LedGroupNameIntensityList:
+                        if myDeviceLedGroupName['LedGroupName'] == LedGroupNameIntensity["LedGroupName"]:
+
+
+                            if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
+                                DevicesLedIntensityList.append({"DeviceUUID" : myDeviceUUID, "LedIntensityList" : LedIntensityList})
+                                break
+                        if debug: 
+                            pass
         if debug: print(DevicesLedIntensityList)
 
                     
