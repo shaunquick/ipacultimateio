@@ -120,6 +120,7 @@ def _sendMessageToBoard(DeviceID, payload, debug=False):
     except Exception as err:
 #        raise Exception("{0}{1}".format(FUNC_NAME,err))
         print("{0} : Exception IGNORED : {1}".format(FUNC_NAME,err))
+        print("{0} : DeviceID : {1}:{2}:{3}:{4}".format(FUNC_NAME,DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
 
 
 

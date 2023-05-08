@@ -221,14 +221,14 @@ def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False
                         break
                 if debug: 
                     pass
-                print(myDeviceUUID)
-                print(myDeviceLedGroupNames)
+                if debug: print(myDeviceUUID)
+                if debug: print(myDeviceLedGroupNames)
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
-    print("{0} Dictionary is".format(FUNC_NAME))
-    print(DevicesLedNrList)
-    return(DevicesLedNrList123)
+    if debug: print("{0} Dictionary is".format(FUNC_NAME))
+    if debug: print(DevicesLedNrList)
+    return(DevicesLedNrList)
 
 
 def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug=False) -> list:
@@ -249,10 +249,10 @@ def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, deb
             # Now I need to add to mey existing digtaionay
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
-    print("DevicesLedNrList")
-    print(DevicesLedNrList)
+    if debug: print("DevicesLedNrList")
+    if debug: print(DevicesLedNrList)
 
-    return(DevicesLedNrList123)
+    return(DevicesLedNrList)
 
 
 def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameStateList, debug=False):
@@ -290,12 +290,12 @@ def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameS
                     if debug: 
                         pass
 
-                    print(DevicesLedStateList)
+        if debug: print(DevicesLedStateList)
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
-    return(DevicesLedStateList123)
+    return(DevicesLedStateList)
 
 
 def _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, LedGroupNameIntensityList, debug=False):
@@ -334,13 +334,13 @@ def _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, Led
                         break
                 if debug: 
                     pass
-                print(DevicesLedIntensityList)
+        if debug: print(DevicesLedIntensityList)
 
                     
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
         
-    return(DevicesLedIntensityList123)
+    return(DevicesLedIntensityList)
 
 
 
