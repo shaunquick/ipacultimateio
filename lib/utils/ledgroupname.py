@@ -45,7 +45,6 @@ from ..common.validations import _IsValidState
 
 from .ledgroupnamedefinitionslist import IsLedGroupNameDefinitionsFileFound
 from .ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
-#from .ledgroupnamedefinitionslist import GetLedGroupNameDefinitions
 
 from ..common.globalvar import MAX_LEDS
 

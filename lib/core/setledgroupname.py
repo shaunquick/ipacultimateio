@@ -39,10 +39,10 @@
 from ast import Try
 from ..common.common_lib import my_func_name
 
-from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameIntensityListToDevicesLedNrIntensityDict
+from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameIntensityListToDevicesLedNrIntensityList
 from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameListToDevicesLedNrList
-from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameToDevicesLedNrDict
-from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameStateListToDevicesLedStateDict 
+from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameToDevicesLedNrList
+from ..utils.ledgroupnamedefinitionslist import _convertLedGroupNameStateListToDevicesLedStateList 
 
 from ..utils.ledgroupname import _IsValidLedGroupName
 from ..utils.ledgroupname import _IsValidLedGroupNameList 
@@ -68,7 +68,7 @@ from .setlednr import SetLedNrListFadeReverb
 from .setlednr import SetLedNrListFlash
 from .setlednr import SetLedNrListFadeToOff
 from .setlednr import SetLedNrListFadeToOn
-from .setlednr import SetLedNrListRainbowCycle
+from .setlednr import SetDevicesLedNrListRainbowCycle
 
 def SetLedGroupNameListIntensities(DeviceUUID=None, LedGroupNameList=[], IntensityLevel=60, debug=False):
 #  Set all the Leds in the group to the same intensity level
@@ -80,11 +80,9 @@ def SetLedGroupNameListIntensities(DeviceUUID=None, LedGroupNameList=[], Intensi
     try:
         if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedGroupNameListIntensities(): LedGroupNameList not valid")
     
-        for DevicesLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
-            for myDeviceUUID, myDeviceLedNrList in DevicesLedNrList:
- 
-                SetLedNrListIntensities(DeviceUUID=myDeviceUUID,  
-                                LedNrList = myDeviceLedNrList, IntensityLevel=IntensityLevel,debug=debug)
+        for DeviceLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
+            SetLedNrListIntensities(DeviceUUID=DeviceLedNrList["DeviceUUID"],  
+                                LedNrList = DeviceLedNrList["LedNrList"], IntensityLevel=IntensityLevel,debug=debug)
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
@@ -99,11 +97,11 @@ def SetLedGroupNameIntensityList(DeviceUUID=None, LedGroupNameIntensityList=[], 
     try:
         if not _IsValidLedGroupNameIntensityList(LedGroupNameIntensityList): raise Exception("SetLedGroupNameIntensityList(): LedIntensityList not valid")
  
-        for DevicesLedNrIntensityList in _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, 
+        for DeviceLedNrIntensityList in _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, 
                                                                                                       LedGroupNameIntensityList, debug):
             for myDeviceUUID, myDeviceLedNrIntensityList in DevicesLedNrIntensityList:
-                SetLedNrIntensityList(DeviceUUID=myDeviceUUID,  
-                              LedNrIntensityList= myDeviceLedNrIntensityList, debug=debug)
+                SetLedNrIntensityList(DeviceUUID=DeviceLedNrIntensityList["DeviceUUID"],  
+                              LedNrIntensityList= DeviceLedNrIntensityList["LedNrIntensityList"], debug=debug)
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
@@ -120,10 +118,10 @@ def SetLedGroupNameIntensity(DeviceUUID=None, LedGroupName="", RGBIntensityList=
 
 
                         
-        for myDeviceUUID, myDeviceLedNrList in     _convertLedGroupNameToDevicesLedNrDict(DeviceUUID,LedGroupName,debug=debug):
-            SetLedNrIntensity(DeviceUUID=myDeviceUUID, LedNr=myDeviceLedNrList[0] , IntensityLevel=RGBIntensityList[0])
-            SetLedNrIntensity(DeviceUUID=myDeviceUUID, LedNr=myDeviceLedNrList[1] , IntensityLevel=RGBIntensityList[1])
-            SetLedNrIntensity(DeviceUUID=myDeviceUUID, LedNr=myDeviceLedNrList[2] , IntensityLevel=RGBIntensityList[2])
+        for DeviceLedNrList in     _convertLedGroupNameToDevicesLedNrList(DeviceUUID,LedGroupName,debug=debug):
+            SetLedNrIntensity(DeviceUUID=DeviceLedNrList["DeviceUUID"], LedNr=DeviceLedNrList["LedNrList"][0] , IntensityLevel=RGBIntensityList[0])
+            SetLedNrIntensity(DeviceUUID=DeviceLedNrList["DeviceUUID"], LedNr=DeviceLedNrList["LedNrList"][1] , IntensityLevel=RGBIntensityList[1])
+            SetLedNrIntensity(DeviceUUID=DeviceLedNrList["DeviceUUID"], LedNr=DeviceLedNrList["LedNrList"][2] , IntensityLevel=RGBIntensityList[2])
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
@@ -139,10 +137,9 @@ def SetLedGroupNameListFlash(DeviceUUID=None, LedGroupNameList=[], FlashCount=3,
     try:
         if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedListFlash(): LedNrList not valid")
     
-        for DevicesLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
-            for myDeviceUUID, myDeviceLedNrList in DevicesLedNrList:
-                SetLedNrListFlash(DeviceUUID=myDeviceUUID, 
-                          LedNrList = myDeviceLedNrList, 
+        for DeviceLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
+            SetLedNrListFlash(DeviceUUID=DeviceLedNrList["DeviceUUID"], 
+                          LedNrList = DeviceLedNrList["LedNrList"], 
                           FlashCount=FlashCount, FlashIntervalTime=FlashIntervalTime)
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -155,9 +152,10 @@ def SetLedGroupNameStateList(DeviceUUID=None, LedGroupNameStateList=[], debug=Fa
 #  Set all the Leds in the group to on or off
     try:
         if not _IsValidLedGroupNameStateList(LedGroupNameStateList):  raise Exception("SetLedStateList(): State not valid")
-        for myDeviceUUID, myDeviceLedNrStateList in     _convertLedGroupNameStateListToDevicesLedStateDict(DeviceUUID, LedGroupNameStateList):
-            SetLedNrStateList(DeviceUUID=myDeviceUUID,  
-                          LedNrStateList=myDeviceLedNrStateList)
+        for DeviceLedStateList in _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameStateList):
+            for myDeviceUUID, myDeviceLedNrStateList in DevicesLedStateList:
+                SetLedNrStateList(DeviceUUID=DeviceLedStateList["DeviceUUID"],  
+                          LedNrStateList=DeviceLedStateList["LedNrStateList"])
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
@@ -175,10 +173,9 @@ def SetLedGroupNameListFadeReverb(DeviceUUID=None, LedGroupNameList=[], FadeIncr
 #
     try:
         if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedListFadeReverb(): LedNrList not valid")
-        for DevicesLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
-            for myDeviceUUID, myDeviceLedNrList in DevicesLedNrList:
-                SetLedNrListFadeReverb(DeviceUUID=myDeviceUUID, 
-                               LedNrList = myDeviceLedNrList,
+        for DeviceLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
+                SetLedNrListFadeReverb(DeviceUUID=DeviceLedNrList["DeviceUUID"], 
+                               LedNrList = DeviceLedNrList["LedNrList"],
                                FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime, debug=debug)
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -197,10 +194,9 @@ def SetLedGroupNameListFadeToOff(DeviceUUID=None, LedGroupNameList=[], FadeIncre
     try:
         if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedListFadeToOff(): LedNrList not valid")
 
-        for DevicesLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
-            for myDeviceUUID, myDeviceLedNrList in DevicesLedNrList:
-                SetLedNrListFadeToOff(DeviceUUID=myDeviceUUID,  
-                              LedNrList= myDeviceLedNrList, 
+        for DeviceLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
+            SetLedNrListFadeToOff(DeviceUUID=DeviceLedNrList["DeviceUUID"],  
+                              LedNrList= DeviceLedNrList["LedNrList"], 
                               FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime )
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -218,10 +214,9 @@ def SetLedGroupNameListFadeToOn(DeviceUUID=None, LedGroupNameList=[], FadeIncrem
     try:
         if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedListFadeToOn(): LedList not valid")
 
-        for DevicesLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
-            for myDeviceUUID, myDeviceLedNrList in DevicesLedNrList:
-                SetLedNrListFadeToOn(DeviceUUID=myDeviceUUID,  
-                             LedNrList= myDeviceLedNrList, 
+        for DeviceLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
+            SetLedNrListFadeToOn(DeviceUUID=DeviceLedNrList["DeviceUUID"],  
+                             LedNrList= DeviceLedNrList["LedNrList"], 
                              FadeIncrement=FadeIncrement, FadeIntervalTime=FadeIntervalTime)
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -235,9 +230,8 @@ def SetLedGroupNameListRainbowCycle(DeviceUUID=None, LedGroupNameList=[], NrCycl
 
     try:
         if not _IsValidLedGroupNameList(LedGroupNameList): raise Exception("SetLedGroupNameListRainbowCycle(): LedList not valid")
-        for DevicesLedNrList in _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug):
-            for myDeviceUUID, myDeviceLedNrList in DevicesLedNrList:
-                SetLedNrListRainbowCycle(DeviceUUID=myDeviceUUID, LedNrList=myDeviceLedNrList, 
+        DevicesLedNrList = _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug)
+        SetDevicesLedNrListRainbowCycle(DevicesLedNrList=DevicesLedNrList, 
                                      NrCycles=NrCycles, CycleIntervalTime=CycleIntervalTime)
         pass
     except Exception as err:

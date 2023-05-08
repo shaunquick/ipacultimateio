@@ -51,7 +51,6 @@ from ..common.validations import _IsValidFadeIncrement
 from ..common.validations import _IsValidState
 
 from .ipacultimateioboard import _setLEDsToIndividualBrightness
-#from .ipacultimateioboard import _sendMessageToBoard
 from .ipacultimateiovalidations import _IsValidIpacUltimateDevice
 
 from .ipacultimateiodevicelist import  Get_DeviceList
@@ -73,12 +72,6 @@ def SetAllLedIntensities(DeviceUUID=None,  IntensityLevel=88, debug=False):
 
     for myDevice in Get_DeviceList():
         if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
-# WE have many devices - just re-use now the standard of calling     _setLedsToIndividualBrightness
-#            msg=[0x03,128,IntensityLevel,0,0]
-#            try:
-#                _sendMessageToBoard(myDevice["DeviceID"], msg, debug=debug)
-#            except Exception as err:
-#                raise Exception("SetAllLedIntensities(): {0}".format(err))
 
 
 #            if debug: print(FUNC_NAME+"Set board with intensity level of " + str(IntensityLevel))

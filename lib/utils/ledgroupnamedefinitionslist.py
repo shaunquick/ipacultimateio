@@ -53,7 +53,7 @@ LedGroupDefinitionsFileFound = True
 DEVICE_LED_GROUP_DEFINITIONS = {}
 
 
-def InitLedGroupNameDefinitionsList(debug=False):
+def InitLedGroupNameDefinitionsList(debug=False) -> list:
 # Load the definitions file, validate it and keep the list in memory for later use
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
@@ -144,7 +144,7 @@ def GetDeviceLedGroupNameDefinitions(DeviceUUID=None, debug=False):
         return(DEVICE_LED_GROUP_DEFINITIONS[DeviceUUID])
 
 
-def _isValidLedGroupNameDefinition(LedGroupNameDefinition, debug=False):
+def _isValidLedGroupNameDefinition(LedGroupNameDefinition, debug=False) -> bool:
 # validate the  definition    
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
@@ -183,9 +183,12 @@ def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions, debug=False):
 
 
 
-def _convertLedGroupNameToDevicesLedNrDict(DeviceUUID, LedGroupName, debug=False):
-# DevicesLedNrDict={ "0:0:0:0" : [1,2,3],
-#                    "0:0:0:1" : [1,2,3] }
+def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False) -> list:
+
+#    DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", LedNrList :[1,2,3]},
+#                       {"DeviceUUID":"0:0:0:1", LedNrList :[1,2,3]},
+#                       {"DeviceUUID":"0:0:0:1", LedNrList :[4,5,6]}]
+
 # 
 # DEVICE_LED_GROUP_DEFINITIONS = {'53769:1040:1:3': [{'LedGroupName': 'p1b1', 'LedNrRGB': [16, 17, 18]}, 
 #                                                    {'LedGroupName': 'p1b4', 'LedNrRGB': [19, 20, 21]}],
@@ -201,7 +204,7 @@ def _convertLedGroupNameToDevicesLedNrDict(DeviceUUID, LedGroupName, debug=False
 
     try:
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-        DevicesLedNrDict = {}
+        DevicesLedNrList = []
         LedNrList = []
         for LedGroupNameDefinition in GetLedGroupNameDefinitions():
             if "LedGroupName" in LedGroupNameDefinition:
@@ -214,7 +217,7 @@ def _convertLedGroupNameToDevicesLedNrDict(DeviceUUID, LedGroupName, debug=False
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
-                        DevicesLedNrDict[myDeviceUUID] = LedNrList
+                        DevicesLedNrList.append({"DeviceUUID" : myDeviceUUID, "LedNrList" : LedNrList})
                         break
                 if debug: 
                     pass
@@ -224,16 +227,14 @@ def _convertLedGroupNameToDevicesLedNrDict(DeviceUUID, LedGroupName, debug=False
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
     print("{0} Dictionary is".format(FUNC_NAME))
-    print(DevicesLedNrDict)
-    return(DevicesLedNrDict)
+    print(DevicesLedNrList)
+    return(DevicesLedNrList123)
 
 
-def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug=False):
-# DevicesLedNrList=[{ "0:0:0:0" : [1,2,3],
-#                    "0:0:0:1" : [1,2,3] },
-#                   { "0:0:0:0" : [4,5,6],
-#                    "0:0:0:1" : [7,8,9] },
-#                    ]
+def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug=False) -> list:
+#    DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", LedNrList :[1,2,3]},
+#                       {"DeviceUUID":"0:0:0:1", LedNrList :[1,2,3]},
+#                       {"DeviceUUID":"0:0:0:1", LedNrList :[4,5,6]}]
 # We can then reference the values as DeviceLedNr["DevicUUID"] and DeviceLedNr["LedNrList"]
 # # translate the LedGroupNameList to its corresponding Devices and LedNrs.
 # Keep the GroupNameList in the same order
@@ -244,30 +245,28 @@ def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, deb
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
         DevicesLedNrList =[]
         for LedGroupName in LedGroupNameList:
-            DevicesLedNrList.append(_convertLedGroupNameToDevicesLedNrDict(DeviceUUID, LedGroupName, debug=debug))
+            DevicesLedNrList.append(_convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=debug))
             # Now I need to add to mey existing digtaionay
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
     print("DevicesLedNrList")
     print(DevicesLedNrList)
 
-    return(DevicesLedNrList)
+    return(DevicesLedNrList123)
 
-#def _convertLedGroupNameStateListToDevicesLedStateList(LedGroupNameStateList):
+
 def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameStateList, debug=False):
 # translate the LedGroupNameStateList to its corresponding LedNrStateList.
-# DevicesLedNrList=[{ "0:0:0:0" : [1,2,3],
-#                    "0:0:0:1" : [1,2,3] },
-#                   { "0:0:0:0" : [4,5,6],
-#                    "0:0:0:1" : [7,8,9] },
-#                    ]
+# DevicesLedStateList=[{ "DeviceUUID":"0:0:0:0", "LedStateList": [ { "LedNr": "1", "State": True},  { "LedNr": "2", "State": True}],
+#                    { "DeviceUUID":"0:0:0:2", "LedStateList": [ "LedNr": "3", "State": True}, { "LedNr": "1", "State": True}],
+#                    { "DeviceUUID":"0:0:0:0", "LedStateList": [ "LedNr": "5", "State": True}, { "LedNr": "1", "State": True}],
+#                    { "DeviceUUID":"0:0:0:0", "LedStateList": [ "LedNr": "6", "State": True},  { "LedNr": "1", "State": True}]]
 
 
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
 
     try:
-        DevicesLedStateList = []
         LedStateList = []
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
@@ -279,32 +278,33 @@ def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameS
                             LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
                         break
 
+        DevicesLedStateList = []
         for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions(DeviceUUID).items():
             if (DeviceUUID == None) or (DeviceUUID == myDeviceUUID): 
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
-                        DevicesLedStateDict[myDeviceUUID] = LedStateList
-                        DevicesLedStateList.append()
+                        DevicesLedStateList.append({"DeviceUUID" : myDeviceUUID, "LedStateList" : LedStateList })
+
                         break
-                if debug: 
-                    pass
-                print(myDeviceUUID)
-                print(myDeviceLedGroupNames)
+                    if debug: 
+                        pass
 
-
-
-
-
+                    print(DevicesLedStateList)
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
-    return(DevicesLedStateList)
+    return(DevicesLedStateList123)
 
 
-#def _convertLedGroupNameIntensityListToDevicesLedNrIntensityDict(LedGroupNameIntensityList):
 def _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, LedGroupNameIntensityList, debug=False):
+# DevicesLedIntensityList=[{ "DeviceUUID":"0:0:0:0", "LedIntensityList": [ { "LedNr": "1", "IntensityLevel": 34},  { "LedNr": "2", "IntensityLevel": 223}],
+#                    { "DeviceUUID":"0:0:0:2", "LedIntensityList": [ "LedNr": "3", "IntensityLevel": 32}, { "LedNr": "1", "IntensityLevel": 134}],
+#                    { "DeviceUUID":"0:0:0:0", "LedIntensityList": [ "LedNr": "5", "IntensityLevel": 11}, { "LedNr": "1", "IntensityLevel": 156}],
+#                    { "DeviceUUID":"0:0:0:0", "LedIntensityList": [ "LedNr": "6", "IntensityLevel": 98},  { "LedNr": "1", "IntensityLevel": 111}]]
+
+
 # translate the LedGroupNameIntensityList to its corresponding LedNrIntensityList.
     FUNC_NAME=my_func_name()
     if debug: print(FUNC_NAME)
@@ -324,26 +324,23 @@ def _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, Led
                         break
  
         DevicesLedIntensityList = []
-                 
-       for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions(DeviceUUID).items():
+        
+        for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions(DeviceUUID).items():
             if (DeviceUUID == None) or (DeviceUUID == myDeviceUUID): 
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
-                        DeviceLedIntensityDict[myDeviceUUID] = LedIntensityList
-                        DevicesLedIntensityList.append(DeviceLedIntensityDict)
+                        DevicesLedIntensityList.append({"DeviceUUID" : myDeviceUUID, "LedIntensityList" : LedIntensityList})
                         break
                 if debug: 
                     pass
-                print(myDeviceUUID)
-                print(myDeviceLedGroupNames)
+                print(DevicesLedIntensityList)
 
                     
-                    
-                    except Exception as err:
+    except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
         
-    return(DevicesLedIntensityList)
+    return(DevicesLedIntensityList123)
 
 
 

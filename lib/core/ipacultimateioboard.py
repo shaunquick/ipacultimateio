@@ -118,7 +118,8 @@ def _sendMessageToBoard(DeviceID, payload, debug=False):
             raise Exception("{0}{1}".format(FUNC_NAME,"DeviceID not valid"))
 
     except Exception as err:
-        raise Exception("{0}{1}".format(FUNC_NAME,err))
+#        raise Exception("{0}{1}".format(FUNC_NAME,err))
+        print("{0} : Exception IGNORED : {1}".format(FUNC_NAME,err))
 
 
 
