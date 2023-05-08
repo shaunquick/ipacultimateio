@@ -279,13 +279,12 @@ def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState
         LedStateList = []
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
-        for LedGroupNameState in LedGroupNameStateList:
-            for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-                if "LedGroupName" in LedGroupNameDefinition:
-                    if LedGroupNameDefinition["LedGroupName"] == LedGroupNameState["LedGroupName"] :
-                        for Led in LedGroupNameDefinition["LedNrRGB"]:
-                            LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
-                        break
+        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
+            if "LedGroupName" in LedGroupNameDefinition:
+                if LedGroupNameDefinition["LedGroupName"] == LedGroupNameState["LedGroupName"] :
+                    for Led in LedGroupNameDefinition["LedNrRGB"]:
+                        LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
+                    break
 
         DevicesLedStateList = []
         for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions(DeviceUUID).items():
@@ -349,15 +348,14 @@ def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGrou
         LedIntensityList = []
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")
     
-        for LedGroupNameIntensity in LedGroupNameIntensityList:
-            for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-                if "LedGroupName" in LedGroupNameDefinition:
-                    if LedGroupNameDefinition["LedGroupName"] == LedGroupNameIntensity["LedGroupName"] :
-                        counter = 0
-                        for Led in LedGroupNameDefinition["LedNrRGB"]:
-                            LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][counter]})
-                            counter += 1
-                        break
+        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
+            if "LedGroupName" in LedGroupNameDefinition:
+                if LedGroupNameDefinition["LedGroupName"] == LedGroupNameIntensity["LedGroupName"] :
+                    counter = 0
+                    for Led in LedGroupNameDefinition["LedNrRGB"]:
+                        LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][counter]})
+                        counter += 1
+                    break
  
         DevicesLedIntensityList = []
         
@@ -366,9 +364,8 @@ def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGrou
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupNameIntensity["LedGroupName"]:
-                        if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
-                            DevicesLedIntensityList.append({"DeviceUUID" : myDeviceUUID, "LedIntensityList" : LedIntensityList})
-                            break
+                        DevicesLedIntensityList.append({"DeviceUUID" : myDeviceUUID, "LedIntensityList" : LedIntensityList})
+                        break
                     if debug: 
                         pass
 
