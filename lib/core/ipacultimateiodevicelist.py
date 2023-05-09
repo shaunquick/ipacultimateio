@@ -88,7 +88,7 @@ def Initialise_DeviceList(DeviceUUID = None, debug = False, xinput_flag=False):
                     DEVICE_LIST.append(myDevice)
 
 
-    return(DEVICE_LIST)
+    return(None)
 
 def Get_DeviceList(DeviceUUID=None, debug=False):
     FUNC_NAME=my_func_name()

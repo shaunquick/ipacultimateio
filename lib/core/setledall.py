@@ -78,7 +78,7 @@ def SetAllLedIntensities(DeviceUUID=None,  IntensityLevel=88, debug=False):
 #            if debug: print(FUNC_NAME+"DeviceUUID is :- " + str(DeviceUUID))
 #            if debug: print(FUNC_NAME+"mydevice is"+str(myDevice["DeviceID"].manufacturer))
             Set_All_DeviceLEDCurrentStates(DeviceUUID=myDevice["DeviceUUID"],IntensityLevel=IntensityLevel,
-                                           FadeIntensityLevel=IntensityLevel,State=True)
+                                           FadeIntensityLevel=IntensityLevel,State=True, debug=debug)
     _setLEDsToIndividualBrightness(DeviceUUID, debug=debug)
 
 def SetAllLedRandomStates(DeviceUUID=None, debug=False):

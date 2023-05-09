@@ -136,6 +136,7 @@ def Set_All_DeviceLEDCurrentStates(DeviceUUID,IntensityLevel,FadeIntensityLevel,
     
     # Set all the LED's in the list with the same intesnity level, fade itensity level and state
     if  _IsValidState(State):
+#        if debug: print("{0}{1}".format(FUNC_NAME,LED_CURRENT_STATES[DeviceUUID]))
         for Led in LED_CURRENT_STATES[DeviceUUID]:
             Led['LedIntensity'] = IntensityLevel
             Led['LedFadeIntensity'] = FadeIntensityLevel

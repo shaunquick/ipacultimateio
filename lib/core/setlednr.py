@@ -438,15 +438,19 @@ def SetDevicesLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
     try:
         RainbowRGBListLength = len(RainbowRGBList)
 
-        if not _IsValidLedNrList(LedNrList): raise Exception("SetLedNrListRainbowCycle(): LedNrList not valid")
+
+        print(print(FUNC_NAME))
+        print(print(DevicesLedNrList))
+
         curr_index = RainbowRGBListIndex * 3
         cycle_count = 0
-        first_LedNr = LedNrList[0]
+        # first_LedNr = LedNrList[0]
         while cycle_count <= NrCycles:
             is_cycle_finished = False
             while not is_cycle_finished:
 
                 for DeviceLedNrList in DevicesLedNrList:
+                    if not _IsValidLedNrList(DeviceLedNrList["LedNrList"]): raise Exception("SetLedNrListRainbowCycle(): LedNrList not valid")
                     for LedNr in DeviceLedNrList["LedNrList"]:
                         if curr_index >= RainbowRGBListLength:
                             curr_index = 0
@@ -456,7 +460,7 @@ def SetDevicesLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
                         Set_DeviceLEDCurrentStates_LedState(DeviceLedNrList["DeviceUUID"],LedNr,True)
                         curr_index += 1
                     if not is_cycle_finished:
-                        _setLEDsToIndividualBrightness(DeviceUUID)
+                        _setLEDsToIndividualBrightness(DeviceUUID=None)
                         time.sleep(CycleIntervalTime)
                         curr_index = curr_index - len(DeviceLedNrList["LedNrList"]) + 3
                         if curr_index < 0:

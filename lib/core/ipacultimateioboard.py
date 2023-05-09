@@ -46,6 +46,7 @@ import usb.core
 import usb.util
 import usb.control
 
+import time
 
 USB_BM_REQUESTTYPE_SET_CONFIGURATION = 0x21  # decimal = 33,  binary = 00100001
 USB_B_REQUEST_SET_CONFIGURATION = 9          # hex = 8,       binary = 00001000
@@ -54,6 +55,9 @@ USB_W_VALUE = 0x0203                         # decimal = 515, binary = 000000100
 USB_INTERFACE_INDEX = 2      # The USB has an array of interfaces - set the interface to the correct interface endpoint
 
 USB_XINPUT_INTERFACE_INDEX = 1      # The USB has an array of interfaces - set the interface to the correct interface endpoint
+
+LAST_MESSAGE_TIME_TO_BOARD = None
+
 
 
 def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False, debug=False):
@@ -82,6 +86,7 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False, debug
 #                if debug: print("myDevice")
 #                if debug: print(myDevice)
 #                if debug: print("EndmyDevice")
+#                if debug: print("{0}{1}".format(FUNC_NAME, Get_DeviceLEDCurrentStates(myDevice["DeviceUUID"])))
                 for LEDCurrent in Get_DeviceLEDCurrentStates(myDevice["DeviceUUID"]):
 #                    if debug: print(LEDCurrent)
                     if LEDCurrent['State']:
@@ -92,7 +97,7 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False, debug
                         msg.append(Intensity)
                     else:
                         msg.append(0)    
-                    _sendMessageToBoard(myDevice["DeviceID"], msg, debug=debug)
+                _sendMessageToBoard(myDevice["DeviceID"], msg, debug=debug)
     
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -106,6 +111,13 @@ def _sendMessageToBoard(DeviceID, payload, debug=False):
 # send a message to usb board - it is up to the upstream function to ensure
 #message is in the correct format for the board to action it correctly
     try:
+        global LAST_MESSAGE_TIME_TO_BOARD
+        
+        if LAST_MESSAGE_TIME_TO_BOARD == None:
+            LAST_MESSAGE_TIME_TO_BOARD = time.perf_counter_ns()
+        THIS_MESSAGE_TIME_TO_BOARD = time.perf_counter_ns()
+        timeBetweenUSBMessage = (THIS_MESSAGE_TIME_TO_BOARD-LAST_MESSAGE_TIME_TO_BOARD)/ 1000000000
+        LAST_MESSAGE_TIME_TO_BOARD = THIS_MESSAGE_TIME_TO_BOARD
         if _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
             if debug: 
                 pass
@@ -118,9 +130,14 @@ def _sendMessageToBoard(DeviceID, payload, debug=False):
             raise Exception("{0}{1}".format(FUNC_NAME,"DeviceID not valid"))
 
     except Exception as err:
+        if debug: print(str("{0}Number of seconds between last call is :- {1:.10f}".format(FUNC_NAME,timeBetweenUSBMessage)))
         print(str(err)[0:11])
         if (str(err)[0:10] == "[Errno 19]" or 
-            str(err)[0:11] == "[Errno 110]"):
+            str(err)[0:11] == "[Errno 110]" or
+            str(err)[0:10] == "[Errno 32]" 
+            ):
+            if debug: print("{0} Payload is:{1}".format(FUNC_NAME,payload))
+ 
             raise Exception("{0}{1}".format(FUNC_NAME,err))
         else:
             print("{0} : Exception IGNORED : {1}".format(FUNC_NAME,err))
