@@ -292,7 +292,7 @@ def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupNameState["LedGroupName"]:
-                        DevicesLedStateList.append({"DeviceUUID" : myDeviceUUID, "LedStateList" : LedStateList })
+                        DevicesLedStateList.append({"DeviceUUID" : myDeviceUUID, "LedNrStateList" : LedStateList })
                         break
 
         if debug: print(DevicesLedStateList)
@@ -364,7 +364,7 @@ def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGrou
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupNameIntensity["LedGroupName"]:
-                        DevicesLedIntensityList.append({"DeviceUUID" : myDeviceUUID, "LedIntensityList" : LedIntensityList})
+                        DevicesLedIntensityList.append({"DeviceUUID" : myDeviceUUID, "LedNrIntensityList" : LedIntensityList})
                         break
                     if debug: 
                         pass

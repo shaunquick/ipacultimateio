@@ -118,9 +118,13 @@ def _sendMessageToBoard(DeviceID, payload, debug=False):
             raise Exception("{0}{1}".format(FUNC_NAME,"DeviceID not valid"))
 
     except Exception as err:
-#        raise Exception("{0}{1}".format(FUNC_NAME,err))
-        print("{0} : Exception IGNORED : {1}".format(FUNC_NAME,err))
-        print("{0} : DeviceID : {1}:{2}:{3}:{4}".format(FUNC_NAME,DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
+        print(str(err)[0:11])
+        if (str(err)[0:10] == "[Errno 19]" or 
+            str(err)[0:11] == "[Errno 110]"):
+            raise Exception("{0}{1}".format(FUNC_NAME,err))
+        else:
+            print("{0} : Exception IGNORED : {1}".format(FUNC_NAME,err))
+            print("{0} : DeviceID : {1}:{2}:{3}:{4}".format(FUNC_NAME,DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
 
 
 

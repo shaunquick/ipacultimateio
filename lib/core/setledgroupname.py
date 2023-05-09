@@ -99,8 +99,7 @@ def SetLedGroupNameIntensityList(DeviceUUID=None, LedGroupNameIntensityList=[], 
  
         for DeviceLedNrIntensityList in _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, 
                                                                                                       LedGroupNameIntensityList, debug):
-            for myDeviceUUID, myDeviceLedNrIntensityList in DevicesLedNrIntensityList:
-                SetLedNrIntensityList(DeviceUUID=DeviceLedNrIntensityList["DeviceUUID"],  
+            SetLedNrIntensityList(DeviceUUID=DeviceLedNrIntensityList["DeviceUUID"],  
                               LedNrIntensityList= DeviceLedNrIntensityList["LedNrIntensityList"], debug=debug)
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -152,9 +151,8 @@ def SetLedGroupNameStateList(DeviceUUID=None, LedGroupNameStateList=[], debug=Fa
 #  Set all the Leds in the group to on or off
     try:
         if not _IsValidLedGroupNameStateList(LedGroupNameStateList):  raise Exception("SetLedStateList(): State not valid")
-        for DeviceLedStateList in _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameStateList):
-            for myDeviceUUID, myDeviceLedNrStateList in DevicesLedStateList:
-                SetLedNrStateList(DeviceUUID=DeviceLedStateList["DeviceUUID"],  
+        for DeviceLedStateList in _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameStateList, debug=debug):
+            SetLedNrStateList(DeviceUUID=DeviceLedStateList["DeviceUUID"],  
                           LedNrStateList=DeviceLedStateList["LedNrStateList"])
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
