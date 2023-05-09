@@ -460,7 +460,7 @@ def SetDevicesLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
                         Set_DeviceLEDCurrentStates_LedState(DeviceLedNrList["DeviceUUID"],LedNr,True)
                         curr_index += 1
                 if not is_cycle_finished:
-                    _setLEDsToIndividualBrightness(DeviceUUID=None)
+                    _setLEDsToIndividualBrightness(DeviceUUID=None, debug=debug)
                     time.sleep(CycleIntervalTime)
                     curr_index = curr_index - len(DeviceLedNrList["LedNrList"]) + 3
                     if curr_index < 0:
