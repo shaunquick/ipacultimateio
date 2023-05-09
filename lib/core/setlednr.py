@@ -77,8 +77,8 @@ def SetLedNrIntensity(DeviceUUID=None, LedNr = 3, IntensityLevel=100, debug=Fals
     ##        msg=[0x03,LedNr-1,IntensityLevel,0,0]
     #        _sendMessageToBoard(myDevice["DeviceID"], msg)
 
-                Set_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
-                Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
+                Set_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel,debug)
+                Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel,debug)
                 Set_DeviceLEDCurrentStates_LedState(myDevice["DeviceUUID"],LedNr,True,debug)
         _setLEDsToIndividualBrightness(DeviceUUID, debug==debug)
     except Exception as err:
@@ -104,8 +104,8 @@ def SetLedNrListIntensities(DeviceUUID=None, LedNrList=[], IntensityLevel=60, de
         for myDevice in Get_DeviceList():
             if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
                 for LedNr in LedNrList:
-                    Set_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
-                    Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
+                    Set_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel,debug)
+                    Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel,debug)
                     Set_DeviceLEDCurrentStates_LedState(myDevice["DeviceUUID"],LedNr,True,debug)
         _setLEDsToIndividualBrightness(DeviceUUID, debug=debug)
     except Exception as err:
@@ -128,8 +128,8 @@ def SetLedNrIntensityList(DeviceUUID=None, LedNrIntensityList=[], debug=False):
                 for LedIntensity in LedNrIntensityList:
                     LedNr = LedIntensity['LedNr']
                     IntensityLevel = LedIntensity['IntensityLevel']
-                    Set_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
-                    Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel)
+                    Set_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel,debug)
+                    Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,IntensityLevel,debug)
                     Set_DeviceLEDCurrentStates_LedState(myDevice["DeviceUUID"],LedNr,True,debug)        
     
         _setLEDsToIndividualBrightness(DeviceUUID, debug=debug)
@@ -244,8 +244,8 @@ def SetLedNrListFadeToOff(DeviceUUID=None, LedNrList=[], FadeIncrement = 10, Fad
         for myDevice in Get_DeviceList():
             if DeviceUUID == None or DeviceUUID == myDevice["DeviceUUID"]: 
                 for LedNr in LedNrList:
-                    LedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr)
-                    Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr, LedIntensity)
+                    LedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,debug)
+                    Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr, LedIntensity,debug)
                     if (LedIntensity> maxIntensity): maxIntensity = LedIntensity
         _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True, debug=debug)
 
@@ -255,12 +255,12 @@ def SetLedNrListFadeToOff(DeviceUUID=None, LedNrList=[], FadeIncrement = 10, Fad
             for myDevice in Get_DeviceList():
                 if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
                     for LedNr in LedNrList:
-                        NewLedIntensity = Get_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr) - FadeIncrement
+                        NewLedIntensity = Get_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,debug) - FadeIncrement
                         if NewLedIntensity >= 0 :
-                            Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,NewLedIntensity)
+                            Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,NewLedIntensity,debug)
                         else:
-                            Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,0)
-            _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True)
+                            Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,0,debug)
+            _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True, debug=debug)
             counter1 += 1
             time.sleep(FadeIntervalTime)
     except Exception as err:
@@ -294,10 +294,10 @@ def SetLedNrListFadeToOn(DeviceUUID=None, LedNrList=[], FadeIncrement = 10, Fade
         for myDevice in Get_DeviceList():
             if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
                 for LedNr in LedNrList:
-                    Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,0)
-                    LedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr)
+                    Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,0,debug)
+                    LedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,debug)
                     if (LedIntensity > maxIntensity): maxIntensity = LedIntensity           
-        _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True)
+        _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True, debug=debug)
 
         NrOfIterations = int(maxIntensity/FadeIncrement)
         counter1 = 1
@@ -305,13 +305,13 @@ def SetLedNrListFadeToOn(DeviceUUID=None, LedNrList=[], FadeIncrement = 10, Fade
             for myDevice in Get_DeviceList():
                 if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
                     for LedNr in LedNrList:
-                        MaxSetLedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr)
-                        NewFadeLedIntensity = Get_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr) + FadeIncrement
+                        MaxSetLedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(myDevice["DeviceUUID"],LedNr,debug)
+                        NewFadeLedIntensity = Get_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,debug) + FadeIncrement
                         if NewFadeLedIntensity < MaxSetLedIntensity:
-                            Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,NewFadeLedIntensity)
+                            Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr,NewFadeLedIntensity,debug)
                         else:
-                            Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr, MaxSetLedIntensity)
-            _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True)
+                            Set_DeviceLEDCurrentStates_LedFadeIntensity(myDevice["DeviceUUID"],LedNr, MaxSetLedIntensity,debug)
+            _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True, debug=debug)
             counter1 += 1
             time.sleep(FadeIntervalTime)
     except Exception as err:
@@ -343,10 +343,10 @@ def SetDevicesLedNrListFadeToOn(DeviceUUID=None, DevicesLedNrList=[], FadeIncrem
                 for DeviceLedNrList in DevicesLedNrList:
                     if not _IsValidLedNrList(DeviceLedNrList["LedNrList"]): raise Exception("SetLedListFadeToOn(): LedList not valid")
                     for LedNr in DeviceLedNrList["LedNrList"]:
-                        Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr,0)
-                        LedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(DeviceLedNrList["DeviceUUID"],LedNr)
+                        Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr,0,debug)
+                        LedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(DeviceLedNrList["DeviceUUID"],LedNr,debug)
                         if (LedIntensity > maxIntensity): maxIntensity = LedIntensity           
-        _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True)
+        _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True,debug=debug)
 
         NrOfIterations = int(maxIntensity/FadeIncrement)
         counter1 = 1
@@ -355,13 +355,13 @@ def SetDevicesLedNrListFadeToOn(DeviceUUID=None, DevicesLedNrList=[], FadeIncrem
                 if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
                     for DeviceLedNrList in DeviceLedNrList["LedNrList"]:
                         for LedNr in LedNrList:
-                            MaxSetLedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(DeviceLedNrList["DeviceUUID"],LedNr)
-                            NewFadeLedIntensity = Get_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr) + FadeIncrement
+                            MaxSetLedIntensity = Get_DeviceLEDCurrentStates_LedIntensity(DeviceLedNrList["DeviceUUID"],LedNr,debug)
+                            NewFadeLedIntensity = Get_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr,debug) + FadeIncrement
                             if NewFadeLedIntensity < MaxSetLedIntensity:
-                                Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr,NewFadeLedIntensity)
+                                Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr,NewFadeLedIntensity,debug)
                             else:
-                                Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr, MaxSetLedIntensity)
-            _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True)
+                                Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr, MaxSetLedIntensity,debug)
+            _setLEDsToIndividualBrightness(DeviceUUID, UseFadeValues=True,debug=debug)
             counter1 += 1
             time.sleep(FadeIntervalTime)
     except Exception as err:
@@ -439,12 +439,17 @@ def SetDevicesLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
         RainbowRGBListLength = len(RainbowRGBList)
 
 
-        print(FUNC_NAME)
-        print("{0}DevicesLedNrList={1}".format(FUNC_NAME,DevicesLedNrList))
+        if debug: print(FUNC_NAME)
+        if debug: print("{0}DevicesLedNrList={1}".format(FUNC_NAME,DevicesLedNrList))
 
         curr_index = RainbowRGBListIndex * 3
         cycle_count = 0
         # first_LedNr = LedNrList[0]
+        # Now get the total numer of led's across all of the devices.
+        LedNrlength = 0
+        for DeviceLedNrList in DevicesLedNrList:
+            LedNrlength += len(DeviceLedNrList["LedNrList"])
+
         while cycle_count <= NrCycles:
             is_cycle_finished = False
             while not is_cycle_finished:
@@ -455,14 +460,14 @@ def SetDevicesLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
                         if curr_index >= RainbowRGBListLength:
                             curr_index = 0
                             # Needs to be uncommented
-                        Set_DeviceLEDCurrentStates_LedIntensity(DeviceLedNrList["DeviceUUID"],LedNr,RainbowRGBList[curr_index])
-                        Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr,RainbowRGBList[curr_index])
-                        Set_DeviceLEDCurrentStates_LedState(DeviceLedNrList["DeviceUUID"],LedNr,True)
+                        Set_DeviceLEDCurrentStates_LedIntensity(DeviceLedNrList["DeviceUUID"],LedNr,RainbowRGBList[curr_index],debug)
+                        Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr,RainbowRGBList[curr_index],debug)
+                        Set_DeviceLEDCurrentStates_LedState(DeviceLedNrList["DeviceUUID"],LedNr,True,debug)
                         curr_index += 1
                 if not is_cycle_finished:
                     _setLEDsToIndividualBrightness(DeviceUUID=None, debug=debug)
                     time.sleep(CycleIntervalTime)
-                    curr_index = curr_index - len(DeviceLedNrList["LedNrList"]) + 3
+                    curr_index = curr_index - LedNrlength + 3
                     if curr_index < 0:
                         curr_index += len(RainbowRGBList)
                     if curr_index == RainbowRGBListIndex:

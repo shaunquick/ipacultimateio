@@ -110,9 +110,9 @@ def Set_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr,State,debug=False):
         if _IsValidLedNr(LedNr):
             LED_CURRENT_STATES[DeviceUUID][LedNr-1]['State'] = State
         else:
-            raise Exception("Set_DeviceLEDCurrentStates_LedState(): LedNr valid")
+            raise Exception("{0} LedNr not valid".format(FUNC_NAME))
     else:
-        raise Exception("Set_DeviceLEDCurrentStates_LedState(): State not valid")
+        raise Exception("{0}State not valid".format(FUNC_NAME))
 
 def Set_All_DeviceLEDCurrentStates_LedState(DeviceUUID,State, debug=False):
     FUNC_NAME=my_func_name()
