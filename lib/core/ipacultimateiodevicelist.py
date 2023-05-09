@@ -106,7 +106,7 @@ def Get_DeviceList(DeviceUUID=None, debug=False):
  #           if debug: print(myDevice["DeviceUUID"])
             if DeviceUUID == myDevice["DeviceUUID"]:
                 NEW_DEVICE_LIST.append(myDevice)
-        if debug: print(NEW_DEVICE_LIST)
+#        if debug: print(NEW_DEVICE_LIST)
         return(NEW_DEVICE_LIST)
 
 

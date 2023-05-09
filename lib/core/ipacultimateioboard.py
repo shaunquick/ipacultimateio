@@ -122,15 +122,14 @@ def _sendMessageToBoard(DeviceID, payload, debug=False):
             if debug: 
                 pass
 #                print(FUNC_NAME+"USB interface Nr:- " + str(_getUSBInterfaceNumber(DeviceID)))
-#                print(FUNC_NAME+"Payload is :-")
-#                print(payload)
+#                print("{0}Payload is :- {1}".format(FUNC_NAME,payload))
             DeviceID.ctrl_transfer(USB_BM_REQUESTTYPE_SET_CONFIGURATION, USB_B_REQUEST_SET_CONFIGURATION, USB_W_VALUE,
                                 _getUSBInterfaceNumber(DeviceID), payload)
         else:
             raise Exception("{0}{1}".format(FUNC_NAME,"DeviceID not valid"))
 
     except Exception as err:
-        if debug: print(str("{0}Number of seconds between last call is :- {1:.10f}".format(FUNC_NAME,timeBetweenUSBMessage)))
+        if debug: print(str("{0}Number of seconds between last call to board is :- {1:.10f}".format(FUNC_NAME,timeBetweenUSBMessage)))
         print(str(err)[0:11])
         if (str(err)[0:10] == "[Errno 19]" or 
             str(err)[0:11] == "[Errno 110]" or
@@ -172,7 +171,7 @@ def _isKernalDriverActive(DeviceID, debug=False):
     try:
 
         result= DeviceID.is_kernel_driver_active(_getUSBInterfaceNumber(DeviceID))
-        if debug: print(FUNC_NAME+"Driver Active is :-" + str(result))
+        #if debug: print(FUNC_NAME+"Driver Active is :-" + str(result))
     except usb.core.USBError as e:
         raise Exception("{0}Could not check active kernel driver from interface({1}): {2}".format(FUNC_NAME,_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
 
@@ -185,7 +184,7 @@ def _detatchKernalDriver(DeviceID, debug=False):
     result=False
     try:
         result = DeviceID.detach_kernel_driver(_getUSBInterfaceNumber(DeviceID)) 
-        if debug: print(FUNC_NAME+"detached driver is :-" + str(result))
+        #if debug: print(FUNC_NAME+"detached driver is :-" + str(result))
     except usb.core.USBError as e:
         raise Exception("{0}Could not detatch kernel driver from interface({1}): {2}".format(FUNC_NAME,_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
 

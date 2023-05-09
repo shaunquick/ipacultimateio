@@ -81,15 +81,10 @@ def Initialise_DeviceLists(FreeInterface = True, DeviceUUID = None, debug = Fals
         Initialise_DeviceListLEDList(myDeviceList, debug=debug)
         Initialise_DeviceListLEDCurrentStates(myDeviceList, debug=debug)
 
-#    if debug: 
-#        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-#        print (DeviceIDList)
-#        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+
         for myDevice in myDeviceList: 
-            if debug:
-                pass
-#               print(FUNC_NAME+"Device_UUID :"+str(myDevice["DeviceUUID"]))
-#               print(FUNC_NAME+"DEVICE ;"+str(myDevice["DeviceID"]))
+#            if debug:    print(FUNC_NAME+"Device_UUID :"+str(myDevice["DeviceUUID"]))
+#            if debug:    print(FUNC_NAME+"DEVICE ;"+str(myDevice["DeviceID"]))
 #            if debug: print(FUNC_NAME+"FreeInt = " + str(FreeInterface))
 #            if debug: print(FUNC_NAME+"is driver active = " + str(_isKernalDriverActive(myDevice["DeviceID"], debug=debug)))
             if FreeInterface and _isKernalDriverActive(myDevice["DeviceID"], debug=debug):

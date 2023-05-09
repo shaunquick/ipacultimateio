@@ -439,8 +439,8 @@ def SetDevicesLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
         RainbowRGBListLength = len(RainbowRGBList)
 
 
-        print(print(FUNC_NAME))
-        print(print(DevicesLedNrList))
+        print(FUNC_NAME)
+        print("{0}DevicesLedNrList={1}".format(FUNC_NAME,DevicesLedNrList))
 
         curr_index = RainbowRGBListIndex * 3
         cycle_count = 0
@@ -459,14 +459,14 @@ def SetDevicesLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
                         Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceLedNrList["DeviceUUID"],LedNr,RainbowRGBList[curr_index])
                         Set_DeviceLEDCurrentStates_LedState(DeviceLedNrList["DeviceUUID"],LedNr,True)
                         curr_index += 1
-                    if not is_cycle_finished:
-                        _setLEDsToIndividualBrightness(DeviceUUID=None)
-                        time.sleep(CycleIntervalTime)
-                        curr_index = curr_index - len(DeviceLedNrList["LedNrList"]) + 3
-                        if curr_index < 0:
-                            curr_index += len(RainbowRGBList)
-                        if curr_index == RainbowRGBListIndex:
-                          is_cycle_finished = True
+                if not is_cycle_finished:
+                    _setLEDsToIndividualBrightness(DeviceUUID=None)
+                    time.sleep(CycleIntervalTime)
+                    curr_index = curr_index - len(DeviceLedNrList["LedNrList"]) + 3
+                    if curr_index < 0:
+                        curr_index += len(RainbowRGBList)
+                    if curr_index == RainbowRGBListIndex:
+                      is_cycle_finished = True
 
 
             cycle_count += 1
