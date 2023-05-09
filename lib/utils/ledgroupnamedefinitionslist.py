@@ -210,7 +210,7 @@ def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False
                 if LedGroupNameDefinition["LedGroupName"] == LedGroupName : 
                     for Led in LedGroupNameDefinition["LedNrRGB"]:
                         LedNrList.append(Led)
-                    break
+
 
         for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions(DeviceUUID).items():
             if (DeviceUUID == None) or (DeviceUUID == myDeviceUUID): 
@@ -218,7 +218,7 @@ def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
                         DevicesLedNrList.append({"DeviceUUID" : myDeviceUUID, "LedNrList" : LedNrList})
-                        break
+
 #                if debug: print(myDeviceUUID)
 #                if debug: print(myDeviceLedGroupNames)
 
@@ -282,7 +282,6 @@ def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState
                 if LedGroupNameDefinition["LedGroupName"] == LedGroupNameState["LedGroupName"] :
                     for Led in LedGroupNameDefinition["LedNrRGB"]:
                         LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
-                    break
 
         for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions(DeviceUUID).items():
             if (DeviceUUID == None) or (DeviceUUID == myDeviceUUID): 
@@ -290,9 +289,8 @@ def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupNameState["LedGroupName"]:
                         DevicesLedStateList.append({"DeviceUUID" : myDeviceUUID, "LedNrStateList" : LedStateList })
-                        break
 
-#        if debug: print(DevicesLedStateList)
+        if debug: print("{0} DevicesStateList :".format(FUNC_NAME,DevicesLedStateList))
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -323,7 +321,7 @@ def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameS
             for DeviceLedStateList in _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState, debug=debug):
                 DevicesLedStateList.append(DeviceLedStateList)
 
-        if debug: print(DevicesLedStateList)
+        if debug: print("{0} DevicesLedStateList:".format(FUNC_NAME,DevicesLedStateList))
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -354,7 +352,7 @@ def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGrou
                     for Led in LedGroupNameDefinition["LedNrRGB"]:
                         LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][counter]})
                         counter += 1
-                    break
+#                    break
  
         
         for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions(DeviceUUID).items():
@@ -363,7 +361,7 @@ def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGrou
                 for myDeviceLedGroupName in myDeviceLedGroupNames:
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupNameIntensity["LedGroupName"]:
                         DevicesLedIntensityList.append({"DeviceUUID" : myDeviceUUID, "LedNrIntensityList" : LedIntensityList})
-                        break
+                        
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
