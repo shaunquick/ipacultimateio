@@ -32,6 +32,7 @@
 # This module has all of the common validations used across multiple
 # modules
 from .common_lib import my_func_name
+from .common_lib import isDebugOn
 
 from .globalvar import MAX_INTENSITY_LEVEL
 from .globalvar import MAX_LEDS
@@ -53,6 +54,7 @@ from .globalvar import MIN_NR_CYCLES
 from .globalvar import MAX_NR_CYCLES
 from .globalvar import MIN_CYCLE_INTERVAL_TIME
 from .globalvar import MAX_CYCLE_INTERVAL_TIME
+
 
     
 def _IsValidLedNr(LedNr):

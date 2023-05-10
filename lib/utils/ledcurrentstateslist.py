@@ -38,6 +38,7 @@
 import random
 
 from ..common.common_lib import my_func_name
+from ..common.common_lib import isDebugOn
 
 from ..common.globalvar import MAX_LEDS
 
@@ -52,11 +53,12 @@ from ..common.validations import _IsValidLedNr
 
 LED_CURRENT_STATES = {}
 
-def Initialise_DeviceListLEDCurrentStates(DeviceIDList=[], debug=False):
+
+def Initialise_DeviceListLEDCurrentStates(DeviceIDList=[]):
 # Create the list of LedNr's staring from 1 to 96
     global LED_CURRENT_STATES
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
 
     LED_CURRENT_STATES={}
@@ -70,10 +72,10 @@ def Initialise_DeviceListLEDCurrentStates(DeviceIDList=[], debug=False):
             LedNr += 1
 
 
-def Set_DeviceLEDCurrentStates_LedIntensity(DeviceUUID,LedNr,IntensityLevel, debug=False):
+def Set_DeviceLEDCurrentStates_LedIntensity(DeviceUUID,LedNr,IntensityLevel):
 # Set the intensity level in the list to the value passed in
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global LED_CURRENT_STATES
 
@@ -85,9 +87,9 @@ def Set_DeviceLEDCurrentStates_LedIntensity(DeviceUUID,LedNr,IntensityLevel, deb
     else:
         raise Exception("Set_DeviceLEDCurrentStates_LedIntensity(): State not valid")
 
-def Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceUUID,LedNr,IntensityLevel, debug=False):
+def Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceUUID,LedNr,IntensityLevel):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global LED_CURRENT_STATES
 
@@ -100,10 +102,10 @@ def Set_DeviceLEDCurrentStates_LedFadeIntensity(DeviceUUID,LedNr,IntensityLevel,
     else:
         raise Exception("Set_DeviceLEDCurrentStates_LedFadeIntensity(): State not valid")
 
-def Set_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr,State,debug=False):
+def Set_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr,State):
     global LED_CURRENT_STATES
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     # Set the state in the list to the value passed in
     if _IsValidState(State):
@@ -114,9 +116,9 @@ def Set_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr,State,debug=False):
     else:
         raise Exception("{0}State not valid".format(FUNC_NAME))
 
-def Set_All_DeviceLEDCurrentStates_LedState(DeviceUUID,State, debug=False):
+def Set_All_DeviceLEDCurrentStates_LedState(DeviceUUID,State):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global LED_CURRENT_STATES
     # Set all the LED's in the list to be True(On) or False(Off)
@@ -128,15 +130,15 @@ def Set_All_DeviceLEDCurrentStates_LedState(DeviceUUID,State, debug=False):
         raise Exception("Set_All_DeviceLEDCurrentStates_LedState(): State not valid")
 
 
-def Set_All_DeviceLEDCurrentStates(DeviceUUID,IntensityLevel,FadeIntensityLevel,State, debug=False):
+def Set_All_DeviceLEDCurrentStates(DeviceUUID,IntensityLevel,FadeIntensityLevel,State):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global LED_CURRENT_STATES
     
     # Set all the LED's in the list with the same intesnity level, fade itensity level and state
     if  _IsValidState(State):
-#        if debug: print("{0}{1}".format(FUNC_NAME,LED_CURRENT_STATES[DeviceUUID]))
+#        if isDebugOn(): print("{0}{1}".format(FUNC_NAME,LED_CURRENT_STATES[DeviceUUID]))
         for Led in LED_CURRENT_STATES[DeviceUUID]:
             Led['LedIntensity'] = IntensityLevel
             Led['LedFadeIntensity'] = FadeIntensityLevel
@@ -144,9 +146,9 @@ def Set_All_DeviceLEDCurrentStates(DeviceUUID,IntensityLevel,FadeIntensityLevel,
     else:
         raise Exception("Set_All_DeviceLEDCurrentStates(): State not valid")
 
-def Set_Random_DeviceLEDCurrentStates(DeviceUUID, debug=False):
+def Set_Random_DeviceLEDCurrentStates(DeviceUUID):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global LED_CURRENT_STATES
     
@@ -162,19 +164,19 @@ def Set_Random_DeviceLEDCurrentStates(DeviceUUID, debug=False):
             Led['State'] = True
 
 
-def Get_DeviceLEDCurrentStates_LedIntensity(DeviceUUID,LedNr, debug=False):
+def Get_DeviceLEDCurrentStates_LedIntensity(DeviceUUID,LedNr):
 # return the current value of the led nr intensity 
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     if _IsValidLedNr(LedNr):
         return(LED_CURRENT_STATES[DeviceUUID][LedNr-1]['LedIntensity'])
     else:
         raise Exception("Get_DeviceLEDCurrentStates_LedIntensity(): LedNr valid")
 
-def Get_DeviceLEDCurrentStates_LedFadeIntensity(DeviceUUID,LedNr, debug=False):
+def Get_DeviceLEDCurrentStates_LedFadeIntensity(DeviceUUID,LedNr):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
 # return the current value of the led nr fade intensity 
     if _IsValidLedNr(LedNr):
@@ -182,9 +184,9 @@ def Get_DeviceLEDCurrentStates_LedFadeIntensity(DeviceUUID,LedNr, debug=False):
     else:
         raise Exception("Get_DeviceLEDCurrentStates_LedFadeIntensity(): LedNr valid")
 
-def Get_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr, debug=False):
+def Get_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
 # return the current value of the led nr state 
     if _IsValidLedNr(LedNr):
@@ -192,9 +194,9 @@ def Get_DeviceLEDCurrentStates_LedState(DeviceUUID,LedNr, debug=False):
     else:
         raise Exception("Get_DeviceLEDCurrentStates_LedState(): LedNr valid")
 
-def Get_DeviceLEDCurrentStates(DeviceUUID, debug=False):
+def Get_DeviceLEDCurrentStates(DeviceUUID):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
 # retrn the full list of leds and their current seetings
     return(LED_CURRENT_STATES[DeviceUUID])

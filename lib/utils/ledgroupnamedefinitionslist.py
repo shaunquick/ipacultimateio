@@ -32,20 +32,13 @@
 # that resides in the data folder and holds the list in memory for use
 # by other modules
 
-
-
-#from dataclasses import dataclass
-from ast import Try
 import json
 from importlib import resources
 
 from ..common.common_lib import my_func_name
-
+from ..common.common_lib import isDebugOn
 
 from ..core.ipacultimateiodevicelist import  Get_DeviceList
-
-
-
 from ..common.globalvar import MAX_LEDS
 
 LED_GROUP_DEFINITIONS = []
@@ -53,10 +46,12 @@ LedGroupDefinitionsFileFound = True
 DEVICE_LED_GROUP_DEFINITIONS = {}
 
 
-def InitLedGroupNameDefinitionsList(debug=False) -> list:
+
+
+def InitLedGroupNameDefinitionsList():
 # Load the definitions file, validate it and keep the list in memory for later use
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global LED_GROUP_DEFINITIONS
     global LedGroupDefinitionsFileFound
@@ -88,53 +83,53 @@ def InitLedGroupNameDefinitionsList(debug=False) -> list:
                 for LedGroupDefinition in LED_GROUP_DEFINITIONS:
                     if LedGroupDefinition.get("DeviceUUID") != None:
                         if LedGroupDefinition["DeviceUUID"] == myDevice["DeviceUUID"]:
-                            #if debug: print("the device is matched add to current device")
-                            #if debug: print("Values are")
+                            #if isDebugOn(): print("the device is matched add to current device")
+                            #if isDebugOn(): print("Values are")
                             myVals = LedGroupDefinition.copy()
                             myVals.pop("DeviceUUID")
                             if myVals.get("comment") != None:
                                 myVals.pop("comment")
-                            #if debug: print(myVals)
+                            #if isDebugOn(): print(myVals)
                             if len(myVals) > 0 :
                                 DEVICE_LED_GROUP_DEFINITIONS[myDevice["DeviceUUID"]].append(myVals)
                         else:
-                            if debug: print("Not a mathced device")
+                            if isDebugOn(): print("Not a mathced device")
                             pass
 
                     else:
-                        #if debug: print("No device specified - add to current device")
-                        #if debug: print("Values are")
+                        #if isDebugOn(): print("No device specified - add to current device")
+                        #if isDebugOn(): print("Values are")
                         myVals = LedGroupDefinition.copy()
                         if myVals.get("comment") != None:
                             myVals.pop("comment")
-                        #if debug: print(myVals)
+                        #if isDebugOn(): print(myVals)
                         if len(myVals) > 0 :
                             DEVICE_LED_GROUP_DEFINITIONS[myDevice["DeviceUUID"]].append(myVals)
         except Exception as err:
             raise Exception("{0}LedGroupNameDefinitions.json not in expected format: {1}".format(FUNC_NAME, err))
-#           if debug: print("\n\n\n\nDEVICE_LED_GROUP_DEFINITIONS")
-#           if debug: print(DEVICE_LED_GROUP_DEFINITIONS)
-#           if debug: print("\n\n\n\nLED_GROUP_DEFINITIONS")
-#           if debug: print(LED_GROUP_DEFINITIONS)
+#           if isDebugOn(): print("\n\n\n\nDEVICE_LED_GROUP_DEFINITIONS")
+#           if isDebugOn(): print(DEVICE_LED_GROUP_DEFINITIONS)
+#           if isDebugOn(): print("\n\n\n\nLED_GROUP_DEFINITIONS")
+#           if isDebugOn(): print(LED_GROUP_DEFINITIONS)
 
     return(LED_GROUP_DEFINITIONS)
 
-def IsLedGroupNameDefinitionsFileFound(debug=False):
+def IsLedGroupNameDefinitionsFileFound():
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global LedGroupDefinitionsFileFound
     return(LedGroupDefinitionsFileFound)
 
-def GetLedGroupNameDefinitions(debug=False):
+def GetLedGroupNameDefinitions():
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
     global LED_GROUP_DEFINITIONS
     return(LED_GROUP_DEFINITIONS)
 
-def GetDeviceLedGroupNameDefinitions(DeviceUUID=None, debug=False):
+def GetDeviceLedGroupNameDefinitions(DeviceUUID=None):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global DEVICE_LED_GROUP_DEFINITIONS
     if DeviceUUID == None:
@@ -143,10 +138,10 @@ def GetDeviceLedGroupNameDefinitions(DeviceUUID=None, debug=False):
         return(DEVICE_LED_GROUP_DEFINITIONS[DeviceUUID])
 
 
-def _isValidLedGroupNameDefinition(LedGroupNameDefinition, debug=False) -> bool:
+def _isValidLedGroupNameDefinition(LedGroupNameDefinition) -> bool:
 # validate the  definition    
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     if not LedGroupDefinitionsFileFound : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
     
@@ -164,10 +159,10 @@ def _isValidLedGroupNameDefinition(LedGroupNameDefinition, debug=False) -> bool:
             
     return (True)
 
-def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions, debug=False):
+def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions):
 # validate the  definitions file content 
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     if not LedGroupDefinitionsFileFound : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")
     
@@ -182,7 +177,7 @@ def _isValidLedGroupNameDefinitions(LedGroupNameDefinitions, debug=False):
 
 
 
-def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False):
+def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName):
 
 #    DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", LedNrList :[1,2,3]},
 #                       {"DeviceUUID":"0:0:0:1", LedNrList :[1,2,3]},
@@ -198,7 +193,7 @@ def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False
 
 # translate the LedGroupName to its corresponding LedNrs.
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
 
     DevicesLedNrList = []
@@ -219,17 +214,17 @@ def _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=False
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupName:
                         DevicesLedNrList.append({"DeviceUUID" : myDeviceUUID, "LedNrList" : LedNrList})
 
-#                if debug: print(myDeviceUUID)
-#                if debug: print(myDeviceLedGroupNames)
+#                if isDebugOn(): print(myDeviceUUID)
+#                if isDebugOn(): print(myDeviceLedGroupNames)
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
-        if debug: print("{0} Dictionary is".format(FUNC_NAME))
-        if debug: print(DevicesLedNrList)
+        if isDebugOn(): print("{0} Dictionary is".format(FUNC_NAME))
+        if isDebugOn(): print(DevicesLedNrList)
     return(DevicesLedNrList)
 
 
-def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, debug=False) -> list:
+def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList) -> list:
 #    DevicesLedNrList=[{"DeviceUUID":"0:0:0:0", LedNrList :[1,2,3]},
 #                       {"DeviceUUID":"0:0:0:1", LedNrList :[1,2,3]},
 #                       {"DeviceUUID":"0:0:0:1", LedNrList :[4,5,6]}]
@@ -237,24 +232,24 @@ def _convertLedGroupNameListToDevicesLedNrList(DeviceUUID, LedGroupNameList, deb
 # # translate the LedGroupNameList to its corresponding Devices and LedNrs.
 # Keep the GroupNameList in the same order
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DevicesLedNrList =[]
     try:
         if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
         for LedGroupName in LedGroupNameList:
-            for DeviceLedNrList in _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName, debug=debug):
+            for DeviceLedNrList in _convertLedGroupNameToDevicesLedNrList(DeviceUUID, LedGroupName):
                 DevicesLedNrList.append(DeviceLedNrList)
             # Now I need to add to mey existing digtaionay
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
-        if debug: print("DevicesLedNrList")
-        if debug: print(DevicesLedNrList)
+        if isDebugOn(): print("DevicesLedNrList")
+        if isDebugOn(): print(DevicesLedNrList)
 
     return(DevicesLedNrList)
 
 
-def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState, debug=False):
+def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState):
 # translate the LedGroupNameStateList to its corresponding LedNrStateList.
 #			"LedGroupNameStateList": [{"LedGroupName": "p1b1", "State": true},
 #				{"LedGroupName": "p1b2","State": false}
@@ -270,7 +265,7 @@ def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState
 
 
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DevicesLedStateList = []
     try:
@@ -290,7 +285,7 @@ def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupNameState["LedGroupName"]:
                         DevicesLedStateList.append({"DeviceUUID" : myDeviceUUID, "LedNrStateList" : LedStateList })
 
-        if debug: print("{0} DevicesStateList :".format(FUNC_NAME,DevicesLedStateList))
+        if isDebugOn(): print("{0} DevicesStateList :".format(FUNC_NAME,DevicesLedStateList))
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -298,7 +293,7 @@ def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState
     return(DevicesLedStateList)
 
 
-def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameStateList, debug=False):
+def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameStateList):
 # translate the LedGroupNameStateList to its corresponding LedNrStateList.
 #			"LedGroupNameStateList": [{"LedGroupName": "p1b1", "State": true},
 #				{"LedGroupName": "p1b2","State": false}
@@ -311,17 +306,17 @@ def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameS
 
 
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DevicesLedStateList = []
 
     try:
     
         for LedGroupNameState in LedGroupNameStateList:
-            for DeviceLedStateList in _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState, debug=debug):
+            for DeviceLedStateList in _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState):
                 DevicesLedStateList.append(DeviceLedStateList)
 
-        if debug: print("{0} DevicesLedStateList:".format(FUNC_NAME,DevicesLedStateList))
+        if isDebugOn(): print("{0} DevicesLedStateList:".format(FUNC_NAME,DevicesLedStateList))
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -329,7 +324,7 @@ def _convertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameS
     return(DevicesLedStateList)
 
 
-def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGroupNameIntensity, debug=False):
+def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGroupNameIntensity):
 # DevicesLedIntensityList=[{ "DeviceUUID":"0:0:0:0", "LedIntensityList": [ { "LedNr": "1", "IntensityLevel": 34},  { "LedNr": "2", "IntensityLevel": 223}],
 #                    { "DeviceUUID":"0:0:0:2", "LedIntensityList": [ "LedNr": "3", "IntensityLevel": 32}, { "LedNr": "1", "IntensityLevel": 134}],
 #                    { "DeviceUUID":"0:0:0:0", "LedIntensityList": [ "LedNr": "5", "IntensityLevel": 11}, { "LedNr": "1", "IntensityLevel": 156}],
@@ -338,7 +333,7 @@ def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGrou
 
 # translate the LedGroupNameIntensityList to its corresponding LedNrIntensityList.
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DevicesLedIntensityList = []
     try:
@@ -366,11 +361,11 @@ def _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGrou
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
        
-#    if debug: print(DevicesLedIntensityList)
+#    if isDebugOn(): print(DevicesLedIntensityList)
     return(DevicesLedIntensityList)
 
 
-def _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, LedGroupNameIntensityList, debug=False):
+def _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, LedGroupNameIntensityList):
 # DevicesLedIntensityList=[{ "DeviceUUID":"0:0:0:0", "LedIntensityList": [ { "LedNr": "1", "IntensityLevel": 34},  { "LedNr": "2", "IntensityLevel": 223}],
 #                    { "DeviceUUID":"0:0:0:2", "LedIntensityList": [ "LedNr": "3", "IntensityLevel": 32}, { "LedNr": "1", "IntensityLevel": 134}],
 #                    { "DeviceUUID":"0:0:0:0", "LedIntensityList": [ "LedNr": "5", "IntensityLevel": 11}, { "LedNr": "1", "IntensityLevel": 156}],
@@ -379,14 +374,14 @@ def _convertLedGroupNameIntensityListToDevicesLedNrIntensityList(DeviceUUID, Led
 
 # translate the LedGroupNameIntensityList to its corresponding LedNrIntensityList.
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DevicesLedIntensityList = []
     try:       
         for LedGroupNameIntensity in LedGroupNameIntensityList:
-            for DeviceLedIntensityList in _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGroupNameIntensity, debug=debug):
+            for DeviceLedIntensityList in _convertLedGroupNameIntensityToDevicesLedNrIntensityList(DeviceUUID, LedGroupNameIntensity):
                 DevicesLedIntensityList.append(DeviceLedIntensityList)
-        if debug: print(DevicesLedIntensityList)
+        if isDebugOn(): print(DevicesLedIntensityList)
 
                     
     except Exception as err:

@@ -39,6 +39,7 @@ import usb.util
 import usb.control
 
 from ..common.common_lib import my_func_name
+from ..common.common_lib import isDebugOn
 
 #from ..utils.lednrlist import Initialise_DeviceListLEDList
 
@@ -58,11 +59,16 @@ from .ipacultimateiovalidations import _IsValidIpacUltimateDevice
 
 #from .setledall import SetAllLedIntensities
 
+
+
 DEVICE_LIST =[]
 
-def Initialise_DeviceList(DeviceUUID = None, debug = False, xinput_flag=False):
+
+
+
+def Initialise_DeviceList(DeviceUUID = None, xinput_flag=False):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 #
 # if DeviceUUID is passed in - this will only return that device if it is found
 # if xinput_flag is set to true - then find all device that we hope are ultimarc ones, including where they are set in XInput mode
@@ -72,7 +78,7 @@ def Initialise_DeviceList(DeviceUUID = None, debug = False, xinput_flag=False):
 
     FoundDeviceIDs = usb.core.find(find_all=True)
     for DeviceID in FoundDeviceIDs:
- #       if debug:
+ #       if isDebugOn():
  #          print(FUNC_NAME)
  #           print(DeviceID)
         if _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag):
@@ -90,9 +96,9 @@ def Initialise_DeviceList(DeviceUUID = None, debug = False, xinput_flag=False):
 
     return(None)
 
-def Get_DeviceList(DeviceUUID=None, debug=False):
+def Get_DeviceList(DeviceUUID=None):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     global DEVICE_LIST
     if DeviceUUID == None:
@@ -100,13 +106,13 @@ def Get_DeviceList(DeviceUUID=None, debug=False):
     else:
         NEW_DEVICE_LIST = []
         for myDevice in DEVICE_LIST:
- #           if debug: print("myDevice")
- #           if debug: print(myDevice)
- #           if debug: print("myDevice[DeviceUUID]")
- #           if debug: print(myDevice["DeviceUUID"])
+ #           if isDebugOn(): print("myDevice")
+ #           if isDebugOn(): print(myDevice)
+ #           if isDebugOn(): print("myDevice[DeviceUUID]")
+ #           if isDebugOn(): print(myDevice["DeviceUUID"])
             if DeviceUUID == myDevice["DeviceUUID"]:
                 NEW_DEVICE_LIST.append(myDevice)
-#        if debug: print(NEW_DEVICE_LIST)
+#        if isDebugOn(): print(NEW_DEVICE_LIST)
         return(NEW_DEVICE_LIST)
 
 

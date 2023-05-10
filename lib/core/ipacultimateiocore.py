@@ -34,6 +34,7 @@
 # functions
 
 
+from distutils.log import debug
 import usb.core
 import usb.util
 import usb.control
@@ -63,94 +64,96 @@ from .ipacultimateiodevicelist import  Get_DeviceList
 
 from .setledall import SetAllLedIntensities
 
-def Initialise_DeviceLists(FreeInterface = True, DeviceUUID = None, debug = False, xinput_flag=False):
+from ..common.common_lib import isDebugOn
+
+def Initialise_DeviceLists(FreeInterface = True, DeviceUUID = None, xinput_flag=False):
 #
 # if DeviceUUID is passed in - this will only return that device if it is found
 # if xinput_flag is set to true - then find all device that we hope are ultimarc ones, including where they are set in XInput mode
 # This will return a list of DeviceUUIDs and their associated usb DeviceID's
+ 
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
-
-
+    if isDebugOn(): print(FUNC_NAME)
+ 
     Initialise_DeviceList(DeviceUUID)
 # Now initialise the LIST for holding LED status and LED Nr Status
     try:    
         myDeviceList=Get_DeviceList()
-        LEDGroupDefsList = InitLedGroupNameDefinitionsList(debug)
-        Initialise_LedGroupNameList(LEDGroupDefsList,debug)
-        Initialise_DeviceListLEDList(myDeviceList, debug=debug)
-        Initialise_DeviceListLEDCurrentStates(myDeviceList, debug=debug)
+        LEDGroupDefsList = InitLedGroupNameDefinitionsList()
+        Initialise_LedGroupNameList(LEDGroupDefsList)
+        Initialise_DeviceListLEDList(myDeviceList)
+        Initialise_DeviceListLEDCurrentStates(myDeviceList)
 
 
         for myDevice in myDeviceList: 
-#            if debug:    print(FUNC_NAME+"Device_UUID :"+str(myDevice["DeviceUUID"]))
-#            if debug:    print(FUNC_NAME+"DEVICE ;"+str(myDevice["DeviceID"]))
-#            if debug: print(FUNC_NAME+"FreeInt = " + str(FreeInterface))
-#            if debug: print(FUNC_NAME+"is driver active = " + str(_isKernalDriverActive(myDevice["DeviceID"], debug=debug)))
-            if FreeInterface and _isKernalDriverActive(myDevice["DeviceID"], debug=debug):
-                _detatchKernalDriver(myDevice["DeviceID"], debug=debug)
+#            if isDebugOn():    print(FUNC_NAME+"Device_UUID :"+str(myDevice["DeviceUUID"]))
+#            if isDebugOn():    print(FUNC_NAME+"DEVICE ;"+str(myDevice["DeviceID"]))
+#            if isDebugOn(): print(FUNC_NAME+"FreeInt = " + str(FreeInterface))
+#            if isDebugOn(): print(FUNC_NAME+"is driver active = " + str(_isKernalDriverActive(myDevice["DeviceID"])))
+            if FreeInterface and _isKernalDriverActive(myDevice["DeviceID"]):
+                _detatchKernalDriver(myDevice["DeviceID"])
 
-        SetAllLedIntensities(DeviceUUID=DeviceUUID, IntensityLevel=0, debug=debug)
+        SetAllLedIntensities(DeviceUUID=DeviceUUID, IntensityLevel=0)
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
     return(myDeviceList)
 
-def GetDeviceType(DeviceUUID, debug=False):
+def GetDeviceType(DeviceUUID):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if _debug: print(FUNC_NAME)
 
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return("DEVICE ID {0}:{1} on Bus {2} Address {3}".format(DeviceID.idVendor, DeviceID.idProduct, DeviceID.bus, DeviceID.address))
 
         
-def GetVendorId(DeviceUUID, debug=False):
+def GetVendorId(DeviceUUID):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(hex(DeviceID.idVendor))
        
        
-def GetProductId(DeviceUUID, debug=False):
+def GetProductId(DeviceUUID):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(hex(DeviceID.idProduct))
  
  
-def GetVendorName(DeviceUUID, debug=False):
+def GetVendorName(DeviceUUID):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(DeviceID.manufacturer)
        
  
-def GetProductName(DeviceUUID, debug=False):
+def GetProductName(DeviceUUID):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(DeviceID.product)
        
  
-def GetSerialNumber(DeviceUUID, debug=False):
+def GetSerialNumber(DeviceUUID):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
     DeviceID=Get_DeviceList(DeviceUUID)["DeviceID"]
     return(DeviceID.serial_number)
 
-def ResetDevices(DeviceUUID=None, debug=False):
+def ResetDevices(DeviceUUID=None):
 # Reset one or many devices/boards - this will mean the board(s) will start to run the script previously
 # held in the firmware
 # At present the message is wrong as it does not reset - this is now commented out
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
     
-    for myDevice in Get_DeviceList(DeviceUUID, debug=debug):
+    for myDevice in Get_DeviceList(DeviceUUID):
         if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
 # Commented out as this command is not working on the board.  
 # # This should then run the default script  

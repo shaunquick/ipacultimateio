@@ -45,13 +45,14 @@
 
 import sys
 import getopt
+from lib.common.common_lib import SetDebugOn
+from lib.common.common_lib import isDebugOn
 
 
 from lib.core.ipacultimateiocore import Initialise_DeviceLists
 from lib.utils.commandscript import RunCommandsFromFile
 from lib.utils.help import help
 from lib.utils.help import listOfDevicesExample
-
 
 
 
@@ -67,6 +68,7 @@ def main ():
 # you will need to obtain the uniwue ideneitfier tha the program recognises the devie as.
 # you can then use this value in the configuration files to control that device Led's.
     FUNC_NAME="main(): "
+
     try:
         arg_names = ["help", "debug", "iodev_uuid=", "xinput_flag", "list_devices"]
         opts, args = getopt.getopt(sys.argv[1:], "hdxli:", arg_names)
@@ -76,7 +78,7 @@ def main ():
         sys.exit(0)
 
     DeviceUUID = None
-    debug = False
+
     outputfile=""
     xinput_flag=False
     list_devices=False
@@ -86,9 +88,8 @@ def main ():
             sys.exit(0)
 
         if option in ("-d", "--debug"):
-            debug = True
-            if debug: print(FUNC_NAME+"Debug Turned On!!")
-
+            SetDebugOn()
+            if isDebugOn(): print(FUNC_NAME+"Debug Turned On!!")
         if option in ("-i", "--iodev_uuid"):
             DeviceUUID = arg[1:]
  
@@ -108,22 +109,22 @@ def main ():
 
     try:
 # Initialise the board and run the script privided or run the default script
-        DeviceIDList = Initialise_DeviceLists(DeviceUUID=DeviceUUID, debug=debug, xinput_flag=xinput_flag)
+        DeviceIDList = Initialise_DeviceLists(DeviceUUID=DeviceUUID, xinput_flag=xinput_flag)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
         elif list_devices:
             print(listOfDevicesExample(DeviceIDList))
-            if debug:
+            if isDebugOn():
                 print(FUNC_NAME+"Device List is :-")
                 for DeviceID in DeviceIDList:
                    print(DeviceID["DeviceID"])
         else:
-            RunCommandsFromFile(myScript, debug=debug)
+            RunCommandsFromFile(myScript)
     except Exception as err:
         print("Exception found:  {0}".format(err))
         sys.exit(2)
 
-    if debug: print(FUNC_NAME+ "Finished Successfully")
+    if isDebugOn(): print(FUNC_NAME+ "Finished Successfully")
 
 
 # If we're running in stand alone mode, run the application

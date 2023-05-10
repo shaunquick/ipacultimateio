@@ -32,6 +32,7 @@
 # If there are errors an exception will be raised
 
 from ..common.common_lib import my_func_name
+from ..common.common_lib import isDebugOn
 
 from .ledgroupname          import _IsValidLedGroupNameList
 from .ledgroupname          import _IsValidLedGroupNameStateList
@@ -54,9 +55,11 @@ from ..common.validations   import _IsValidRGBIntensityList
 from ..common.validations   import _IsValidCycleIntervalTime
 from ..common.validations   import _IsValidNrCycles
 
-def _isValidCommand(Command, debug=False):
+
+
+def _isValidCommand(Command):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
 # check that we have a Command a valid Function name and each function has the correct paramaters required
     if not "Command" in Command: raise Exception("Command missing: {0}".format(Command))
@@ -194,9 +197,9 @@ def _isValidCommand(Command, debug=False):
     return (True)
 
 
-def _isValidCommandScript(CommandScriptList, debug=False):
+def _isValidCommandScript(CommandScriptList):
     FUNC_NAME=my_func_name()
-    if debug: print(FUNC_NAME)
+    if isDebugOn(): print(FUNC_NAME)
 
 # verify that the script and its commands are in the correct format, if not raise an exception
     for Command in CommandScriptList:
