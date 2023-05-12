@@ -45,14 +45,15 @@
 
 import sys
 import getopt
+
 from lib.common.common_lib import SetDebugOn
-from lib.common.common_lib import isDebugOn
+from lib.common.common_lib import IsDebugOn
 
 
-from lib.core.ipacultimateiocore import Initialise_DeviceLists
+from lib.core.ipacultimateiocore import InitialiseDeviceLists
 from lib.utils.commandscript import RunCommandsFromFile
-from lib.utils.help import help
-from lib.utils.help import listOfDevicesExample
+from lib.utils.help import GetHelpTextMain
+from lib.utils.help import GetHelpTextListOfDevicesExample
 
 
 
@@ -74,7 +75,7 @@ def main ():
         opts, args = getopt.getopt(sys.argv[1:], "hdxli:", arg_names)
     except getopt.GetoptError:
         print("Opt error - this should not have happened")
-        print(help())
+        print(GetHelpTextMain())
         sys.exit(0)
 
     DeviceUUID = None
@@ -84,12 +85,12 @@ def main ():
     list_devices=False
     for option, arg in opts:
         if option in ("-h", "--help"):
-            print(help())
+            print(GetHelpTextMain())
             sys.exit(0)
 
         if option in ("-d", "--debug"):
             SetDebugOn()
-            if isDebugOn(): print(FUNC_NAME+"Debug Turned On!!")
+            if IsDebugOn(): print(FUNC_NAME+"Debug Turned On!!")
         if option in ("-i", "--iodev_uuid"):
             DeviceUUID = arg[1:]
  
@@ -109,12 +110,12 @@ def main ():
 
     try:
 # Initialise the board and run the script privided or run the default script
-        DeviceIDList = Initialise_DeviceLists(DeviceUUID=DeviceUUID, xinput_flag=xinput_flag)
+        DeviceIDList = InitialiseDeviceLists(DeviceUUID=DeviceUUID, xinput_flag=xinput_flag)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
         elif list_devices:
-            print(listOfDevicesExample(DeviceIDList))
-            if isDebugOn():
+            print(GetHelpTextListOfDevicesExample(DeviceIDList))
+            if IsDebugOn():
                 print(FUNC_NAME+"Device List is :-")
                 for DeviceID in DeviceIDList:
                    print(DeviceID["DeviceID"])
@@ -124,7 +125,7 @@ def main ():
         print("Exception found:  {0}".format(err))
         sys.exit(2)
 
-    if isDebugOn(): print(FUNC_NAME+ "Finished Successfully")
+    if IsDebugOn(): print(FUNC_NAME+ "Finished Successfully")
 
 
 # If we're running in stand alone mode, run the application

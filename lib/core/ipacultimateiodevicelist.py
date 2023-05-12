@@ -38,37 +38,16 @@ import usb.core
 import usb.util
 import usb.control
 
-from ..common.common_lib import my_func_name
-from ..common.common_lib import isDebugOn
+from ..common.common_lib import GetMyFuncName
+from ..common.common_lib import IsDebugOn
 
-#from ..utils.lednrlist import Initialise_DeviceListLEDList
-
-#from ..utils.ledgroupname import Initialise_LedGroupNameList
-#from ..utils.ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
-
-
-#from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates
-#from ..utils.ledcurrentstateslist import Initialise_DeviceListLEDCurrentStates
-
-from .ipacultimateiovalidations import _IsValidIpacUltimateDevice
-#from .ipacultimateioboard import _resetDevice
-#from .ipacultimateioboard import _setLEDsToIndividualBrightness
-#from .ipacultimateioboard import _getUSBInterfaceNumber
-#from .ipacultimateioboard import _isKernalDriverActive
-#from .ipacultimateioboard import _detatchKernalDriver
-
-#from .setledall import SetAllLedIntensities
-
-
+from .ipacultimateiovalidations import IsValidIpacUltimateDevice
 
 DEVICE_LIST =[]
 
-
-
-
-def Initialise_DeviceList(DeviceUUID = None, xinput_flag=False):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+def InitialiseDeviceList(DeviceUUID = None, xinput_flag=False):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 #
 # if DeviceUUID is passed in - this will only return that device if it is found
 # if xinput_flag is set to true - then find all device that we hope are ultimarc ones, including where they are set in XInput mode
@@ -78,10 +57,10 @@ def Initialise_DeviceList(DeviceUUID = None, xinput_flag=False):
 
     FoundDeviceIDs = usb.core.find(find_all=True)
     for DeviceID in FoundDeviceIDs:
- #       if isDebugOn():
+ #       if IsDebugOn():
  #          print(FUNC_NAME)
  #           print(DeviceID)
-        if _IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag):
+        if IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag):
             if DeviceUUID == None: # Add all the boards
                 myDevice= { "DeviceUUID": _getDeviceUUID(DeviceID), 
                            "DeviceID" : DeviceID }
@@ -96,9 +75,9 @@ def Initialise_DeviceList(DeviceUUID = None, xinput_flag=False):
 
     return(None)
 
-def Get_DeviceList(DeviceUUID=None):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+def GetDeviceList(DeviceUUID=None):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
     global DEVICE_LIST
     if DeviceUUID == None:
@@ -106,13 +85,13 @@ def Get_DeviceList(DeviceUUID=None):
     else:
         NEW_DEVICE_LIST = []
         for myDevice in DEVICE_LIST:
- #           if isDebugOn(): print("myDevice")
- #           if isDebugOn(): print(myDevice)
- #           if isDebugOn(): print("myDevice[DeviceUUID]")
- #           if isDebugOn(): print(myDevice["DeviceUUID"])
+ #           if IsDebugOn(): print("myDevice")
+ #           if IsDebugOn(): print(myDevice)
+ #           if IsDebugOn(): print("myDevice[DeviceUUID]")
+ #           if IsDebugOn(): print(myDevice["DeviceUUID"])
             if DeviceUUID == myDevice["DeviceUUID"]:
                 NEW_DEVICE_LIST.append(myDevice)
-#        if isDebugOn(): print(NEW_DEVICE_LIST)
+#        if IsDebugOn(): print(NEW_DEVICE_LIST)
         return(NEW_DEVICE_LIST)
 
 

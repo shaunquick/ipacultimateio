@@ -2,13 +2,13 @@
 
 #from .buttonname import InitButtonNameModule
 #from .ledgroupnameslist import InitLedGroupNamesList
-#from .ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
+#from .ledgroupnamedefinitionslist import InitialiseLedGroupNameDefinitionsList
 #from .ledcurrentstateslist import InitLedStatus
 #from .lednrlist import InitLedNrList
 
 #try:
 #    pass
-#    LedGroupDefsList = InitLedGroupNameDefinitionsList()
+#    LedGroupDefsList = InitialiseLedGroupNameDefinitionsList()
 #    InitLedGroupNamesList(LedGroupDefsList)
 #    InitLedStatus()
 #    InitLedNrList()

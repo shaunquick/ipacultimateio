@@ -39,15 +39,13 @@ import usb.control
 
 import time
 
+from ..common.common_lib import GetMyFuncName
+from ..common.common_lib import IsDebugOn
 
+from .ipacultimateiodevicelist import GetDeviceList
+from ..utils.ledcurrentstateslist import GetDeviceLEDCurrentStates
 
-from ..utils.ledcurrentstateslist import Get_DeviceLEDCurrentStates
-from ..common.common_lib import my_func_name
-from ..common.common_lib import isDebugOn
-
-from .ipacultimateiodevicelist import Get_DeviceList
-
-from .ipacultimateiovalidations import _IsValidIpacUltimateDevice
+from .ipacultimateiovalidations import IsValidIpacUltimateDevice
 
 
 USB_BM_REQUESTTYPE_SET_CONFIGURATION = 0x21  # decimal = 33,  binary = 00100001
@@ -62,7 +60,7 @@ LAST_MESSAGE_TIME_TO_BOARD = None
 
 
 
-def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False):
+def SetLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False):
 # Use the LED States that are stored in a list and set the intensity level based on the
 # list data
 # the list holds 3 values for each LED
@@ -72,25 +70,25 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False):
 # Fade Intensity Level - and alternate intesnity level which is used when the upstream command
 # wishes to mimic a fade pattern
 
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
 
     try:
-#        if isDebugOn(): print("retriving Device IDs with id of ")
-#        if isDebugOn(): print(DeviceUUID)
-#        if isDebugOn(): print("End of DeviceUUID")
-        DeviceIDList = Get_DeviceList(DeviceUUID)
-#        if isDebugOn(): print("retrived Device IDs")
+#        if IsDebugOn(): print("retriving Device IDs with id of ")
+#        if IsDebugOn(): print(DeviceUUID)
+#        if IsDebugOn(): print("End of DeviceUUID")
+        DeviceIDList = GetDeviceList(DeviceUUID)
+#        if IsDebugOn(): print("retrived Device IDs")
         for myDevice in DeviceIDList:
             if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
                 msg = [4]
-#                if isDebugOn(): print("myDevice")
-#                if isDebugOn(): print(myDevice)
-#                if isDebugOn(): print("EndmyDevice")
-#                if isDebugOn(): print("{0}{1}".format(FUNC_NAME, Get_DeviceLEDCurrentStates(myDevice["DeviceUUID"])))
-                for LEDCurrent in Get_DeviceLEDCurrentStates(myDevice["DeviceUUID"]):
-#                    if isDebugOn(): print(LEDCurrent)
+#                if IsDebugOn(): print("myDevice")
+#                if IsDebugOn(): print(myDevice)
+#                if IsDebugOn(): print("EndmyDevice")
+#                if IsDebugOn(): print("{0}{1}".format(FUNC_NAME, GetDeviceLEDCurrentStates(myDevice["DeviceUUID"])))
+                for LEDCurrent in GetDeviceLEDCurrentStates(myDevice["DeviceUUID"]):
+#                    if IsDebugOn(): print(LEDCurrent)
                     if LEDCurrent['State']:
                         if UseFadeValues:
                             Intensity = LEDCurrent['LedFadeIntensity']
@@ -107,11 +105,11 @@ def _setLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False):
 
 
 def _sendMessageToBoard(DeviceID, payload):
-    FUNC_NAME=my_func_name()
-#    if isDebugOn(): print(FUNC_NAME)
-#    if isDebugOn(): print(FUNC_NAME)
-# send a message to usb board - it is up to the upstream function to ensure
-#message is in the correct format for the board to action it correctly
+    FUNC_NAME=GetMyFuncName()
+#    if IsDebugOn(): print(FUNC_NAME)
+
+#    send a message to usb board - it is up to the upstream function to ensure
+#    message is in the correct format for the board to action it correctly
     try:
         global LAST_MESSAGE_TIME_TO_BOARD
         
@@ -120,24 +118,22 @@ def _sendMessageToBoard(DeviceID, payload):
         THIS_MESSAGE_TIME_TO_BOARD = time.perf_counter_ns()
         timeBetweenUSBMessage = (THIS_MESSAGE_TIME_TO_BOARD-LAST_MESSAGE_TIME_TO_BOARD)/ 1000000000
         LAST_MESSAGE_TIME_TO_BOARD = THIS_MESSAGE_TIME_TO_BOARD
-        if _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
-            if isDebugOn(): 
-                pass
-#                print(FUNC_NAME+"USB interface Nr:- " + str(_getUSBInterfaceNumber(DeviceID)))
-#                print("{0}Payload is :- {1}".format(FUNC_NAME,payload))
+        if IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
+#            if IsDebugOn(): print(FUNC_NAME+"USB interface Nr:- " + str(GetUSBInterfaceNumber(DeviceID)))
+#            if IsDebugOn(): print("{0}Payload is :- {1}".format(FUNC_NAME,payload))
             DeviceID.ctrl_transfer(USB_BM_REQUESTTYPE_SET_CONFIGURATION, USB_B_REQUEST_SET_CONFIGURATION, USB_W_VALUE,
-                                _getUSBInterfaceNumber(DeviceID), payload)
+                                GetUSBInterfaceNumber(DeviceID), payload)
         else:
-            raise Exception("{0}{1}".format(FUNC_NAME,"DeviceID not valid"))
+            raise Exception("DeviceID not valid")
 
     except Exception as err:
-        if isDebugOn(): print(str("{0}Number of seconds between last call to board is :- {1:.10f}".format(FUNC_NAME,timeBetweenUSBMessage)))
-        print(str(err)[0:11])
+        if IsDebugOn(): print(str("{0}Number of seconds between last call to board is :- {1:.10f}".format(FUNC_NAME,timeBetweenUSBMessage)))
+        if IsDebugOn(): print(str(err)[0:11])
         if (str(err)[0:10] == "[Errno 19]" or 
             str(err)[0:11] == "[Errno 110]" or
             str(err)[0:10] == "[Errno 32]" 
             ):
-            if isDebugOn(): print("{0} Payload is:{1}".format(FUNC_NAME,payload))
+            if IsDebugOn(): print("{0} Payload is:{1}".format(FUNC_NAME,payload))
  
             raise Exception("{0}{1}".format(FUNC_NAME,err))
         else:
@@ -146,58 +142,58 @@ def _sendMessageToBoard(DeviceID, payload):
 
 
 
-def _getUSBInterfaceNumber(DeviceID):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+def GetUSBInterfaceNumber(DeviceID):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 # return the interface index depening if it is the io board in default mode
 # or retrun a different value 
-    if _IsValidIpacUltimateDevice(DeviceID):
-#        if isDebugOn(): print(FUNC_NAME+"Index=" + str(USB_INTERFACE_INDEX))
+    if IsValidIpacUltimateDevice(DeviceID):
+#        if IsDebugOn(): print(FUNC_NAME+"Index=" + str(USB_INTERFACE_INDEX))
         return(USB_INTERFACE_INDEX)
-    elif _IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
-#        if isDebugOn(): print(FUNC_NAME+"Index=" + str(USB_XINPUT_INTERFACE_INDEX))
+    elif IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
+#        if IsDebugOn(): print(FUNC_NAME+"Index=" + str(USB_XINPUT_INTERFACE_INDEX))
         return(USB_XINPUT_INTERFACE_INDEX)
     else:
-#        if isDebugOn(): print(FUNC_NAME+"Exception")
-        raise Exception("GetUSBInterfaceNumber(): DeviceID not valid")
+#        if IsDebugOn(): print(FUNC_NAME+"Exception")
+        raise Exception("{0}DeviceID not valid".format(FUNC_NAME))
 
 
 
 
 
-def _isKernalDriverActive(DeviceID):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+def IsKernalDriverActive(DeviceID):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
     result=False
     try:
 
-        result= DeviceID.is_kernel_driver_active(_getUSBInterfaceNumber(DeviceID))
-        #if isDebugOn(): print(FUNC_NAME+"Driver Active is :-" + str(result))
+        result= DeviceID.is_kernel_driver_active(GetUSBInterfaceNumber(DeviceID))
+        #if IsDebugOn(): print(FUNC_NAME+"Driver Active is :-" + str(result))
     except usb.core.USBError as e:
-        raise Exception("{0}Could not check active kernel driver from interface({1}): {2}".format(FUNC_NAME,_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
+        raise Exception("{0}Could not check active kernel driver from interface({1}): {2}".format(FUNC_NAME,GetUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
 
     return(result)
 
 
-def _detatchKernalDriver(DeviceID):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+def DetatchKernalDriver(DeviceID):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
     result=False
     try:
-        result = DeviceID.detach_kernel_driver(_getUSBInterfaceNumber(DeviceID)) 
-        #if isDebugOn(): print(FUNC_NAME+"detached driver is :-" + str(result))
+        result = DeviceID.detach_kernel_driver(GetUSBInterfaceNumber(DeviceID)) 
+        #if IsDebugOn(): print(FUNC_NAME+"detached driver is :-" + str(result))
     except usb.core.USBError as e:
-        raise Exception("{0}Could not detatch kernel driver from interface({1}): {2}".format(FUNC_NAME,_getUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
+        raise Exception("{0}Could not detatch kernel driver from interface({1}): {2}".format(FUNC_NAME,GetUSBInterfaceNumber(myDevice["DeviceID"]), str(e)))
 
 
     return(result)
 
 
 
-def _resetDevice(DeviceID):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+def ResetIODevice(DeviceID):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
     # 
 # Commented out as this command is not working on the board.    
 #            msg=[0x03,255,0,0,0]

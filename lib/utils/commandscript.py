@@ -39,13 +39,13 @@ import json
 from importlib import  resources
 from os import path
 
-from ..common.common_lib import my_func_name
-from ..common.common_lib import isDebugOn
+from ..common.common_lib import GetMyFuncName
+from ..common.common_lib import IsDebugOn
 
 # Load all the functions as their names - to be used across the utility
 
 #from libs.globalvar import *  # load the global variable
-from .commandscriptvalidations import _isValidCommandScript
+from .commandscriptvalidations import isValidCommandScript
 
 from ..core.ipacultimateiocore import ResetDevices
 
@@ -58,11 +58,11 @@ from ..core.setledall import SetAllLedFadeReverb
 from ..core.setledall import SetAllLedFadeToOff
 from ..core.setledall import SetAllLedFadeToOn
 
-from ..core.setlednr import SetLedNrIntensity
-from ..core.setlednr import SetLedNrListIntensities
-from ..core.setlednr import SetLedNrIntensityList
+from ..core.setlednr import SetLedNrToIntensityLevel
+from ..core.setlednr import SetLedNrListToSameIntensityLevel
+from ..core.setlednr import SetLedNrAndIntensityLevelList
 from ..core.setlednr import SetLedNrListFlash
-from ..core.setlednr import SetLedNrStateList
+from ..core.setlednr import SetLedNrAndStateList
 from ..core.setlednr import SetLedNrListFadeReverb
 from ..core.setlednr import SetLedNrListFadeToOn
 from ..core.setlednr import SetLedNrListFadeToOff
@@ -81,8 +81,8 @@ from ..core.setledgroupname import SetLedGroupNameListRainbowCycle
 
 def RunCommandsFromFile(filename):
 # Load the script file, validate the script fila and then execute the commands in the file.
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
     try:
         FileCommandList = GetLedCommandsFromFile(filename)
@@ -91,8 +91,8 @@ def RunCommandsFromFile(filename):
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
 def GetLedCommandsFromFile(filename):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
 # use the default test script if no filename is provided
     if filename == "":
@@ -119,39 +119,39 @@ def GetLedCommandsFromFile(filename):
     try:
         CommandScript = json.loads(filecontent)
         if type(CommandScript) is not list: raise Exception("{0}): file structure not valid - Expecting a json list".format(FUNC_NAME))
-        _isValidCommandScript(CommandScript)
+        isValidCommandScript(CommandScript)
     except Exception as err:
         raise Exception("{0} {1}".format(FUNC_NAME,err))
     return (CommandScript)
 
 
 def RunLedCommands(CommandScriptList=[]):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
 
     try:
         Counter = 0
         for FileCommand in CommandScriptList:
-            if isDebugOn(): print(FUNC_NAME+"Command is :-"+str(FileCommand["Command"]["Function"]))
+            if IsDebugOn(): print(FUNC_NAME+"Command is :-"+str(FileCommand["Command"]["Function"]))
             if FileCommand["Command"]["Function"] == "Wait":
                 time.sleep(FileCommand["Command"]["WaitIntervalTime"])
             elif FileCommand["Command"]["Function"] == "SetAllLedIntensities":
                 SetAllLedIntensities(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
                                    IntensityLevel=FileCommand["Command"]["IntensityLevel"])
-            elif FileCommand["Command"]["Function"] == "SetLedNrIntensity":
-                SetLedNrIntensity(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
+            elif FileCommand["Command"]["Function"] == "SetLedNrToIntensityLevel":
+                SetLedNrToIntensityLevel(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
                                    LedNr=FileCommand["Command"]["LedNr"], 
                                    IntensityLevel=FileCommand["Command"]["IntensityLevel"])
-            elif FileCommand["Command"]["Function"] == "SetLedNrListIntensities":
-                SetLedNrListIntensities(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
+            elif FileCommand["Command"]["Function"] == "SetLedNrListToSameIntensityLevel":
+                SetLedNrListToSameIntensityLevel(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
                                    LedNrList = FileCommand["Command"]["LedNrList"], 
                                    IntensityLevel=FileCommand["Command"]["IntensityLevel"])
             elif FileCommand["Command"]["Function"] == "SetAllLedRandomStates":
                 SetAllLedRandomStates(DeviceUUID=FileCommand["Command"].get("DeviceUUID"))
-            elif FileCommand["Command"]["Function"] == "SetLedNrIntensityList":
-                SetLedNrIntensityList(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
-                                   LedNrIntensityList=FileCommand["Command"]["LedNrIntensityList"])
+            elif FileCommand["Command"]["Function"] == "SetLedNrAndIntensityLevelList":
+                SetLedNrAndIntensityLevelList(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
+                                   LedNrAndIntensityList=FileCommand["Command"]["LedNrIntensityList"])
             elif FileCommand["Command"]["Function"] == "SetAllLedFlash":
                 SetAllLedFlash(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
                                    FlashCount=FileCommand["Command"]["FlashCount"], 
@@ -168,8 +168,8 @@ def RunLedCommands(CommandScriptList=[]):
             elif FileCommand["Command"]["Function"] == "SetAllLedStates":
                 SetAllLedStates(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
                                    State=FileCommand["Command"]["State"])
-            elif FileCommand["Command"]["Function"] == "SetLedNrStateList":
-                SetLedNrStateList(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
+            elif FileCommand["Command"]["Function"] == "SetLedNrAndStateList":
+                SetLedNrAndStateList(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
                                    LedNrStateList=FileCommand["Command"]["LedNrStateList"])
             elif FileCommand["Command"]["Function"] == "SetLedNrListFadeReverb":
                 SetLedNrListFadeReverb(DeviceUUID=FileCommand["Command"].get("DeviceUUID"), 
@@ -265,8 +265,8 @@ def RunLedCommands(CommandScriptList=[]):
     
 
 def _GetCommandsToRepeat(CommandScriptList, LastItemCount, NrPreviousCommandsToRepeat):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
     NewCommandScriptList = CommandScriptList[LastItemCount-NrPreviousCommandsToRepeat:LastItemCount]
     return(NewCommandScriptList)

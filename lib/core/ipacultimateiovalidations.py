@@ -37,8 +37,8 @@ import usb.core
 import usb.util
 import usb.control
 
-from ..common.common_lib import my_func_name
-from ..common.common_lib import isDebugOn
+from ..common.common_lib import GetMyFuncName
+from ..common.common_lib import IsDebugOn
 
 
 UM_VENDOR_ID_LIST = [ 0xD209 ] # There should only be one Vendor - but there may be an issue when setup as XInput
@@ -49,9 +49,9 @@ UM_XINPUT_PRODUCT_ID_LIST =[ 0X028e ]
 
 
 
-def _IsValidIpacUltimateDevice(DeviceID, xinput_flag=False):
-    FUNC_NAME=my_func_name()
-    if isDebugOn(): print(FUNC_NAME)
+def IsValidIpacUltimateDevice(DeviceID, xinput_flag=False):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
 
 

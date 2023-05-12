@@ -1,7 +1,7 @@
 Ultimarc-Ultimate I/O 
-==============
+======================
 
-Library and command script utility to configure the LEDs on the Ultimarc Ultimate IO Board
+Library and command script utility to configure the LEDs on the Ultimarc Ultimate IO Board or multiple Ultimarc Ultimate IO Boards
 
 Introduction
 =============
@@ -12,26 +12,13 @@ This library and command line utility has been tested with only the current IPAC
 This has been written in python.
 
 It has been used successfully with the raspberry pi, with either the Raspberry Pi OS (https://www.raspberrypi.org/software/) or 
-Retropie (https://retropie.org.uk/). It may be work in other environments but has not been tested.
-
-Multiple Boards have been coded to be supported but not fully tested
-In the command script - you can either add the DeviceUUID so that a commend will execute on a specific board or
-do not provide the DeviceUUID and it will execute the command on all identified devices.
-to obtain a list of devices either run
-$ python3 ~/ipacultimateio/set-ultimateio-leds.py -l
-or
-$ python3 ~/ipacultimateio/set-ultimateio-leds.py -xl
-depending on whether you are running any boards with X-Input mode
+Retropie (https://retropie.org.uk/). It may work in other environments but has not been tested.
 
 
-X-Input - this has been coded but not fully tested - an extra option needs to be added on the command line of -x
-e.g.
-$ python3 ~/ipacultimateio/set-ultimateio-leds.py -x
-will find any devices configured as X-Input  (both Ultimarc devices and generic X-Input devices. 
-
+Multiple Boards have been coded to be supported (but not fully tested) - please refer to the Section Muliboard Setup - any feedback on issues are welcome
+It is strongly suggest that you run this utility in single board mode first before looking to configure multiple boards
 
 The library includes all the python source code, but it is intended to be used via the command line as a utility.
-
 
 Donations 
 ==========
@@ -42,7 +29,7 @@ https://paypal.me/quicksyuk?locale.x=en_GB
 
 
 Pre-Requisites
-==============
+===============
 Python installed version 3.7.3 (or above)
 https://projects.raspberrypi.org/en/projects/generic-python-install-python3
 
@@ -56,7 +43,7 @@ $ python3 -m pip install pyusb
 
 
 Installation
-============
+=============
 
 The ultimarc library can be download via git hub with the following command
 
@@ -76,6 +63,8 @@ You will need to reboot the raspberry pi for this permission to become active.
 
 Running a Test
 ===============
+Plug in one Ultimarc IO USB board 
+
 Now run a test- 
 $ python3 ~/ipacultimateio/set-ultimateio-leds.py
 
@@ -110,21 +99,88 @@ Scripts
 Scripts are json files that allow you to execute a sequence of different commands to the Board. These will allow you to set the colour of a 
 led, flash an led, fade a led etc - each of those commands require a set of paramaters and informaiton to allow them to configure
 the Leds.
+The normal expectation is that 3 leds (red/green/blue) are attached to a button. The functionality of the commands will assume you have 
+configured your Leds in this way, to make understanding how a command will affect your buttons. However you can easily try out the commands 
+yourself so you can see how each command will affect how you have configured your buttons to the IO Board.
 
-There are three levels of commands
-- All Leds
+There are four levels of commands
+- All Leds - the command will affect all Leds in the same way
 	- All leds can be configured to have the same configuration.
-- A list of Led's
-	- you can pass in a list of Led Numbers and configure those together, useful if you don;t have many scripts or you know/remember
-          which button is configured to which Led Numbers and that you don't change them. Don't forget that the Board Led NR's are in order
+    - the following commands are available
+        - SetAllLedIntensities:     Set all LEDs to the specified brightness level;
+                                    all buttons will be the same colour
+        - SetAllLedRandomStates:    Set all LEDs to be randomly on or off;
+                                    all buttons will have a randomised colour
+        - SetAllLedFlash:           Set All LEDs to flash x times at the flash interval specified;
+                                    all buttons will flash on and off
+        - SetAllLedRandomFlash:     Buttons will randomly be turned on and off
+
+        - SetAllLedStates:          Turn All LEDs On or Off - when turning back on, the previous setting will be re-applied;
+                                    all buttons will be turned off or on
+        - SetAllLedFadeReverb:      Fade down and then back up All LEDs;
+                                    all butttons wil fade down to off and then back up to the previously set colour
+        - SetAllLedFadeToOff:       Fade down all LEDs;
+                                    all buttons will fade down to off
+        - SetAllLedFadeToOn:        Fade up all LEDs;
+                                    all buttons will fade up to the previously set colour
+
+- A list of Leds
+	- you can pass in a list of Led Numbers and configure those together, useful if you don't have many scripts or you know/remember
+      which button is configured to which Led Numbers and that you don't change them. Don't forget that the Board Led NR's are in order
 	  of RGB for Led numbers up to 48 and then become BGR from 49 onwards - If the colour of a button is red and you expect it to be blue 
-          you may have set the wrong Led Number.
+      you may have set the wrong Led Number.
+
+    - the following commands are available
+        - SetLedNrListToSameIntensityLevel: Set a list of LEDs to the same specified brightness level;
+                                            changes the colour of the buttons connected to those Leds
+        - SetLedNrListFlash:                Set a list of LEDs to flash x times at the flash interval specified;
+                                            changes the colour of the buttons connected to those Leds
+        - SetLedNrListFadeReverb:           Fade down and then back up the list of LEDs;
+                                            changes the colour of the buttons connected to those Leds
+        - SetLedNrListFadeToOff:            Fade down the list of LEDs
+                                            changes the colour of the buttons connected to those Leds
+        - SetLedNrListFadeToOn:             Fade up the list of LEDs
+                                            changes the colour of the buttons connected to those Leds
+        - SetLedNrIntensityLevelList:       Set a list of LEDs to an LED specific brightness level
+                                            will change the colour of a button
+        - SetLedNrStateList:                Set a list specific LEDs On or Off - when turning back on, the previous setting will be re-applied;
+                                            will change the colour of a button
+
 - A group of Leds 
-	- you can define a GroupName (e.g. "button1") and provide a list of Led Numbers for that (e.g. 16,17,18 for the Red/Green/Blue Led 
+	- you can define a GroupName (e.g. "button1") and provide a list of 3 Led Numbers (or in groups of 3) for that (e.g. 16,17,18 for the Red/Green/Blue Led 
           Numbers of that button (or BGR numbers for 49-96 pins)
+          A group name would noramlly define a button i.e. the LED Nr's for a particular button, but you can use it to group as many LED's together 
+          as you want.
           You can then run a defined set of commands for that groupName (or list of GroupNames) and effectively configure the underlying Led Numbers.
           It provides a layer of encapsulation, meaning that if button1 is not longer configured for led numbers 16,17,19 - you can redefine the Led 
           Numbers you wish to be associated with that name
+    - the following commands are available
+        - SetLedGroupNameIntensity :        Set all Led's in the group to the same intensity/colour;
+                                            changes the colour of a button
+        - SetLedGroupNameListIntensities:   Set a list of LedGroupNames to the specific intensity level for that group
+        - SetLedGroupNameListFlash:         Set a list of LedGroupNames to flash on and off
+        - SetLedGroupNameListFadeReverb:    Set a list of LedGroupNames to fade down and then back up to the previously set colour
+        - SetLedGroupNameListFadeToOff:     Set a list of LedGroupNames to fade down to off
+        - SetLedGroupNameListFadeToOn:      Set a list of LedGroupNames to fade up to the previously set colour
+        - SetLedGroupNameListRainbowCycle:  For the list of LedGroupsNames, produce a rainbow effect in the order
+                                            that the LedGroupNames have been entered in the list;
+                                            cycles the buttons through colours of the rainbow
+        - SetLedGroupNameIntensityList:     Set a list of LED groups to an LED group specific brightness level
+                                            will change the colour of a button
+        - SetLedGroupNameStateList:         Set a list specific LEDs On or Off - when turning back on, the previous setting will be re-applied;
+                                            will turn a list of buttons (LedGroup Names) to either on or off 
+
+
+- A specific Led
+	- you can pass in a specific Led Numbers and configure those together, useful if you don;t have many scripts or you know/remember
+      which button is configured to which Led Numbers and that you don't change them. Don't forget that the Board Led NR's are in order
+	  of RGB for Led numbers up to 48 and then become BGR from 49 onwards - If the colour of a button is red and you expect it to be blue 
+      you may have set the wrong Led Number.
+
+    - the following commands are available
+        - SetLedNrToIntensityLevel:        Set a specific LED to the specified brightness level;
+                                    This changes the colour of a button
+
 
 
 - There are prebuilt scripts that are used for emulation station in retropie - you can of course configure these for your Led setup
@@ -189,3 +245,39 @@ The sub folders hold additional modules that are needed for this utility.
 - docs folder -
 The full readme file is here ! Additonal documentation may be provided at a later date.
 
+
+
+Multi-Board Setup
+=====================
+
+There are many ways in which to control multiple boards. 
+If you use the LedGroupName 
+
+
+
+In the command script - you can either add the DeviceUUID so that a commend will execute on a specific board or
+do not provide the DeviceUUID and it will execute the command on all identified devices.
+to obtain a list of devices either run
+$ python3 ~/ipacultimateio/set-ultimateio-leds.py -l
+or
+$ python3 ~/ipacultimateio/set-ultimateio-leds.py -xl
+depending on whether you are running any boards with X-Input mode
+
+
+X-Input - this has been coded but not fully tested - an extra option needs to be added on the command line of -x
+e.g.
+$ python3 ~/ipacultimateio/set-ultimateio-leds.py -x
+will find any devices configured as X-Input  (both Ultimarc devices and generic X-Input devices. 
+
+
+
+
+
+- scripts folder
+For mulitboard configuration an example script is provided which shows the structure of the file that you will need to adhere to, which includes an example of all 
+command that can be used.
+For this to work in yuor setup you will need to change the values for the Device UUID
+
+- data folder -
+For mulitboard configuration an example script
+If you wish to use GroupNames to configure a button,

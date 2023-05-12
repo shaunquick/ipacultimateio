@@ -29,11 +29,11 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-from ..common.common_lib import isDebugOn
+from ..common.common_lib import IsDebugOn
 
 
 
-def listOfDevicesExample(DeviceIDList):
+def GetHelpTextListOfDevicesExample(DeviceIDList):
     help_text = "Devices found are :- \n"
     for myDevice in DeviceIDList:
         help_text += "DeviceUUID = " + myDevice["DeviceUUID"] +"\n"
@@ -51,7 +51,7 @@ def listOfDevicesExample(DeviceIDList):
     return (help_text)
 
 
-def help():
+def GetHelpTextMain():
      
     helptext= """Usage: set-ultimateio-leds.py [OPTION] FILE
 This is for use with the ultimarc I/O Board, The FILE will hold the set of
@@ -79,12 +79,12 @@ There is also an example of a multiboard LedGroupNameDefinitions setup, in the d
                     \"IntensityLevel\": 255,
                     \"DeviceUUID\" : \"53769:1040:1:3\"}},
 { \"Command\" : {   \"comment\": \"Set a specific LED to the specified brightness level\",
-                    \"Function\" : \"SetLedNrIntensity\",
+                    \"Function\" : \"SetLedNrToIntensityLevel\",
                     \"LedNr\": 3,
                     \"IntensityLevel\": 255,
                     \"DeviceUUID\" : \"53769:1040:1:3\"}},
 { \"Command\" : {   \"comment\": \"Set a list of LEDs to the same specified brightness level\",
-                    \"Function\"     : \"SetLedNrListIntensities\",
+                    \"Function\"     : \"SetLedNrListToSameIntensityLevel\",
                     \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
                     \"IntensityLevel\": 255,
                     \"DeviceUUID\" : \"53769:1040:1:3\"   }},
@@ -92,7 +92,7 @@ There is also an example of a multiboard LedGroupNameDefinitions setup, in the d
                     \"Function\" : \"SetAllLedRandomStates\",
                     \"DeviceUUID\" : \"53769:1040:1:3\" }},
 { \"Command\" : {   \"comment\": \"Set a list of LEDs to an LED specific brightness level\",
-                    \"Function\" : \"SetLedNrIntensityList\",
+                    \"Function\" : \"SetLedNrAndIntensityLevelList\",
                     \"LedNrIntensityList\": [   {\"LedNr\": 1, \"IntensityLevel\": 255}, 
                     {\"LedNr\": 95, \"IntensityLevel\": 255}],
                     \"DeviceUUID\" : \"53769:1040:1:3\" }},
@@ -116,7 +116,7 @@ There is also an example of a multiboard LedGroupNameDefinitions setup, in the d
                     \"State\": true,
                     \"DeviceUUID\" : \"53769:1040:1:3\" }},
 { \"Command\" : {   \"comment\": \"Set a list LEDs On or Off - when turning back on, the previous setting will be re-applied\",
-                    \"Function\" : \"SetLedNrStateList\",
+                    \"Function\" : \"SetLedNrAndStateList\",
                     \"LedNrStateList\": [   {\"LedNr\": 10, \"State\": true}, 
                     {\"LedNr\": 11, \"State\": false} ],
                     \"DeviceUUID\" : \"53769:1040:1:3\" }},
@@ -240,7 +240,7 @@ Mandatory arguments to long options are mandatory for short options too.
 
 
 
-def help_romleds():
+def GetHelpTextRomLeds():
 
     helptext= """Usage: set-ultimateio-rom-leds.py [OPTION] romname
 This is for use with the ultimarc I/O Board. This command will allow
