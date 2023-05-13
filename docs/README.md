@@ -275,14 +275,16 @@ Using LedGroupName Definitions to control Specific Leds on a specific Board
 ================================================================
 This is most probably the easiest way in which to control Specific Leds on a specific Board.
 
-In the data folder, an example LedGroupName Definitions json file is available for use as a template. It is called MultiboardExample_LedGroupNameDefinitions.json
+In the data folder, an example LedGroupName Definitions json file is available for use as a template. 
+It is called MultiboardExample_LedGroupNameDefinitions.json
 You can define a unique LedGroupName for a set of Leds for a specific device
 
 As can be seen from the snippet below there are two boards, DeviceUUID of 53769:1040:1:3 (Board 1) and 53769:1040:1:4 (board 2)
 We want to have player 3 and 4 on board 2 and player 1 and 2 on board 1
 We can define unique LedGroupNames, with relevant Led's and target that LedGroupName to the specific device
+
 ......
-  { "LedGroupName": "p1b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:3" },
+{ "LedGroupName": "p1b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:3" },
   { "LedGroupName": "p2b1", "LedNrRGB": [ 66, 65, 64 ], "DeviceUUID": "53769:1040:1:3" },
   { "LedGroupName": "p3b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:4" },
   { "LedGroupName": "p4b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:4" },
