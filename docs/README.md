@@ -98,82 +98,81 @@ configured your Leds in this way, to make understanding how a command will affec
 yourself so you can see how each command will affect how you have configured your buttons to the IO Board.  
 
 There are four levels of commands  
-- All Leds - the command will affect all Leds in the same way  
-	- All leds can be configured to have the same configuration.  
-    - the following commands are available  
+- All Leds - the command will affect all Leds in the same way
+	- All leds can be configured to have the same configuration.
+    - the following commands are available
         - SetAllLedIntensities:     Set all LEDs to the specified brightness level;  
-                                    all buttons will be the same colour  
+                                    all buttons will be the same colour
         - SetAllLedRandomStates:    Set all LEDs to be randomly on or off;  
-                                    all buttons will have a randomised colour  
+                                    all buttons will have a randomised colour
         - SetAllLedFlash:           Set All LEDs to flash x times at the flash interval specified;  
-                                    all buttons will flash on and off  
+                                    all buttons will flash on and off
         - SetAllLedRandomFlash:     Buttons will randomly be turned on and off  
-          
         - SetAllLedStates:          Turn All LEDs On or Off - when turning back on, the previous setting will be re-applied;  
-                                    all buttons will be turned off or on  
-        - SetAllLedFadeReverb:      Fade down and then back up All LEDs;  
+                                    all buttons will be turned off or on
+        - SetAllLedFadeReverb:      Fade down and then back up All LEDs;
                                     all butttons wil fade down to off and then back up to the previously set colour  
         - SetAllLedFadeToOff:       Fade down all LEDs;  
-                                    all buttons will fade down to off  
+                                    all buttons will fade down to off
         - SetAllLedFadeToOn:        Fade up all LEDs;  
-                                    all buttons will fade up to the previously set colour  
+                                    all buttons will fade up to the previously set colour
                                       
-- A list of Leds  
+- A list of Leds
 	- you can pass in a list of Led Numbers and configure those together, useful if you don't have many scripts or you know/remember
  which button is configured to which Led Numbers and that you don't change them. Don't forget that the Board Led NR's are in order 
  of RGB for Led numbers up to 48 and then become BGR from 49 onwards - If the colour of a button is red and you expect it to be blue 
  you may have set the wrong Led Number.
 
-    - the following commands are available  
+    - the following commands are available
         - SetLedNrListToSameIntensityLevel: Set a list of LEDs to the same specified brightness level;  
-                                            changes the colour of the buttons connected to those Leds  
+                                            changes the colour of the buttons connected to those Leds
         - SetLedNrListFlash:                Set a list of LEDs to flash x times at the flash interval specified;  
-                                            changes the colour of the buttons connected to those Leds  
+                                            changes the colour of the buttons connected to those Leds
         - SetLedNrListFadeReverb:           Fade down and then back up the list of LEDs;  
-                                            changes the colour of the buttons connected to those Leds  
+                                            changes the colour of the buttons connected to those Leds
         - SetLedNrListFadeToOff:            Fade down the list of LEDs  
-                                            changes the colour of the buttons connected to those Leds  
+                                            changes the colour of the buttons connected to those Leds
         - SetLedNrListFadeToOn:             Fade up the list of LEDs  
-                                            changes the colour of the buttons connected to those Leds  
+                                            changes the colour of the buttons connected to those Leds
         - SetLedNrIntensityLevelList:       Set a list of LEDs to an LED specific brightness level  
-                                            will change the colour of a button  
+                                            will change the colour of a button
         - SetLedNrStateList:                Set a list specific LEDs On or Off - when turning back on, the previous setting will be re-applied;  
-                                            will change the colour of a button  
+                                            will change the colour of a button
 
-- A group of Leds  
+- A group of Leds
 	- you can define a GroupName (e.g. "button1") and provide a list of 3 Led Numbers (or in groups of 3) for that (e.g. 16,17,18 for the Red/Green/Blue Led   
-          Numbers of that button (or BGR numbers for 49-96 pins)
+          Numbers of that button (or BGR numbers for 49-96 pins)  
           A group name would noramlly define a button i.e. the LED Nr's for a particular button, but you can use it to group as many LED's together 
           as you want.  
           You can then run a defined set of commands for that groupName (or list of GroupNames) and effectively configure the underlying Led Numbers.
           It provides a layer of encapsulation, meaning that if button1 is not longer configured for led numbers 16,17,19 - you can redefine the Led 
-          Numbers you wish to be associated with that name  
-    - the following commands are available  
+          Numbers you wish to be associated with that name
+    - the following commands are available
         - SetLedGroupNameIntensity :        Set all Led's in the group to the same intensity/colour;  
-                                            changes the colour of a button  
-        - SetLedGroupNameListIntensities:   Set a list of LedGroupNames to the specific intensity level for that group  
-        - SetLedGroupNameListFlash:         Set a list of LedGroupNames to flash on and off  
-        - SetLedGroupNameListFadeReverb:    Set a list of LedGroupNames to fade down and then back up to the previously set colour  
-        - SetLedGroupNameListFadeToOff:     Set a list of LedGroupNames to fade down to off  
-        - SetLedGroupNameListFadeToOn:      Set a list of LedGroupNames to fade up to the previously set colour  
+                                            changes the colour of a button
+        - SetLedGroupNameListIntensities:   Set a list of LedGroupNames to the specific intensity level for that group
+        - SetLedGroupNameListFlash:         Set a list of LedGroupNames to flash on and off
+        - SetLedGroupNameListFadeReverb:    Set a list of LedGroupNames to fade down and then back up to the previously set colour
+        - SetLedGroupNameListFadeToOff:     Set a list of LedGroupNames to fade down to off
+        - SetLedGroupNameListFadeToOn:      Set a list of LedGroupNames to fade up to the previously set colour
         - SetLedGroupNameListRainbowCycle:  For the list of LedGroupsNames, produce a rainbow effect in the order  
                                             that the LedGroupNames have been entered in the list;  
-                                            cycles the buttons through colours of the rainbow  
+                                            cycles the buttons through colours of the rainbow
         - SetLedGroupNameIntensityList:     Set a list of LED groups to an LED group specific brightness level  
-                                            will change the colour of a button  
+                                            will change the colour of a button
         - SetLedGroupNameStateList:         Set a list specific LEDs On or Off - when turning back on, the previous setting will be re-applied;  
-                                            will turn a list of buttons (LedGroup Names) to either on or off   
+                                            will turn a list of buttons (LedGroup Names) to either on or off
 
 
-- A specific Led  
+- A specific Led
 	- you can pass in a specific Led Numbers and configure those together, useful if you don;t have many scripts or you know/remember
       which button is configured to which Led Numbers and that you don't change them. Don't forget that the Board Led NR's are in order
 	  of RGB for Led numbers up to 48 and then become BGR from 49 onwards - If the colour of a button is red and you expect it to be blue 
-      you may have set the wrong Led Number.  
+      you may have set the wrong Led Number.
 
-    - the following commands are available  
+    - the following commands are available
         - SetLedNrToIntensityLevel:        Set a specific LED to the specified brightness level;  
-                                           changes the colour of a button  
+                                           changes the colour of a button
 
 
 
@@ -190,11 +189,11 @@ https://retropie.org.uk/docs/EmulationStation/#scripting
 There will be a folder called ./emulationstation/scripts as part of this utility  
 
 The contents of that folder needs to be moved to ~.emulationstation if you wish to configure the Leds when Retropie is installed so that you can have 
-different Led settings when you  
-- Start a Game  
-- Finish a Game  
-- Emulationstation goes into screensaver mode  
-- Emulationstation wakes after screensaver mode  
+different Led settings when you
+- Start a Game
+- Finish a Game
+- Emulationstation goes into screensaver mode
+- Emulationstation wakes after screensaver mode
 
 This will create the folder structure expected for some emulation station events to be captured (as above).
 
@@ -205,10 +204,10 @@ You will need to edit the scripts for your chosen configuration
 
 # Utility Folder Structure #
 
-- main folder -  
+- main folder -
 Holds the main python program that you will execute to set the Led colours :- set-ultimateio-leds.py  
 
-- scripts folder  
+- scripts folder
 An example script (default_script.json) is provided which shows the structure of the file that you will need to adhere to, which includes an example of all 
 command that can be used.  
 You can create your own scripts in this folder, to configure the Board as you want.  
@@ -223,7 +222,7 @@ Emulationstation uses the above provided scripts - change the contents to how yo
 your scripts (or give them different names) to ensure that if, in the unfortunate event, they are overwritten then you can recover your scripts. 
 
 
-- data folder -  
+- data folder -
 If you wish to use GroupNames to configure a button, the configuration/definition file is held in this folder and is called 'LedGroupNameDefinitions.json'
 the LedNrRGB values will need to be configured for your set-up - additionally the LedGroupName value can also be changed to any name that you want 
 to use - remember that in the script you will also need to reference that new name in order to use the configuration in the command.  
@@ -246,11 +245,11 @@ The full readme file is here ! Additonal documentation may be provided at a late
 
 The current solution allows for
 
-- Easy use of the capability with a single board - see above instructions - there is no need to know the Unique identifier of the board  
-- controlling two (or more) boards identically (using LedNr or LedGroupName)  
-If DeviceUUIDs are not declared in the script files, nor in the LedGroupNameDefinitions.json file, the Led's on both boards will be treated identically  
-- Using LedGroupName Definitions to control Specific Leds on a specific Board  
-- Using Scripts to control Specific Leds on a specific Board  
+- Easy use of the capability with a single board - see above instructions - there is no need to know the Unique identifier of the board
+- controlling two (or more) boards identically (using LedNr or LedGroupName)
+If DeviceUUIDs are not declared in the script files, nor in the LedGroupNameDefinitions.json file, the Led's on both boards will be treated identically
+- Using LedGroupName Definitions to control Specific Leds on a specific Board
+- Using Scripts to control Specific Leds on a specific Board
 
 
 
@@ -281,7 +280,7 @@ We can define unique LedGroupNames, with relevant Led's and target that LedGroup
   { "LedGroupName": "p1b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:3" },  
   { "LedGroupName": "p2b1", "LedNrRGB": [ 66, 65, 64 ], "DeviceUUID": "53769:1040:1:3" },  
   { "LedGroupName": "p3b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:4" },  
-  { "LedGroupName": "p4b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:4" },  
+  { "LedGroupName": "p4b1", "LedNrRGB": [ 54, 55, 56 ], "DeviceUUID": "53769:1040:1:4" },  
 ......  
 
 
