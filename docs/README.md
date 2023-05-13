@@ -48,7 +48,7 @@ The ultimarc library can be download via git hub with the following command
 $ cd ~  
 $ git clone https://github.com/shaunquick/ipacultimateio.git  
 
--UDEV Rule:  
+## UDEV Rule ##
 Once the library has been downloaded the Board needs to allow the python utility to be able to write data out to it.  
 An additional permission needs to be granted at root level.  
 To do this, there is a file called 'ipacultimateio.rules' that can be moved to /etc/udev/rules.d folder  
