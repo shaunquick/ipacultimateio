@@ -179,7 +179,7 @@ There are four levels of commands
 
     - the following commands are available
         - SetLedNrToIntensityLevel:        Set a specific LED to the specified brightness level;
-                                    This changes the colour of a button
+                                           changes the colour of a button
 
 
 
@@ -209,7 +209,7 @@ You will need to edit the scripts for your chosen configuration
 
 
 Utility Folder Structure
-================
+=========================
 - main folder -
 Holds the main python program that you will execute to set the Led colours :- set-ultimateio-leds.py
 
@@ -250,34 +250,48 @@ The full readme file is here ! Additonal documentation may be provided at a late
 Multi-Board Setup
 =====================
 
-There are many ways in which to control multiple boards. 
-If you use the LedGroupName 
+The current solution allows for
+
+- Easy use of the capability with a single board - see above instructions - there is no need to know the Unique identifier of the board
+- controlling two (or more) boards identically (using LedNr or LedGroupName)
+If DeviceUUIDs are not declared in the script files, nor in the LedGroupNameDefinitions.json file, the Led's on both boards will be treated identically
+- Using LedGroupName Definitions to control Specific Leds on a specific Board
+- Using Scripts to control Specific Leds on a specific Board
 
 
 
-In the command script - you can either add the DeviceUUID so that a commend will execute on a specific board or
-do not provide the DeviceUUID and it will execute the command on all identified devices.
+Identifying multiple boards
+============================
 to obtain a list of devices either run
 $ python3 ~/ipacultimateio/set-ultimateio-leds.py -l
 or
 $ python3 ~/ipacultimateio/set-ultimateio-leds.py -xl
 depending on whether you are running any boards with X-Input mode
 
+The will return all of the unique Device Identifiers that you can then use to control which board performs a command
+**** These will be specific to your setup and you will need to use these DeviceUUIDs to contorl your sepcofc boards ****
 
-X-Input - this has been coded but not fully tested - an extra option needs to be added on the command line of -x
-e.g.
-$ python3 ~/ipacultimateio/set-ultimateio-leds.py -x
-will find any devices configured as X-Input  (both Ultimarc devices and generic X-Input devices. 
+Using LedGroupName Definitions to control Specific Leds on a specific Board
+================================================================
+This is most probably the easiest way in which to control Specific Leds on a specific Board.
+
+In the data folder, an example LedGroupName Definitions json file is available for use as a template. It is called MultiboardExample_LedGroupNameDefinitions.json
+You can define a unique LedGroupName for a set of Leds for a specific device
+
+As can be seen from the snippet below there are two boards, DeviceUUID of 53769:1040:1:3 (Board 1) and 53769:1040:1:4 (board 2)
+We want to have player 3 and 4 on board 2 and player 1 and 2 on board 1
+We can define unique LedGroupNames, with relevant Led's and target that LedGroupName to the specific device
+......
+  { "LedGroupName": "p1b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:3" },
+  { "LedGroupName": "p2b1", "LedNrRGB": [ 66, 65, 64 ], "DeviceUUID": "53769:1040:1:3" },
+  { "LedGroupName": "p3b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:4" },
+  { "LedGroupName": "p4b1", "LedNrRGB": [ 16, 17, 18 ], "DeviceUUID": "53769:1040:1:4" },
+......
 
 
+Using Scripts to control Specific Leds on a specific Board
+===========================================================
 
-
-
-- scripts folder
-For mulitboard configuration an example script is provided which shows the structure of the file that you will need to adhere to, which includes an example of all 
-command that can be used.
+In the script folder, there is an example of how to comntrol spefici Leds on a specific board. It is called  MultiboardExample_default_script.json 
 For this to work in yuor setup you will need to change the values for the Device UUID
 
-- data folder -
-For mulitboard configuration an example script
-If you wish to use GroupNames to configure a button,

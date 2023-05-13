@@ -31,29 +31,29 @@
 
 # This module has all of the common validations used across multiple
 # modules
-from .common_lib import GetMyFuncName
-from .common_lib import IsDebugOn
+from .common_lib    import GetMyFuncName
+from .common_lib    import IsDebugOn
 
-from .globalvar import MAX_INTENSITY_LEVEL
-from .globalvar import MAX_LEDS
-from .globalvar import MIN_LED_NR
-from .globalvar import MAX_LED_NR
-from .globalvar import MIN_FADE_INTERVAL_TIME
-from .globalvar import MAX_FADE_INTERVAL_TIME
-from .globalvar import MIN_FADE_INCREMENT
-from .globalvar import MAX_FADE_INCREMENT
-from .globalvar import MIN_FLASH_INTERVAL_TIME
-from .globalvar import MAX_FLASH_INTERVAL_TIME
-from .globalvar import MIN_FLASH_COUNT
-from .globalvar import MAX_FLASH_COUNT
-from .globalvar import MIN_WAIT_INTERVAL_TIME
-from .globalvar import MAX_WAIT_INTERVAL_TIME
-from .globalvar import MIN_FLASH_COUNT
-from .globalvar import MAX_FLASH_COUNT
-from .globalvar import MIN_NR_CYCLES
-from .globalvar import MAX_NR_CYCLES
-from .globalvar import MIN_CYCLE_INTERVAL_TIME
-from .globalvar import MAX_CYCLE_INTERVAL_TIME
+from .globalvar     import MAX_INTENSITY_LEVEL
+from .globalvar     import MAX_LEDS
+from .globalvar     import MIN_LED_NR
+from .globalvar     import MAX_LED_NR
+from .globalvar     import MIN_FADE_INTERVAL_TIME
+from .globalvar     import MAX_FADE_INTERVAL_TIME
+from .globalvar     import MIN_FADE_INCREMENT
+from .globalvar     import MAX_FADE_INCREMENT
+from .globalvar     import MIN_FLASH_INTERVAL_TIME
+from .globalvar     import MAX_FLASH_INTERVAL_TIME
+from .globalvar     import MIN_FLASH_COUNT
+from .globalvar     import MAX_FLASH_COUNT
+from .globalvar     import MIN_WAIT_INTERVAL_TIME
+from .globalvar     import MAX_WAIT_INTERVAL_TIME
+from .globalvar     import MIN_FLASH_COUNT
+from .globalvar     import MAX_FLASH_COUNT
+from .globalvar     import MIN_NR_CYCLES
+from .globalvar     import MAX_NR_CYCLES
+from .globalvar     import MIN_CYCLE_INTERVAL_TIME
+from .globalvar     import MAX_CYCLE_INTERVAL_TIME
 
 
     

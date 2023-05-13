@@ -31,8 +31,8 @@
 # Board have the correct format and paramaters.
 # If there are errors an exception will be raised
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib    import GetMyFuncName
+from ..common.common_lib    import IsDebugOn
 
 from .ledgroupname          import IsValidLedGroupNameList
 from .ledgroupname          import IsValidLedGroupNameStateList
@@ -197,7 +197,7 @@ def _isValidCommand(Command):
     return (True)
 
 
-def isValidCommandScript(CommandScriptList):
+def IsValidCommandScript(CommandScriptList):
     FUNC_NAME=GetMyFuncName()
     if IsDebugOn(): print(FUNC_NAME)
 

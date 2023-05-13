@@ -38,8 +38,8 @@ import usb.core
 import usb.util
 import usb.control
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib        import GetMyFuncName
+from ..common.common_lib        import IsDebugOn
 
 from .ipacultimateiovalidations import IsValidIpacUltimateDevice
 

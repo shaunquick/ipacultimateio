@@ -37,15 +37,14 @@
 
 import random
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib    import GetMyFuncName
+from ..common.common_lib    import IsDebugOn
 
-from ..common.validations import IsValidIntensityLevel
-from ..common.validations import IsValidState
+from ..common.validations   import IsValidIntensityLevel
+from ..common.validations   import IsValidState
+from ..common.validations   import IsValidLedNr
 
-from ..common.validations import IsValidLedNr
-
-from ..common.globalvar import MAX_LEDS
+from ..common.globalvar     import MAX_LEDS
 
 # LED_CURRENT_STATES holds, for each device, the current led number (index valiue), setintensitylevel, fadeintensitylevel and State (On or Off or (setBy)Script) 
 

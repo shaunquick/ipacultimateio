@@ -37,8 +37,8 @@ import usb.core
 import usb.util
 import usb.control
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib    import GetMyFuncName
+from ..common.common_lib    import IsDebugOn
 
 
 UM_VENDOR_ID_LIST = [ 0xD209 ] # There should only be one Vendor - but there may be an issue when setup as XInput

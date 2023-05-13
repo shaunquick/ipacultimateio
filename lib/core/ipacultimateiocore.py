@@ -37,30 +37,21 @@ import usb.core
 import usb.util
 import usb.control
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib                    import GetMyFuncName
+from ..common.common_lib                    import IsDebugOn
 
-from .ipacultimateiovalidations import IsValidIpacUltimateDevice
+from .ipacultimateiovalidations             import IsValidIpacUltimateDevice
+from ..utils.lednrlist                      import InitialiseDeviceListLEDList
+from ..utils.ledgroupname                   import InitialiseLedGroupNameList
+from ..utils.ledgroupnamedefinitionslist    import InitialiseLedGroupNameDefinitionsList
+from ..utils.ledcurrentstateslist           import InitialiseDeviceListLEDCurrentStates
+from .ipacultimateiodevicelist              import InitialiseDeviceList
 
-from ..utils.lednrlist import InitialiseDeviceListLEDList
+from .ipacultimateiodevicelist              import  GetDeviceList
+from .ipacultimateioboard                   import IsKernalDriverActive
+from .ipacultimateioboard                   import DetatchKernalDriver
 
-from ..utils.ledgroupname import InitialiseLedGroupNameList
-from ..utils.ledgroupnamedefinitionslist import InitialiseLedGroupNameDefinitionsList
-
-from ..utils.ledcurrentstateslist import GetDeviceLEDCurrentStates
-from ..utils.ledcurrentstateslist import InitialiseDeviceListLEDCurrentStates
-
-from .ipacultimateiodevicelist import  InitialiseDeviceList
-from .ipacultimateiodevicelist import  GetDeviceList
-
-
-from .ipacultimateioboard import ResetIODevice
-from .ipacultimateioboard import SetLEDsToIndividualBrightness
-from .ipacultimateioboard import GetUSBInterfaceNumber
-from .ipacultimateioboard import IsKernalDriverActive
-from .ipacultimateioboard import DetatchKernalDriver
-
-from .setledall import SetAllLedIntensities
+from .setledall                             import SetAllLedIntensities
 
 
 def InitialiseDeviceLists(FreeInterface = True, DeviceUUID = None, xinput_flag=False):
@@ -143,27 +134,7 @@ def GetSerialNumber(DeviceUUID):
     DeviceID=GetDeviceList(DeviceUUID)["DeviceID"]
     return(DeviceID.serial_number)
 
-def ResetDevices(DeviceUUID=None):
-# Reset one or many devices/boards - this will mean the board(s) will start to run the script previously
-# held in the firmware
-# At present the message is wrong as it does not reset - this is now commented out
-    FUNC_NAME=GetMyFuncName()
-    if IsDebugOn(): print(FUNC_NAME)
-    
-    for myDevice in GetDeviceList(DeviceUUID):
-        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
-# Commented out as this command is not working on the board.  
-# # This should then run the default script  
-#            ResetIODevice(myDevice["DeviceID"])
-    
 
-            for Led in GetDeviceLEDCurrentStates(myDevice["DeviceUUID"]):
-                Led['LedIntensity'] = 0
-                Led['LedFadeIntensity'] = 0
-                Led['State'] = "Script"
-
-     # as we cannot call ResetIODevice - just set the LED's to the resetted values
-    SetLEDsToIndividualBrightness(DeviceUUID)
 
 if __name__ == '__main__':
     pass

@@ -38,13 +38,13 @@
 # wanted to is to sleect multple led nrs and string them into a list
 
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib    import GetMyFuncName
+from ..common.common_lib    import IsDebugOn
 
-from ..common.validations import IsValidRGBIntensityList
-from ..common.validations import IsValidState
+from ..common.validations   import IsValidRGBIntensityList
+from ..common.validations   import IsValidState
 
-from ..common.globalvar import MAX_LEDS
+from ..common.globalvar     import MAX_LEDS
 
 LED_GROUP_NAMES_LIST = []
 

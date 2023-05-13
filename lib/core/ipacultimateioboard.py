@@ -39,13 +39,13 @@ import usb.control
 
 import time
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib            import GetMyFuncName
+from ..common.common_lib            import IsDebugOn
 
-from .ipacultimateiodevicelist import GetDeviceList
-from ..utils.ledcurrentstateslist import GetDeviceLEDCurrentStates
+from .ipacultimateiodevicelist      import GetDeviceList
+from ..utils.ledcurrentstateslist   import GetDeviceLEDCurrentStates
 
-from .ipacultimateiovalidations import IsValidIpacUltimateDevice
+from .ipacultimateiovalidations     import IsValidIpacUltimateDevice
 
 
 USB_BM_REQUESTTYPE_SET_CONFIGURATION = 0x21  # decimal = 33,  binary = 00100001
@@ -102,6 +102,30 @@ def SetLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False):
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
+
+
+
+def ResetDevices(DeviceUUID=None):
+# Reset one or many devices/boards - this will mean the board(s) will start to run the script previously
+# held in the firmware
+# At present the message is wrong as it does not reset - this is now commented out
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
+    
+    for myDevice in GetDeviceList(DeviceUUID):
+        if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]):
+# Commented out as this command is not working on the board.  
+# # This should then run the default script  
+#            ResetIODevice(myDevice["DeviceID"])
+    
+
+            for Led in GetDeviceLEDCurrentStates(myDevice["DeviceUUID"]):
+                Led['LedIntensity'] = 0
+                Led['LedFadeIntensity'] = 0
+                Led['State'] = "Script"
+
+     # as we cannot call ResetIODevice - just set the LED's to the resetted values
+    SetLEDsToIndividualBrightness(DeviceUUID)
 
 
 def _sendMessageToBoard(DeviceID, payload):

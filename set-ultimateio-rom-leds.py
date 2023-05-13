@@ -114,7 +114,7 @@ def main ():
     try:
 # Initialise the board and run the script privided or run the default script
         ScriptName = GetScriptName(myScript)
-        print(ScriptName)
+        if IsDebugOn(): print(ScriptName)
         # - 
         DeviceIDList = InitialiseDeviceLists(DeviceUUID=DeviceUUID, xinput_flag=xinput_flag)
         if len(DeviceIDList) == 0:
@@ -131,6 +131,11 @@ def main ():
 
     except Exception as err:
         print("Exception found: {0}".format(err))
+        sys.exit(2)
+
+    else:
+        if IsDebugOn(): print(FUNC_NAME+ "Finished Successfully")
+
 
 
 def GetScriptName(RomName):

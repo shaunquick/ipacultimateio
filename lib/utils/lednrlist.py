@@ -31,10 +31,10 @@
 
 # This module creates a list with all the led numers for each Device in the list - this can then be used for when actions need to be taken against all Leds
 # Get_LED_LIST_ALL returns a list of LedNrs from 1 to 96
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib    import GetMyFuncName
+from ..common.common_lib    import IsDebugOn
 
-from ..common.globalvar import MAX_LEDS
+from ..common.globalvar     import MAX_LEDS
 
 
 

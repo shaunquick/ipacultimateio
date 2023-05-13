@@ -124,8 +124,8 @@ def main ():
     except Exception as err:
         print("Exception found:  {0}".format(err))
         sys.exit(2)
-
-    if IsDebugOn(): print(FUNC_NAME+ "Finished Successfully")
+    else:
+        if IsDebugOn(): print(FUNC_NAME+ "Finished Successfully")
 
 
 # If we're running in stand alone mode, run the application

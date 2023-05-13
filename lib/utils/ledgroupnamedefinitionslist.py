@@ -218,8 +218,8 @@ def ConvertLedGroupNameToDevicesLedNrList(DeviceUUID=None, LedGroupName=""):
                     for Led in LedGroupNameDefinition["LedNrRGB"]:
                         LedNrList.append(Led)
 
-        if IsDebugOn(): print("{0}DeviceUUID is:{1}".format(FUNC_NAME, DeviceUUID))
-        if IsDebugOn(): print("{0}DeviceLEDGroupDefns is:{1}".format(FUNC_NAME, GetDeviceLedGroupNameDefinitions(DeviceUUID).items()))
+        # if IsDebugOn(): print("{0}DeviceUUID is:{1}".format(FUNC_NAME, DeviceUUID))
+        # if IsDebugOn(): print("{0}DeviceLEDGroupDefns is:{1}".format(FUNC_NAME, GetDeviceLedGroupNameDefinitions(DeviceUUID).items()))
         for myDeviceUUID, myDeviceLedGroupNames  in GetDeviceLedGroupNameDefinitions(DeviceUUID).items():
             if (DeviceUUID == None) or (DeviceUUID == myDeviceUUID): 
 # Now check if the LedGroupName is in th list myDeviceLedGroupNames if so then add it to the dict.
@@ -299,7 +299,7 @@ def _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState
                     if myDeviceLedGroupName['LedGroupName'] == LedGroupNameState["LedGroupName"]:
                         DevicesLedStateList.append({"DeviceUUID" : myDeviceUUID, "LedNrStateList" : LedStateList })
 
-        if IsDebugOn(): print("{0} DevicesStateList :".format(FUNC_NAME,DevicesLedStateList))
+        # if IsDebugOn(): print("{0} DevicesStateList :".format(FUNC_NAME,DevicesLedStateList))
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -330,7 +330,7 @@ def ConvertLedGroupNameStateListToDevicesLedStateList(DeviceUUID, LedGroupNameSt
             for DeviceLedStateList in _convertLedGroupNameStateToDevicesLedStateList(DeviceUUID, LedGroupNameState):
                 DevicesLedStateList.append(DeviceLedStateList)
 
-        if IsDebugOn(): print("{0} DevicesLedStateList:".format(FUNC_NAME,DevicesLedStateList))
+        # if IsDebugOn(): print("{0} DevicesLedStateList:".format(FUNC_NAME,DevicesLedStateList))
 
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
@@ -395,7 +395,7 @@ def ConvertLedGroupNameIntensityListToDevicesLedNrAndIntensityList(DeviceUUID, L
         for LedGroupNameIntensity in LedGroupNameIntensityList:
             for DeviceLedIntensityList in _convertLedGroupNameIntensityToDevicesLedNrAndIntensityList(DeviceUUID, LedGroupNameIntensity):
                 DevicesLedIntensityList.append(DeviceLedIntensityList)
-        if IsDebugOn(): print(DevicesLedIntensityList)
+        #if IsDebugOn(): print(DevicesLedIntensityList)
 
                     
     except Exception as err:

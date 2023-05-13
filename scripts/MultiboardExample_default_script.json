@@ -1,0 +1,503 @@
+[
+	{
+		"Command": {
+			"comment": "ask the script to wait this number of seconds between commands to the board",
+			"Function": "Wait",
+			"WaitIntervalTime": 0.2
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetAllLedIntensities",
+			"IntensityLevel": 255,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrToIntensityLevel",
+			"LedNr": 3,
+			"IntensityLevel": 255,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrListToSameIntensityLevel",
+			"LedNrList": [ 16, 17, 18, 19, 20, 21, 88, 89, 90 ],
+			"IntensityLevel": 255,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{ "Command": { "Function": "SetAllLedRandomStates" } },
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrAndIntensityLevelList",
+			"LedNrIntensityList": [
+				{
+					"LedNr": 16,
+					"IntensityLevel": 255
+				},
+				{
+					"LedNr": 19,
+					"IntensityLevel": 255
+				}
+			],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetAllLedFlash",
+			"FlashCount": 5,
+			"FlashIntervalTime": 0.25,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetAllLedRandomFlash",
+			"FlashCount": 5,
+			"FlashIntervalTime": 0.25,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrListFlash",
+			"FlashCount": 5,
+			"LedNrList": [ 16, 17, 18, 19, 20, 21, 88, 89, 90 ],
+			"FlashIntervalTime": 0.25,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetAllLedStates",
+			"State": true,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrAndStateList",
+			"LedNrStateList": [
+				{
+					"LedNr": 16,
+					"State": true
+				},
+				{
+					"LedNr": 17,
+					"State": false
+				}
+			],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrListFadeReverb",
+			"LedNrList": [ 16, 17, 18, 19, 20, 21, 88, 89, 90 ],
+			"FadeIncrement": 10,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetAllLedFadeReverb",
+			"FadeIncrement": 20,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetAllLedFadeToOff",
+			"FadeIncrement": 30,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetAllLedFadeToOn",
+			"FadeIncrement": 40,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrListFadeToOff",
+			"LedNrList": [ 1, 3, 4, 5, 6, 7, 8, 9, 95, 96 ],
+			"FadeIncrement": 50,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrListFadeToOn",
+			"LedNrList": [ 16, 17, 18, 19, 20, 21, 88, 89, 90 ],
+			"FadeIncrement": 60,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+
+
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetLedNrListToSameIntensityLevel",
+			"LedNrList": [ 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 52, 55, 58, 61, 64, 67, 70, 73, 76, 79, 82, 85, 88, 91, 94 ],
+			"IntensityLevel": 255,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 2
+		}
+	},
+
+	{
+		"Command": {
+			"Function": "SetAllLedIntensities",
+			"IntensityLevel": 0,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p1b1",
+			"RGBIntensity": [ 60, 0, 0 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p1b2",
+			"RGBIntensity": [ 0, 60, 0 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p1b3",
+			"RGBIntensity": [ 0, 0, 60 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p1b4",
+			"RGBIntensity": [ 60, 60, 0 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p1b5",
+			"RGBIntensity": [ 0, 60, 60 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p1b6",
+			"RGBIntensity": [ 60, 0, 60 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p2b1",
+			"RGBIntensity": [ 100, 0, 0 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p2b2",
+			"RGBIntensity": [ 0, 100, 0 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p2b3",
+			"RGBIntensity": [ 0, 0, 100 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p2b4",
+			"RGBIntensity": [ 100, 100, 0 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p2b5",
+			"RGBIntensity": [ 0, 100, 100 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 0.25
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p2b6",
+			"RGBIntensity": [ 100, 100, 100 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 2
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetAllLedIntensities",
+			"IntensityLevel": 0,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "Wait",
+			"WaitIntervalTime": 2
+		}
+	},
+
+	{
+		"Command": {
+			"Function": "RepeatLastCommands",
+			"NrPreviousCommandsToRepeat": 14,
+			"NrOfRepetitions": 3
+		}
+	},
+
+
+	{
+		"Command": {
+			"Function": "SetLedGroupNameListIntensities",
+			"LedGroupNameList": [ "p1b1", "p1b2", "p1b3", "p1b4" ],
+			"IntensityLevel": 255,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensity",
+			"LedGroupName": "p1b1",
+			"RGBIntensity": [ 255, 11, 22 ],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+
+	{
+		"Command": {
+			"Function": "SetLedGroupNameIntensityList",
+			"LedGroupNameIntensityList": [
+				{
+					"LedGroupName": "p1b1",
+					"RGBIntensity": [ 255, 11, 22 ]
+				},
+				{
+					"LedGroupName": "p1b2",
+					"RGBIntensity": [ 255, 11, 22 ]
+				}
+			],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+
+	{
+		"Command": {
+			"Function": "SetLedGroupNameListFlash",
+			"FlashCount": 5,
+			"LedGroupNameList": [ "p1b1", "p1b2", "p2b1", "p2b2", "p2b5", "p1b6" ],
+			"FlashIntervalTime": 0.25,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+
+	{
+		"Command": {
+			"Function": "SetLedGroupNameStateList",
+			"LedGroupNameStateList": [
+				{
+					"LedGroupName": "p1b1",
+					"State": true
+				},
+				{
+					"LedGroupName": "p1b2",
+					"State": false
+				}
+			],
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+
+	{
+		"Command": {
+			"Function": "SetLedGroupNameListFadeReverb",
+			"LedGroupNameList": [ "p1b1", "p1b2", "p2b1", "p2b2", "p2b5", "p1b6" ],
+			"FadeIncrement": 10,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameListFadeToOff",
+			"LedGroupNameList": [ "p1b1", "p1b2", "p2b1", "p2b2", "p2b5", "p1b6" ],
+			"FadeIncrement": 50,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+	{
+		"Command": {
+			"Function": "SetLedGroupNameListFadeToOn",
+			"LedGroupNameList": [ "p1b1", "p1b2", "p2b1", "p2b2", "p2b5", "p1b6" ],
+			"FadeIncrement": 60,
+			"FadeIntervalTime": 0.2,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	},
+
+
+
+
+
+	{
+		"Command": {
+			"Function": "SetLedGroupNameListRainbowCycle",
+			"LedGroupNameList": [ "pinballleft1", "pinballleft2",
+					"p1coin","p1start",
+					"p1b1","p1b4","p1b2","p1b5","p1b3","p1b6",
+					 "top1", "trackball", "top2",
+					"p2coin","p2start",
+					"p2b1","p2b4","p2b2","p2b5","p2b3","p2b6",
+					"pinballright1","pinballright2"],
+			"NrCycles": 30,
+			"CycleIntervalTime": 0.1
+		}
+	},
+
+
+	{ "Command" : { "Function" : "Wait", "WaitIntervalTime": 5 }},
+
+	{
+		"Command": {
+			"comment": "",
+			"Function": "SetAllLedIntensities",
+			"DeviceUUID": "53769:1040:1:3",
+			"IntensityLevel": 255,
+			"DeviceUUID": "53769:1040:1:3"
+		}
+	}
+
+]

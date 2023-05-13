@@ -35,35 +35,33 @@
 
 import time
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib            import GetMyFuncName
+from ..common.common_lib            import IsDebugOn
 
-from ..common.validations import IsValidFadeIntervalTime
-from ..common.validations import IsValidIntensityLevel
-from ..common.validations import IsValidLedNrList
-from ..common.validations import IsValidFlashIntervalTime
-from ..common.validations import IsValidFlashCount
-from ..common.validations import IsValidFadeIncrement
-from ..common.validations import IsValidLedNr
-from ..common.validations import IsValidLedNrAndIntensityList
-from ..common.validations import IsValidLedNrStateList
-from ..common.validations import IsValidNrCycles
-from ..common.validations import IsValidCycleIntervalTime
-from ..common.validations import IsValidRainbowRGBListIndex
+from ..common.validations           import IsValidFadeIntervalTime
+from ..common.validations           import IsValidIntensityLevel
+from ..common.validations           import IsValidLedNrList
+from ..common.validations           import IsValidFlashIntervalTime
+from ..common.validations           import IsValidFlashCount
+from ..common.validations           import IsValidFadeIncrement
+from ..common.validations           import IsValidLedNr
+from ..common.validations           import IsValidLedNrAndIntensityList
+from ..common.validations           import IsValidLedNrStateList
+from ..common.validations           import IsValidNrCycles
+from ..common.validations           import IsValidCycleIntervalTime
+from ..common.validations           import IsValidRainbowRGBListIndex
 
-from .ipacultimateiovalidations import IsValidIpacUltimateDevice
+from .ipacultimateiovalidations     import IsValidIpacUltimateDevice
 
-from .ipacultimateiodevicelist import  GetDeviceList
+from .ipacultimateiodevicelist      import GetDeviceList
 
-from ..utils.ledcurrentstateslist import SetDeviceLEDCurrentStatesLedIntensity    
-from ..utils.ledcurrentstateslist import SetDeviceLEDCurrentStatesLedFadeIntensity
-from ..utils.ledcurrentstateslist import SetDeviceLEDCurrentStatesLedState        
-from ..utils.ledcurrentstateslist import GetDeviceLEDCurrentStatesLedIntensity
-from ..utils.ledcurrentstateslist import GetDeviceLEDCurrentStatesLedFadeIntensity
+from ..utils.ledcurrentstateslist   import SetDeviceLEDCurrentStatesLedIntensity    
+from ..utils.ledcurrentstateslist   import SetDeviceLEDCurrentStatesLedFadeIntensity
+from ..utils.ledcurrentstateslist   import SetDeviceLEDCurrentStatesLedState        
+from ..utils.ledcurrentstateslist   import GetDeviceLEDCurrentStatesLedIntensity
+from ..utils.ledcurrentstateslist   import GetDeviceLEDCurrentStatesLedFadeIntensity
 
-from .ipacultimateioboard import SetLEDsToIndividualBrightness
-
-
+from .ipacultimateioboard           import SetLEDsToIndividualBrightness
 
 
 def SetLedNrToIntensityLevel(DeviceUUID=None, LedNr = 3, IntensityLevel=100):
@@ -421,7 +419,7 @@ def SetDevicesLedNrListRainbowCycle( DevicesLedNrList=[], NrCycles=3,
 
 
         if IsDebugOn(): print(FUNC_NAME)
-        if IsDebugOn(): print("{0}DevicesLedNrList={1}".format(FUNC_NAME,DevicesLedNrList))
+        # if IsDebugOn(): print("{0}DevicesLedNrList={1}".format(FUNC_NAME,DevicesLedNrList))
 
         if not IsValidNrCycles(NrCycles): raise Exception("NrCycles not valid")
         if not IsValidCycleIntervalTime(CycleIntervalTime): raise Exception("CycleIntervalTime not valid")

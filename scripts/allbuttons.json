@@ -34,9 +34,9 @@
 
 { "Command" : {"comment" : "Flash just the fire buttons",
 		"Function" : "SetLedGroupNameListFlash",
-		"FlashCount" : 1,
+		"FlashCount" : 2,
 		"LedGroupNameList": ["p1b1", "p2b1","p1b2", "p2b2" ],
-		"FlashIntervalTime" : 0.25 }},
+		"FlashIntervalTime" : 0.5 }},
 
 { "Command" : {"comment" : "",
 		"Function" : "SetLedGroupNameListFadeReverb",
@@ -46,7 +46,7 @@
 
 { "Command" : {"comment" : "Now repeat the flashing and fades 10 times",
 		"Function" : "RepeatLastCommands",
-		"NrPreviousCommandsToRepeat" : 1,
-		"NrOfRepetitions" :100 }}
+		"NrPreviousCommandsToRepeat" : 2,
+		"NrOfRepetitions" :10 }}
 
 ]

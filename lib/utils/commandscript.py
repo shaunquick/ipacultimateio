@@ -39,43 +39,43 @@ import json
 from importlib import  resources
 from os import path
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib        import GetMyFuncName
+from ..common.common_lib        import IsDebugOn
 
 # Load all the functions as their names - to be used across the utility
 
 #from libs.globalvar import *  # load the global variable
-from .commandscriptvalidations import isValidCommandScript
+from .commandscriptvalidations  import IsValidCommandScript
 
-from ..core.ipacultimateiocore import ResetDevices
+from ..core.ipacultimateioboard import ResetDevices
 
-from ..core.setledall import SetAllLedIntensities
-from ..core.setledall import SetAllLedRandomStates
-from ..core.setledall import SetAllLedFlash
-from ..core.setledall import SetAllLedRandomFlash
-from ..core.setledall import SetAllLedStates
-from ..core.setledall import SetAllLedFadeReverb
-from ..core.setledall import SetAllLedFadeToOff
-from ..core.setledall import SetAllLedFadeToOn
+from ..core.setledall           import SetAllLedIntensities
+from ..core.setledall           import SetAllLedRandomStates
+from ..core.setledall           import SetAllLedFlash
+from ..core.setledall           import SetAllLedRandomFlash
+from ..core.setledall           import SetAllLedStates
+from ..core.setledall           import SetAllLedFadeReverb
+from ..core.setledall           import SetAllLedFadeToOff
+from ..core.setledall           import SetAllLedFadeToOn
 
-from ..core.setlednr import SetLedNrToIntensityLevel
-from ..core.setlednr import SetLedNrListToSameIntensityLevel
-from ..core.setlednr import SetLedNrAndIntensityLevelList
-from ..core.setlednr import SetLedNrListFlash
-from ..core.setlednr import SetLedNrAndStateList
-from ..core.setlednr import SetLedNrListFadeReverb
-from ..core.setlednr import SetLedNrListFadeToOn
-from ..core.setlednr import SetLedNrListFadeToOff
+from ..core.setlednr            import SetLedNrToIntensityLevel
+from ..core.setlednr            import SetLedNrListToSameIntensityLevel
+from ..core.setlednr            import SetLedNrAndIntensityLevelList
+from ..core.setlednr            import SetLedNrListFlash
+from ..core.setlednr            import SetLedNrAndStateList
+from ..core.setlednr            import SetLedNrListFadeReverb
+from ..core.setlednr            import SetLedNrListFadeToOn
+from ..core.setlednr            import SetLedNrListFadeToOff
 
-from ..core.setledgroupname import SetLedGroupNameListIntensities 
-from ..core.setledgroupname import SetLedGroupNameIntensityList
-from ..core.setledgroupname import SetLedGroupNameIntensity 
-from ..core.setledgroupname import SetLedGroupNameListFlash
-from ..core.setledgroupname import SetLedGroupNameStateList 
-from ..core.setledgroupname import SetLedGroupNameListFadeReverb 
-from ..core.setledgroupname import SetLedGroupNameListFadeToOff
-from ..core.setledgroupname import SetLedGroupNameListFadeToOn
-from ..core.setledgroupname import SetLedGroupNameListRainbowCycle
+from ..core.setledgroupname     import SetLedGroupNameListIntensities 
+from ..core.setledgroupname     import SetLedGroupNameIntensityList
+from ..core.setledgroupname     import SetLedGroupNameIntensity 
+from ..core.setledgroupname     import SetLedGroupNameListFlash
+from ..core.setledgroupname     import SetLedGroupNameStateList 
+from ..core.setledgroupname     import SetLedGroupNameListFadeReverb 
+from ..core.setledgroupname     import SetLedGroupNameListFadeToOff
+from ..core.setledgroupname     import SetLedGroupNameListFadeToOn
+from ..core.setledgroupname     import SetLedGroupNameListRainbowCycle
 
 
 
@@ -119,7 +119,7 @@ def GetLedCommandsFromFile(filename):
     try:
         CommandScript = json.loads(filecontent)
         if type(CommandScript) is not list: raise Exception("{0}): file structure not valid - Expecting a json list".format(FUNC_NAME))
-        isValidCommandScript(CommandScript)
+        IsValidCommandScript(CommandScript)
     except Exception as err:
         raise Exception("{0} {1}".format(FUNC_NAME,err))
     return (CommandScript)
@@ -128,6 +128,7 @@ def GetLedCommandsFromFile(filename):
 def RunLedCommands(CommandScriptList=[]):
     FUNC_NAME=GetMyFuncName()
     if IsDebugOn(): print(FUNC_NAME)
+    #if IsDebugOn(): print("{0} CommandScript is {1}".format(FUNC_NAME,CommandScriptList))
 
 
     try:
@@ -267,7 +268,9 @@ def RunLedCommands(CommandScriptList=[]):
 def _GetCommandsToRepeat(CommandScriptList, LastItemCount, NrPreviousCommandsToRepeat):
     FUNC_NAME=GetMyFuncName()
     if IsDebugOn(): print(FUNC_NAME)
-
+    #if IsDebugOn(): print("{0} CommandScript list is".format(FUNC_NAME,CommandScriptList))
+    #if IsDebugOn(): print("{0} LastItemCount is".format(FUNC_NAME,LastItemCount))
+    #if IsDebugOn(): print("{0} NrPreviousCommandsToRepeat  is".format(FUNC_NAME,NrPreviousCommandsToRepeat))
     NewCommandScriptList = CommandScriptList[LastItemCount-NrPreviousCommandsToRepeat:LastItemCount]
     return(NewCommandScriptList)
 

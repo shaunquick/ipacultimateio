@@ -34,41 +34,37 @@
 import time
 import random
 
-from ..common.common_lib import GetMyFuncName
-from ..common.common_lib import IsDebugOn
+from ..common.common_lib            import GetMyFuncName
+from ..common.common_lib            import IsDebugOn
 
-from ..utils.ledcurrentstateslist import SetAllDeviceLEDCurrentStates
-from ..utils.ledcurrentstateslist import SetAllDeviceLEDCurrentStatesLedState
+from ..utils.ledcurrentstateslist   import SetAllDeviceLEDCurrentStates
+from ..utils.ledcurrentstateslist   import SetAllDeviceLEDCurrentStatesLedState
 
-from ..utils.ledcurrentstateslist import GetDeviceLEDCurrentStatesLedIntensity
-from ..utils.ledcurrentstateslist import GetDeviceLEDCurrentStatesLedFadeIntensity
+from ..utils.ledcurrentstateslist   import GetDeviceLEDCurrentStatesLedIntensity
+from ..utils.ledcurrentstateslist   import GetDeviceLEDCurrentStatesLedFadeIntensity
 
-from ..utils.ledcurrentstateslist import SetDeviceLEDCurrentStatesLedState
-from ..utils.ledcurrentstateslist import SetDeviceLEDCurrentStatesLedFadeIntensity
+from ..utils.ledcurrentstateslist   import SetDeviceLEDCurrentStatesLedState
+from ..utils.ledcurrentstateslist   import SetDeviceLEDCurrentStatesLedFadeIntensity
 
-from ..utils.ledcurrentstateslist import SetRandomDeviceLEDCurrentStates
+from ..utils.ledcurrentstateslist   import SetRandomDeviceLEDCurrentStates
 
-from ..utils.lednrlist import Get_DeviceLEDList                   
+from ..utils.lednrlist              import Get_DeviceLEDList                   
 
-from ..common.validations import IsValidFadeIntervalTime
-from ..common.validations import IsValidIntensityLevel
-from ..common.validations import IsValidLedNrList
-from ..common.validations import IsValidFlashIntervalTime
-from ..common.validations import IsValidFlashCount
-from ..common.validations import IsValidFadeIncrement
-from ..common.validations import IsValidState
+from ..common.validations           import IsValidFadeIntervalTime
+from ..common.validations           import IsValidIntensityLevel
+from ..common.validations           import IsValidLedNrList
+from ..common.validations           import IsValidFlashIntervalTime
+from ..common.validations           import IsValidFlashCount
+from ..common.validations           import IsValidFadeIncrement
+from ..common.validations           import IsValidState
 
-from .ipacultimateiovalidations import IsValidIpacUltimateDevice
-from .ipacultimateiodevicelist import  GetDeviceList
+from .ipacultimateiovalidations     import IsValidIpacUltimateDevice
+from .ipacultimateiodevicelist      import GetDeviceList
 
-from .setlednr import SetLedNrListFlash
-from .setlednr import SetLedNrListFadeToOff
-from .setlednr import SetLedNrListFadeToOn
+from .ipacultimateioboard           import SetLEDsToIndividualBrightness
 
-from .ipacultimateioboard import SetLEDsToIndividualBrightness
-
-from ..common.globalvar import MIN_LED_NR
-from ..common.globalvar import MAX_LED_NR
+from ..common.globalvar             import MIN_LED_NR
+from ..common.globalvar             import MAX_LED_NR
 
 
 def SetAllLedIntensities(DeviceUUID=None,  IntensityLevel=88):
