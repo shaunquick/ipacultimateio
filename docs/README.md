@@ -34,7 +34,7 @@ https://projects.raspberrypi.org/en/projects/generic-python-install-python3
 
 Required Python modules  
 To use this tool the following python modules need to be installed on your system.  
-*  pip install pyusb  (https://pyusb.github.io/pyusb/) (https://pypi.org/project/pyusb/)  
+* pip install pyusb  (https://pyusb.github.io/pyusb/) (https://pypi.org/project/pyusb/)  
 
 The following commands may help....  
 $ sudo apt install python3-pip  
@@ -48,13 +48,13 @@ The ultimarc library can be download via git hub with the following command
 $ cd ~  
 $ git clone https://github.com/shaunquick/ipacultimateio.git  
 
--UDEV Rule:  
-# Once the library has been downloaded the Board needs to allow the python utility to be able to write data out to it.  
+-UDEV Rule:
+Once the library has been downloaded the Board needs to allow the python utility to be able to write data out to it.  
 An additional permission needs to be granted at root level.  
 To do this, there is a file called 'ipacultimateio.rules' that can be moved to /etc/udev/rules.d folder  
-
+  
 $ sudo mv  ~/ipacultimateio/ipacultimateio.rules /etc/udev/rules.d/
-
+  
 You will need to reboot the raspberry pi for this permission to become active.
 
 # Running a Test #
