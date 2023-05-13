@@ -29,7 +29,11 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-def listOfDevicesExample(DeviceIDList):
+from ..common.common_lib import IsDebugOn
+
+
+
+def GetHelpTextListOfDevicesExample(DeviceIDList):
     help_text = "Devices found are :- \n"
     for myDevice in DeviceIDList:
         help_text += "DeviceUUID = " + myDevice["DeviceUUID"] +"\n"
@@ -47,109 +51,165 @@ def listOfDevicesExample(DeviceIDList):
     return (help_text)
 
 
-def help():
-
+def GetHelpTextMain():
+     
     helptext= """Usage: set-ultimateio-leds.py [OPTION] FILE
 This is for use with the ultimarc I/O Board, The FILE will hold the set of
 instructions/commands that need to be sent to the board in json format.
+This utility supports 
+1. Easy use of the capability with a single board
+2. controlling two (or more) boards identically (using LedNr or LedGroupName)
+3. being able to send commands to one board at a time using LedNr or LedGroupName (you can either re-use the Ledgroup Name or create one per board)
+4. Multiple boards performing a rainbow effect across all of the boards (one or many)
+
 This will be a json list in the format example here
+please note that the DeviceUUID is only required if you have a multiboard configuration
+and you want to control which board the command executes against
+
+There are also examples of a multiboard script in the \scripts folder
+
+There is also an example of a multiboard LedGroupNameDefinitions setup, in the data folder, which you can use to control a set of Led's on a device
 
 [
-{ \"Command\" : { \"comment\": \"Wait for x seconds\",
-        \"Function\" : \"Wait\",
-        \"WaitIntervalTime\": 1 }},
-{ \"Command\" : {  \"comment\": \"Set all LEDs to the same specified brightness level\",
-        \"Function\" : \"SetAllLedIntensities\",
-        \"IntensityLevel\": 255 }},
-{ \"Command\" : {\"comment\": \"Set a specific LED to the specified brightness level\",
-        \"Function\" : \"SetLedNrIntensity\",
-        \"LedNr\": 3,
-        \"IntensityLevel\": 255 }},
-{ \"Command\" : {\"comment\": \"Set a list of LEDs to the same specified brightness level\",
-        \"Function\" : \"SetLedNrListIntensities\",
-        \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
-        \"IntensityLevel\": 255   }},
-{ \"Command\" : { \"comment\": \"All LEDs wil be set to a random brightness\",
-        \"Function\" : \"SetAllLedRandomStates\" }},
-{ \"Command\" : {\"comment\": \"Set a list of LEDs to an LED specific brightness level\",
-        \"Function\" : \"SetLedNrIntensityList\",
-        \"LedNrIntensityList\": [   {\"LedNr\": 1, \"IntensityLevel\": 255}, 
-                    {\"LedNr\": 95, \"IntensityLevel\": 255}] }},
-{ \"Command\" : {\"comment\": \"Set All LEDs to flash x times at the flash interval specified\",
-        \"Function\" : \"SetAllLedFlash\",
-        \"FlashCount\" : 5,
-        \"FlashIntervalTime\" : 0.25 }},
-{ \"Command\" : {\"comment\": \"Set All LEDs to randomly flash x times at the flash interval specified\",
-        \"Function\" : \"SetAllLedRandomFlash\",
-        \"FlashCount\" : 5,
-        \"FlashIntervalTime\" : 0.25 }},
-{ \"Command\" : {\"comment\": \"Set a list of LEDs to flash x times at the flash interval specified\",
-       \"Function\" : \"SetLedNrListFlash",
-       \"FlashCount\" : 5,
-       \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
-       \"FlashIntervalTime\" : 0.25 }},
-{ \"Command\" : { \"comment\": \"Turn  All LEDs On or Off - when turning back on, the previous setting will be re-applied\",
-        \"Function\" : \"SetAllLedStates\",
-        \"State\": true }},
-{ \"Command\" : {\"comment\": \"Set a list LEDs On or Off - when turning back on, the previous setting will be re-applied\",
-        \"Function\" : \"SetLedNrStateList\",
-        \"LedNrStateList\": [   {\"LedNr\": 10, \"State\": true}, 
-                    {\"LedNr\": 11, \"State\": false} ] }},
-{ \"Command\" : { \"comment\": \"Fade down and then back up the list of LEDs \",
-        \"Function\" : \"SetLedNrListFadeReverb\",
-        \"LedNrList": [1,10,11,12, 13,14,15, 88,89,90,96],
-        \"FadeIncrement\": 10, 
-        \"FadeIntervalTime\": 0.2 }},
-{ \"Command\" : {\"comment\": \"Fade down and then back up All LEDs \",
-        \"Function\" : \"SetAllLedFadeReverb\",
-        \"FadeIncrement\": 20, 
-        \"FadeIntervalTime\": 0.2 }},
-{ \"Command\" : {\"comment\": \"Fade down all LEDs \",
-        \"Function\" : "SetAllLedFadeToOff\",
-        \"FadeIncrement\": 30, 
-        \"FadeIntervalTime\": 0.2 }},
-{ \"Command\" : {\"comment\": \"Fade up all LEDs \",
-        \"Function\" : \"SetAllLedFadeToOn\",
-        \"FadeIncrement\": 40, 
-        \"FadeIntervalTime\": 0.2 }},
-{ \"Command\" : {\"comment\": \"Fade down the list of LEDs \",
-        \"Function\" : \"SetLedNrListFadeToOff\",
-        \"LedNrList\": [1,3,4,5,6,7,8,9,96],
-        \"FadeIncrement\": 50, 
-        \"FadeIntervalTime\": 0.2 }},
-{ \"Command\" : {\"comment\": \"Fade up the list of LEDs \",
-        \"Function\" : \"SetLedNrListFadeToOn\",
-        \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
-        \"FadeIncrement\": 60, 
-        \"FadeIntervalTime\": 0.2  }},
+{ \"Command\" : {   \"comment\": \"Wait for x seconds\",
+                    \"Function\" : \"Wait\",
+                    \"WaitIntervalTime\": 1 }},
+{ \"Command\" : {   \"comment\": \"Set all LEDs to the same specified brightness level\",
+                    \"Function\" : \"SetAllLedIntensities\",
+                    \"IntensityLevel\": 255,
+                    \"DeviceUUID\" : \"53769:1040:1:3\"}},
+{ \"Command\" : {   \"comment\": \"Set a specific LED to the specified brightness level\",
+                    \"Function\" : \"SetLedNrToIntensityLevel\",
+                    \"LedNr\": 3,
+                    \"IntensityLevel\": 255,
+                    \"DeviceUUID\" : \"53769:1040:1:3\"}},
+{ \"Command\" : {   \"comment\": \"Set a list of LEDs to the same specified brightness level\",
+                    \"Function\"     : \"SetLedNrListToSameIntensityLevel\",
+                    \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
+                    \"IntensityLevel\": 255,
+                    \"DeviceUUID\" : \"53769:1040:1:3\"   }},
+{ \"Command\" : {   \"comment\": \"All LEDs wil be set to a random brightness\",
+                    \"Function\" : \"SetAllLedRandomStates\",
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Set a list of LEDs to an LED specific brightness level\",
+                    \"Function\" : \"SetLedNrAndIntensityLevelList\",
+                    \"LedNrIntensityList\": [   {\"LedNr\": 1, \"IntensityLevel\": 255}, 
+                    {\"LedNr\": 95, \"IntensityLevel\": 255}],
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Set All LEDs to flash x times at the flash interval specified\",
+                    \"Function\" : \"SetAllLedFlash\",
+                    \"FlashCount\" : 5,
+                    \"FlashIntervalTime\" : 0.25,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Set All LEDs to randomly flash x times at the flash interval specified\",
+                    \"Function\" : \"SetAllLedRandomFlash\",
+                    \"FlashCount\" : 5,
+                    \"FlashIntervalTime\" : 0.25 }},
+{ \"Command\" : {   \"comment\": \"Set a list of LEDs to flash x times at the flash interval specified\",
+                    \"Function\" : \"SetLedNrListFlash",
+                    \"FlashCount\" : 5,
+                    \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
+                    \"FlashIntervalTime\" : 0.25,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Turn  All LEDs On or Off - when turning back on, the previous setting will be re-applied\",
+                    \"Function\" : \"SetAllLedStates\",
+                    \"State\": true,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Set a list LEDs On or Off - when turning back on, the previous setting will be re-applied\",
+                    \"Function\" : \"SetLedNrAndStateList\",
+                    \"LedNrStateList\": [   {\"LedNr\": 10, \"State\": true}, 
+                    {\"LedNr\": 11, \"State\": false} ],
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Fade down and then back up the list of LEDs \",
+                    \"Function\" : \"SetLedNrListFadeReverb\",
+                    \"LedNrList": [1,10,11,12, 13,14,15, 88,89,90,96],
+                    \"FadeIncrement\": 10, 
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Fade down and then back up All LEDs \",
+                    \"Function\" : \"SetAllLedFadeReverb\",
+                    \"FadeIncrement\": 20, 
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Fade down all LEDs \",
+                    \"Function\" : "SetAllLedFadeToOff\",
+                    \"FadeIncrement\": 30, 
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Fade up all LEDs \",
+                    \"Function\" : \"SetAllLedFadeToOn\",
+                    \"FadeIncrement\": 40, 
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Fade down the list of LEDs \",
+                    \"Function\" : \"SetLedNrListFadeToOff\",
+                    \"LedNrList\": [1,3,4,5,6,7,8,9,96],
+                    \"FadeIncrement\": 50, 
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"comment\": \"Fade up the list of LEDs \",
+                    \"Function\" : \"SetLedNrListFadeToOn\",
+                    \"LedNrList\": [1,10,11,12, 13,14,15, 88,89,90,96],
+                    \"FadeIncrement\": 60, 
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\"  }},
 
 
 
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameIntensity", \"LedGroupName\" : \"p2b6\", \"RGBIntensity\" : [100,100,100] }},
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameListIntensities", \"LedGroupNameList\": [ \"p1b1\", \"p1b2\", \"p1b3\", \"p1b4\" ],\"IntensityLevel\": 255 }},
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameIntensity", \"LedGroupName\" : \"p1b1\", \"RGBIntensity\" : [255,11,22] }},
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameIntensity", 
+                    \"LedGroupName\" : \"p2b6\", 
+                    \"RGBIntensity\" : [100,100,100],
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameListIntensities", 
+                    \"LedGroupNameList\": [ \"p1b1\", \"p1b2\", \"p1b3\", \"p1b4\" ],
+                    \"IntensityLevel\": 255,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameIntensity", 
+                    \"LedGroupName\" : \"p1b1\", 
+                    \"RGBIntensity\" : [255,11,22],
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
 
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameIntensityList\",
-                    "LedGroupNameIntensityList": [ {\"LedGroupName\" : \"p1b1\", \"RGBIntensity\" : [255,11,22] }, 
-                                        {\"LedGroupName\" : \"p1b2\", \"RGBIntensity\" : [255,11,22] }] }},
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameIntensityList\",
+                    "LedGroupNameIntensityList": [ {\"LedGroupName\" : \"p1b1\", 
+                    \"RGBIntensity\" : [255,11,22] }, 
+                    {\"LedGroupName\" : \"p1b2\", \"RGBIntensity\" : [255,11,22] }],
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
 
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameListFlash\", \"FlashCount\" : 5, 
-                    \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ], \"FlashIntervalTime\" : 0.25 }},
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameListFlash\", 
+                    \"FlashCount\" : 5, 
+                    \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ], 
+                    \"FlashIntervalTime\" : 0.25,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
 
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameStateList\",
-                  \"DeviceUUID\" : \"0456:00:00:00\",
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameStateList\",
                     \"LedGroupNameStateList\": [ {\"LedGroupName\" : \"p1b1\", \"State\": true }, 
-                                    {\"LedGroupName\" : \"p1b2\", \"State\": false } ] }},
+                    {\"LedGroupName\" : \"p1b2\", \"State\": false } ],
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
 
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameListFadeReverb",\"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ],\"FadeIncrement\": 10, \"FadeIntervalTime\": 0.2 }},
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameListFadeToOff", \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ],\"FadeIncrement\": 50, \"FadeIntervalTime\": 0.2 }},
-{ \"Command\" : { \"Function\" : \"SetLedGroupNameListFadeToOn", \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ], \"FadeIncrement\": 60,  \"FadeIntervalTime\": 0.2  }},
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameListFadeReverb",
+                    \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ],
+                    \"FadeIncrement\": 10, 
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameListFadeToOff", 
+                    \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ],
+                    \"FadeIncrement\": 50, 
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\" }},
+{ \"Command\" : {   \"Function\" : \"SetLedGroupNameListFadeToOn", 
+                    \"LedGroupNameList\": [\"p1b1\", \"p1b2\", \"p2b1\", \"p2b2\", \"p2b5\", \"p1b6\" ], 
+                    \"FadeIncrement\": 60,  
+                    \"FadeIntervalTime\": 0.2,
+                    \"DeviceUUID\" : \"53769:1040:1:3\"  }},
 
 
-{ \"Command\" : { \"Function\" : \"RepeatLastCommands\", \"NrPreviousCommandsToRepeat\" : 14, \"NrOfRepetitions\" :3 }},
+{ \"Command\" : {   \"Function\" : \"RepeatLastCommands\", 
+                    \"NrPreviousCommandsToRepeat\" : 14, 
+                    \"NrOfRepetitions\" :3 }},
 
-{ \"Command\" : {\"comment\": \"Reset the board (and restart the firmware script \",
-                 \"Function\" : \"ResetBoard\"} }
+{ \"Command\" : {   \"comment\": \"Reset the board (and restart the firmware script \",
+                    \"Function\" : \"ResetBoard\",
+                    \"DeviceUUID\" : \"53769:1040:1:3\"} }
 
 ]
 
@@ -172,7 +232,7 @@ Mandatory arguments to long options are mandatory for short options too.
       -i --iodev_uuid={ID}  the device ID input will be the only device that will be 
                             have their LED's set
       -x --xinput_flag      will treat Xinput devices as a ipacultimate LED device
-      -l --list_devices     will list all identfied devices
+      -l --list_devices     will list all identfied devices - please use to identify your DeviceUUIDs - they will be unique to your setup
 
 
 """
@@ -180,7 +240,7 @@ Mandatory arguments to long options are mandatory for short options too.
 
 
 
-def help_romleds():
+def GetHelpTextRomLeds():
 
     helptext= """Usage: set-ultimateio-rom-leds.py [OPTION] romname
 This is for use with the ultimarc I/O Board. This command will allow
@@ -194,8 +254,10 @@ name can either be a full filename or a script that can be loaded into
 the scripts folder.
 
 Mandatory arguments to long options are mandatory for short options too.
-      --help     display this help and exit
-      --debug    allows debug messages to be shown on stdoutput
+      -h --help     display this help and exit
+      -d --debug    allows debug messages to be shown on stdoutput
+      -l --list_devices     will list all identfied devices - please use to identify your DeviceUUIDs - they will be unique to your setup
+
 """
     return (helptext)
 

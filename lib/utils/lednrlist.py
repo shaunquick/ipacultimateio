@@ -31,28 +31,40 @@
 
 # This module creates a list with all the led numers for each Device in the list - this can then be used for when actions need to be taken against all Leds
 # Get_LED_LIST_ALL returns a list of LedNrs from 1 to 96
+from ..common.common_lib    import GetMyFuncName
+from ..common.common_lib    import IsDebugOn
 
-from ..common.globalvar import MAX_LEDS
+from ..common.globalvar     import MAX_LEDS
+
+
+
 
 # DEVICE_LED_LIST holds the led numbers for the device  
 DEVICE_LED_LIST = {}
 
-def Initialise_DeviceListLEDList(DeviceIDList=[], debug=False):
+def InitialiseDeviceListLEDList(DeviceIDList=[]):
     global DEVICE_LED_LIST
 
-    if debug: 
-        print("InitLedNrList(): ")
-# CReate the list of LedNr's staring from 1 to 96
-    for myDevice in DeviceIDList:
-        DEVICE_LED_LIST[myDevice["DeviceUUID"]] = []
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
-        LedNr = 1
-        while LedNr <= MAX_LEDS:
-            DEVICE_LED_LIST[myDevice["DeviceUUID"]].append(LedNr)
-            LedNr += 1
+# CReate the list of LedNr's staring from 1 to 96
+    try:
+        for myDevice in DeviceIDList:
+            DEVICE_LED_LIST[myDevice["DeviceUUID"]] = []
+
+            LedNr = 1
+            while LedNr <= MAX_LEDS:
+                DEVICE_LED_LIST[myDevice["DeviceUUID"]].append(LedNr)
+                LedNr += 1
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
 
 
 def Get_DeviceLEDList(DeviceUUID):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
+
     return(DEVICE_LED_LIST[DeviceUUID])
 
 

@@ -49,11 +49,18 @@ import json
 from importlib import  resources
 from os import path
 
-from lib.core.ipacultimateiocore import Initialise_DeviceList
+from lib.common.common_lib import SetDebugOn
+from lib.common.common_lib import IsDebugOn
+
+from lib.core.ipacultimateiocore import InitialiseDeviceLists
 from lib.utils.commandscript import RunCommandsFromFile
 
-from lib.utils.help import help_romleds
-from lib.utils.help import listOfDevicesExample
+from lib.utils.help import GetHelpTextRomLeds
+from lib.utils.help import GetHelpTextListOfDevicesExample
+
+
+
+
 
 def main ():
 # arg1 should be the rom name, if none provided assume a generic default script to be run
@@ -72,23 +79,22 @@ def main ():
         arg_names = ["help", "debug", "iodev_uuid=", "xinput_dev", "list_devices"]
         opts, args = getopt.getopt(sys.argv[1:], "hdxli:", arg_names)
     except getopt.GetoptError:
-        print(help_romleds())
+        print(GetHelpTextRomLeds())
         sys.exit(0)
 
     DeviceUUID = None
-    debug = False
     outputfile=""
     xinput_flag=False
     list_devices=False
 
     for option, arg in opts:
         if option in ("-h", "--help"):
-            print(help_romleds())
+            print(GetHelpTextRomLeds())
             sys.exit(0)
 
         if option in ("-d", "--debug"):
-            debug = True
-            if debug: print(FUNC_NAME+"Debug Turned On!!")
+            SetDebugOn()
+            if IsDebugOn(): print(FUNC_NAME+"Debug Turned On!!")
 
         if option in ("-i", "--iodev_uuid"):
             DeviceUUID = arg[1:]
@@ -108,23 +114,28 @@ def main ():
     try:
 # Initialise the board and run the script privided or run the default script
         ScriptName = GetScriptName(myScript)
-        print(ScriptName)
+        if IsDebugOn(): print(ScriptName)
         # - 
-        DeviceIDList = Initialise_DeviceList(DeviceUUID=DeviceUUID, debug=debug, xinput_flag=xinput_flag)
+        DeviceIDList = InitialiseDeviceLists(DeviceUUID=DeviceUUID, xinput_flag=xinput_flag)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
         elif list_devices:
-            print(listOfDevicesExample(DeviceIDList))
-            if debug:
+            print(GetHelpTextListOfDevicesExample(DeviceIDList))
+            if IsDebugOn():
                 print(FUNC_NAME+"Device List is :-")
                 for DeviceID in DeviceIDList:
                    print(DeviceID["DeviceID"])
         else:
-            RunCommandsFromFile(DeviceIDList, ScriptName, debug=debug)
+            RunCommandsFromFile(ScriptName)
 
 
     except Exception as err:
         print("Exception found: {0}".format(err))
+        sys.exit(2)
+
+    else:
+        if IsDebugOn(): print(FUNC_NAME+ "Finished Successfully")
+
 
 
 def GetScriptName(RomName):
@@ -137,9 +148,9 @@ def GetScriptName(RomName):
 
     try:
         RomDict = json.loads(filecontent)
-        if type(RomDict) is not dict: raise Exception("GetScriptName(): file structure not valid - Expecting a json dict")
+        if type(RomDict) is not dict: raise Exception("{0}file structure not valid - Expecting a json dict".format(FUNC_NAME))
     except Exception as err:
-        raise Exception("GetLedCommandsFromFile(): {0}".format(err))
+        raise Exception("{0} {1}".format(FUNC_NAME, err))
 
     if (RomName in RomDict):
         return(RomDict[RomName])

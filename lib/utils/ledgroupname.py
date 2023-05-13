@@ -37,151 +37,109 @@
 # THere is no check that this happends so you could if you really
 # wanted to is to sleect multple led nrs and string them into a list
 
-from ..common.validations import _IsValidRGBIntensityList
-from ..common.validations import _IsValidState
 
-from .ledgroupnamedefinitionslist import IsLedGroupNameDefinitionsFileFound
-from .ledgroupnamedefinitionslist import InitLedGroupNameDefinitionsList
-from .ledgroupnamedefinitionslist import GetLedGroupNameDefinitions
+from ..common.common_lib    import GetMyFuncName
+from ..common.common_lib    import IsDebugOn
 
-from ..common.globalvar import MAX_LEDS
+from ..common.validations   import IsValidRGBIntensityList
+from ..common.validations   import IsValidState
 
-def InitLEDGroupNameModule():
-# This will initialise the LedGroupNames and pre-load the LedGroupName Definitions from the
-# file LedGroupNameDefinitions.json in the folder ultimarcio/data
-    try :
-        LedGroupDefsList = InitLedGroupNameDefinitionsList()
-        Initialise_LedGroupNameList(LedGroupDefsList)
-    except Exception as err:
-        raise Exception("InitLedGroupNameModule {0}".format(err))
-
+from ..common.globalvar     import MAX_LEDS
 
 LED_GROUP_NAMES_LIST = []
 
-def Initialise_LedGroupNameList(LEDGroupNameDefinitionsList, debug=False):
-# Create a unique list of group names - these are independant of the Device that may be associated to the gruopname
 
-    global LED_GROUP_NAMES_LIST
-    LED_GROUP_NAMES_LIST = []
-    for LEDGroupNameDefinition in LEDGroupNameDefinitionsList:
-        if ("LedGroupName" in LEDGroupNameDefinition):
-            if LEDGroupNameDefinition["LedGroupName"] not in LED_GROUP_NAMES_LIST:
-                if debug: print("Added GroupName" + str(LEDGroupNameDefinition["LedGroupName"]))
-                LED_GROUP_NAMES_LIST.append(LEDGroupNameDefinition["LedGroupName"])
-            else:
-                if debug: print("Exception Add GroupName: " + str(LEDGroupNameDefinition["LedGroupName"]))
-                raise Exception("InitLEDGroupNamesList(): Groupname replicated in LedGroupNamesDefinition.json")
-                return()
-    if debug: 
-        print("InitLEDGroupNamesList(): List of LED Group names is")
-        print(LED_GROUP_NAMES_LIST)
+def InitialiseLedGroupNameList(LEDGroupNameDefinitionsList):
+# Create a unique list of group names - these are independant of the Device that may be associated to the gruopname
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
+
+    try:
+        global LED_GROUP_NAMES_LIST
+        LED_GROUP_NAMES_LIST = []
+        for LEDGroupNameDefinition in LEDGroupNameDefinitionsList:
+            if ("LedGroupName" in LEDGroupNameDefinition):
+                if LEDGroupNameDefinition["LedGroupName"] not in LED_GROUP_NAMES_LIST:
+                    # if IsDebugOn(): print("Added GroupName" + str(LEDGroupNameDefinition["LedGroupName"]))
+                    LED_GROUP_NAMES_LIST.append(LEDGroupNameDefinition["LedGroupName"])
+                else:
+                    # if IsDebugOn(): print("Exception Add GroupName: " + str(LEDGroupNameDefinition["LedGroupName"]))
+                    raise Exception("{0} Groupname replicated in LedGroupNamesDefinition.json".format(FUNC_NAME))
+                    return()
+    #    if IsDebugOn(): 
+    #        print("InitLEDGroupNamesList(): List of LED Group names is")
+    #        print(LED_GROUP_NAMES_LIST)
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
+
 
 def Get_LedGroupNamesList():
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
+
     global LED_GROUP_NAMES_LIST
     return(LED_GROUP_NAMES_LIST)
 
 
-def _IsValidLedGroupName(LedGroupName):
+def IsValidLedGroupName(LedGroupName):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
     if (type(LedGroupName) is not str): raise Exception("LedGroupName not in string format")
     if LedGroupName not in LED_GROUP_NAMES_LIST: 
         raise Exception(
-            "LedGroupName not in list of Led Group Names in definitiona file: {0}, {1}".format(LedGroupName, LED_GROUP_NAMES_LIST))
+            "{0} LedGroupName not in list of Led Group Names in definitiona file: {1}, {2}".format(FUNC_NAME, LedGroupName, LED_GROUP_NAMES_LIST))
         return(False)
     else:
         return(True)
 
-def _IsValidLedGroupNameList(LedGroupNameList):
-    if (type(LedGroupNameList) is not list): raise Exception("_IsValidLedGroupNameList: LedGroupName is not a list")
+def IsValidLedGroupNameList(LedGroupNameList):
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
+
+    if (type(LedGroupNameList) is not list): raise Exception("{0} LedGroupName is not a list".format(FUNC_NAME))
     for LedGroupName in LedGroupNameList:
         try:
-            _IsValidLedGroupName(LedGroupName)
+            IsValidLedGroupName(LedGroupName)
         except Exception as err:
-            raise Exception("_IsValidLedGroupNameList:{0} {1}".format(LedGroupName, err))        
+            raise Exception("{0}:{1} {2}".format(FUNC_NAME,LedGroupName, err))        
     return(True)
 
 
-def _IsValidLedGroupNameIntensityList(LedGroupNameIntensityList):
+def IsValidLedGroupNameIntensityList(LedGroupNameIntensityList):
 # Validate that the structure and content of LedGroupNameIntensityList is correct
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
-    if (type(LedGroupNameIntensityList) is not list): raise Exception("LedGroupNameIntensityList is not a list")
-    if len(LedGroupNameIntensityList) > MAX_LEDS: raise Exception("LedGroupNameIntensityList is > 96 Leds")
-    for LedGroupNameIntensity in LedGroupNameIntensityList:
-        try:
-            _IsValidLedGroupName(LedGroupNameIntensity['LedGroupName'])
-            _IsValidRGBIntensityList(LedGroupNameIntensity['RGBIntensity'])
-        except Exception as err:
-            raise Exception("_IsValidLedGroupNameIntensityList:{0} {1}".format(LedGroupNameIntensity, err))        
+    try:
+        if (type(LedGroupNameIntensityList) is not list): raise Exception("LedGroupNameIntensityList is not a list")
+        if len(LedGroupNameIntensityList) > MAX_LEDS: raise Exception("LedGroupNameIntensityList is > 96 Leds")
+        for LedGroupNameIntensity in LedGroupNameIntensityList:
+            try:
+                IsValidLedGroupName(LedGroupNameIntensity['LedGroupName'])
+                IsValidRGBIntensityList(LedGroupNameIntensity['RGBIntensity'])
+            except Exception as err:
+                raise Exception("{0}:{1} {2}".format(FUNC_NAME, LedGroupNameIntensity, err))        
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
             
     return(True)
 
-def _IsValidLedGroupNameStateList(LedGroupNameStateList):
+def IsValidLedGroupNameStateList(LedGroupNameStateList=[]):
 # Validate that the structure and content of LedGroupNameStateList is correct
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
 
     if (type(LedGroupNameStateList) is not list): raise Exception("LedGroupNameStateList is not a list")
     for LedGroupNameState in LedGroupNameStateList:
         try:
-            _IsValidLedGroupName(LedGroupNameState['LedGroupName'])
-            _IsValidState(LedGroupNameState['State'])
+            IsValidLedGroupName(LedGroupNameState['LedGroupName'])
+            IsValidState(LedGroupNameState['State'])
         except Exception as err:
-            raise Exception("_IsValidLedGroupNameStateList{0}: {1}".format(LedGroupNameState, err))        
+            raise Exception("{0}{1}: {2}".format(FUNC_NAME,LedGroupNameState, err))        
         
     return(True)
 
-def _convertLedGroupNameToLedNrList(LedGroupName):
-# translate the LedGroupName to its corresponding LedNrs.
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-    LedNrList = []
-    for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-        if "LedGroupName" in LedGroupNameDefinition:
-            if LedGroupNameDefinition["LedGroupName"] == LedGroupName : 
-                for Led in LedGroupNameDefinition["LedNrRGB"]:
-                    LedNrList.append(Led)
-                break
-    return(LedNrList)
-
-def _convertLedGroupNameListToLedNrList(LedGroupNameList):
-# translate the LedGroupNameList to its corresponding LedNrs.
-    LedNrList= []
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-    
-    for LedGroupName in LedGroupNameList:
-        LedNrList.extend(_convertLedGroupNameToLedNrList(LedGroupName))
-    return(LedNrList)
-
-def _convertLedGroupNameStateListToLedStateList(LedGroupNameStateList):
-# translate the LedGroupNameStateList to its corresponding LedNrStateList.
-    LedStateList = []
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupNameDefinitions.json did not load - cannot use LedGroupNames")
-    
-    for LedGroupNameState in LedGroupNameStateList:
-        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-            if "LedGroupName" in LedGroupNameDefinition:
-                if LedGroupNameDefinition["LedGroupName"] == LedGroupNameState["LedGroupName"] :
-                    for Led in LedGroupNameDefinition["LedNrRGB"]:
-                        LedStateList.append({"LedNr": Led, "State": LedGroupNameState["State"]})
-                    break
-    return(LedStateList)
-
-
-def _convertLedGroupNameIntensityListToLedNrIntensityList(LedGroupNameIntensityList):
-# translate the LedGroupNameIntensityList to its corresponding LedNrIntensityList.
-    LedIntensityList = []
-    if not IsLedGroupNameDefinitionsFileFound() : raise Exception("LedGroupDefinitions.json did not load - cannot use LedGroupNames")
-    
-    for LedGroupNameIntensity in LedGroupNameIntensityList:
-        for LedGroupNameDefinition in GetLedGroupNameDefinitions():
-            if "LedGroupName" in LedGroupNameDefinition:
-                if LedGroupNameDefinition["LedGroupName"] == LedGroupNameIntensity["LedGroupName"] :
-                    counter = 0
-                    for Led in LedGroupNameDefinition["LedNrRGB"]:
-                        LedIntensityList.append({"LedNr": Led, "IntensityLevel": LedGroupNameIntensity["RGBIntensity"][counter]})
-                        counter += 1
-                    break
-        
-    return(LedIntensityList)
 
 
 if __name__ == '__main__':

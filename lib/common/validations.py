@@ -31,49 +31,51 @@
 
 # This module has all of the common validations used across multiple
 # modules
+from .common_lib    import GetMyFuncName
+from .common_lib    import IsDebugOn
 
+from .globalvar     import MAX_INTENSITY_LEVEL
+from .globalvar     import MAX_LEDS
+from .globalvar     import MIN_LED_NR
+from .globalvar     import MAX_LED_NR
+from .globalvar     import MIN_FADE_INTERVAL_TIME
+from .globalvar     import MAX_FADE_INTERVAL_TIME
+from .globalvar     import MIN_FADE_INCREMENT
+from .globalvar     import MAX_FADE_INCREMENT
+from .globalvar     import MIN_FLASH_INTERVAL_TIME
+from .globalvar     import MAX_FLASH_INTERVAL_TIME
+from .globalvar     import MIN_FLASH_COUNT
+from .globalvar     import MAX_FLASH_COUNT
+from .globalvar     import MIN_WAIT_INTERVAL_TIME
+from .globalvar     import MAX_WAIT_INTERVAL_TIME
+from .globalvar     import MIN_FLASH_COUNT
+from .globalvar     import MAX_FLASH_COUNT
+from .globalvar     import MIN_NR_CYCLES
+from .globalvar     import MAX_NR_CYCLES
+from .globalvar     import MIN_CYCLE_INTERVAL_TIME
+from .globalvar     import MAX_CYCLE_INTERVAL_TIME
 
-from .globalvar import MAX_INTENSITY_LEVEL
-from .globalvar import MAX_LEDS
-from .globalvar import MIN_LED_NR
-from .globalvar import MAX_LED_NR
-from .globalvar import MIN_FADE_INTERVAL_TIME
-from .globalvar import MAX_FADE_INTERVAL_TIME
-from .globalvar import MIN_FADE_INCREMENT
-from .globalvar import MAX_FADE_INCREMENT
-from .globalvar import MIN_FLASH_INTERVAL_TIME
-from .globalvar import MAX_FLASH_INTERVAL_TIME
-from .globalvar import MIN_FLASH_COUNT
-from .globalvar import MAX_FLASH_COUNT
-from .globalvar import MIN_WAIT_INTERVAL_TIME
-from .globalvar import MAX_WAIT_INTERVAL_TIME
-from .globalvar import MIN_FLASH_COUNT
-from .globalvar import MAX_FLASH_COUNT
-from .globalvar import MIN_NR_CYCLES
-from .globalvar import MAX_NR_CYCLES
-from .globalvar import MIN_CYCLE_INTERVAL_TIME
-from .globalvar import MAX_CYCLE_INTERVAL_TIME
 
     
-def _IsValidLedNr(LedNr):
+def IsValidLedNr(LedNr):
 # Verify the LedNr is valid between 0 and 95
     if (type(LedNr) is not int): return (False)
     if not(LedNr >= MIN_LED_NR and LedNr <= MAX_LED_NR): return (False)
     return(True)
 
-def _IsValidLedNrList(LedNrList):
+def IsValidLedNrList(LedNrList):
 # Verify the List of LedNrs are valid
     if (type(LedNrList) is not list): return(False)
     for LedNr in LedNrList:
-        if not _IsValidLedNr(LedNr): return(False)
+        if not IsValidLedNr(LedNr): return(False)
     return(True)
 
-def _IsValidState(State):
+def IsValidState(State):
 # Verify the State value is True or False
     if (type(State) is not bool): return (False)
     return(True)
 
-def _IsValidIntensityLevel(IntensityLevel):
+def IsValidIntensityLevel(IntensityLevel):
 # Verify the IntensityLevel value is between 0 and 255    
     if (type(IntensityLevel) is not int): return (False)
     if not(IntensityLevel >= 0 and IntensityLevel <= MAX_INTENSITY_LEVEL): return (False)
@@ -84,32 +86,32 @@ def _IsValidUseFadeValues(UseFadeValues):
     if (type(UseFadeValues) is not bool): return (False)
     return(True)
 
-def _IsValidFadeIntervalTime(IntervalTime):
+def IsValidFadeIntervalTime(IntervalTime):
 # Verify the IntensityLevel value is between 0 and 255
     if not (type(IntervalTime) is int or float): return (False)
     if not (IntervalTime >= MIN_FADE_INTERVAL_TIME and IntervalTime <= MAX_FADE_INTERVAL_TIME): return (False)
     return(True)
 
 
-def _IsValidWaitIntervalTime(IntervalTime):
+def IsValidWaitIntervalTime(IntervalTime):
 # Verify the IntensityLevel value is between 0 and 255
     if not (type(IntervalTime) is int or float): return (False)
     if not (IntervalTime >= MIN_WAIT_INTERVAL_TIME and IntervalTime <= MAX_WAIT_INTERVAL_TIME): return (False)
     return(True)
 
 
-def _IsValidFadeIncrement(FadeIncrement):
+def IsValidFadeIncrement(FadeIncrement):
     if type(FadeIncrement) is not int: return (False)
     if not(FadeIncrement >= MIN_FADE_INCREMENT and FadeIncrement <= MAX_FADE_INCREMENT): return (False)
     return(True)
 
-def _IsValidFlashIntervalTime(FlashIntervalTime):
+def IsValidFlashIntervalTime(FlashIntervalTime):
     if not (type(FlashIntervalTime) is int or float): return (False)
     if not (FlashIntervalTime >= MIN_FLASH_INTERVAL_TIME and FlashIntervalTime <= MAX_FLASH_INTERVAL_TIME): return (False)
     return(True)
 
 
-def _IsValidFlashCount(FlashCount):
+def IsValidFlashCount(FlashCount):
     
     if type(FlashCount) is not int:
         print("Flashcount NOT int= {0}".format(FlashCount))
@@ -120,44 +122,52 @@ def _IsValidFlashCount(FlashCount):
     return(True)
         
 
-def _IsValidLedNrStateList(LedNrStateList):
+def IsValidLedNrStateList(LedNrStateList):
     if (type(LedNrStateList) is not list): return(False)
     for LedNrState in LedNrStateList:
-        if not _IsValidLedNr(LedNrState['LedNr']): return (False)
-        if not _IsValidState(LedNrState['State']): return (False)        
+        if not IsValidLedNr(LedNrState['LedNr']): return (False)
+        if not IsValidState(LedNrState['State']): return (False)        
     return(True)
 
-def _IsValidLedNrIntensityList(LedNrIntensityList):
+def IsValidLedNrAndIntensityList(LedNrAndIntensityList):
 # LedIntensityList = [ (ledNr, IntensityLevel), (ledNr, IntensityLevel), ...]
 # IntensityLevel= value between 0-255
 # LedNr = value between 0 -96
 
-    if (type(LedNrIntensityList) is not list): return (False)
-    if len(LedNrIntensityList) > MAX_LEDS: return (False)
-    for LedNrIntensity in LedNrIntensityList:
-        if (not(_IsValidLedNr(LedNrIntensity['LedNr']))): return(False)
-        if (not(_IsValidIntensityLevel(LedNrIntensity['IntensityLevel']))): return(False)
+    if (type(LedNrAndIntensityList) is not list): return (False)
+    if len(LedNrAndIntensityList) > MAX_LEDS: return (False)
+    for LedNrIntensity in LedNrAndIntensityList:
+        if (not(IsValidLedNr(LedNrIntensity['LedNr']))): return(False)
+        if (not(IsValidIntensityLevel(LedNrIntensity['IntensityLevel']))): return(False)
     return(True)
  
-def _IsValidRGBIntensityList(RGBIntensityList):
+def IsValidRGBIntensityList(RGBIntensityList):
+    # the list has to hold at least 3 values,
+    # but if it holds more than 3 then it has to hold RGB triples
     if (type(RGBIntensityList) is not list): return (False)
-    if len(RGBIntensityList) != 3: return (False)
+    # if the RGB List is not divisible by 3 exactly then the list is wrong
+    if len(RGBIntensityList) % 3 != 0: return (False)
     
     for RGBIntensity in RGBIntensityList:
         if type(RGBIntensity) is not int : return (False)
-        if not _IsValidIntensityLevel(RGBIntensity): return (False)
+        if not IsValidIntensityLevel(RGBIntensity): return (False)
     return(True)
 
-def _IsValidNrOfRepetitions(NrOfRepetitions):
+def IsValidRainbowRGBListIndex(RainbowRGBListIndex):
+    if type(RainbowRGBListIndex) is not int : return (False)
+    return(True)
+
+
+def IsValidNrOfRepetitions(NrOfRepetitions):
     if type(NrOfRepetitions) is not int : return (False)
     return(True)
 
-def _IsValidNrCommandsToRepeat(NrCommandsToRepeat):
+def IsValidNrCommandsToRepeat(NrCommandsToRepeat):
     if type(NrCommandsToRepeat) is not int : return (False)
     return(True)
 
 
-def _IsValidNrCycles(NrCycles):
+def IsValidNrCycles(NrCycles):
     
     if type(NrCycles) is not int:
         return (False)
@@ -165,7 +175,7 @@ def _IsValidNrCycles(NrCycles):
         return (False)
     return(True)
 
-def _IsValidCycleIntervalTime(CycleIntervalTime):
+def IsValidCycleIntervalTime(CycleIntervalTime):
     if not (type(CycleIntervalTime) is int or float): return (False)
     if not (CycleIntervalTime >= MIN_CYCLE_INTERVAL_TIME and CycleIntervalTime <= MAX_CYCLE_INTERVAL_TIME): return (False)
     return(True)

@@ -1,0 +1,145 @@
+[
+  { "comment": "name of each button you can define yourself, LedNrRed are expected values" },
+  {
+    "LedGroupName": "p1b1",
+    "LedNrRGB": [ 16, 17, 18 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p2b1",
+    "LedNrRGB": [ 66, 65, 64 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p3b1",
+    "LedNrRGB": [ 16, 17, 18 ],
+    "DeviceUUID": "53769:1040:1:4"
+  },
+  {
+    "LedGroupName": "p4b1",
+    "LedNrRGB": [ 16, 17, 18 ],
+    "DeviceUUID": "53769:1040:1:4"
+  },
+  {
+    "LedGroupName": "p1b4",
+    "LedNrRGB": [ 19, 20, 21 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p1b2",
+    "LedNrRGB": [ 22, 23, 24 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p1b5",
+    "LedNrRGB": [ 25, 26, 27 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p1b3",
+    "LedNrRGB": [ 28, 29, 30 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p1b6",
+    "LedNrRGB": [ 31, 32, 33 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p1coin",
+    "LedNrRGB": [ 34, 35, 36 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p1start",
+    "LedNrRGB": [ 37, 38, 39 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p2b4",
+    "LedNrRGB": [ 69, 68, 67 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p2b2",
+    "LedNrRGB": [ 72, 71, 70 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p2b5",
+    "LedNrRGB": [ 75, 74, 73 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p2b3",
+    "LedNrRGB": [ 78, 77, 76 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p2b6",
+    "LedNrRGB": [ 81, 80, 79 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p2start",
+    "LedNrRGB": [ 84, 83, 82 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "p2coin",
+    "LedNrRGB": [ 87, 86, 85 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "top1",
+    "LedNrRGB": [ 40, 41, 42 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "top2",
+    "LedNrRGB": [ 90, 89, 88 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "trackball",
+    "LedNrRGB": [ 93, 92, 91 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "pinballleft1",
+    "LedNrRGB": [ 10, 11, 12 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "pinballleft2",
+    "LedNrRGB": [ 13, 14, 15 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "pinballright1",
+    "LedNrRGB": [ 60, 59, 58 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "pinballright2",
+    "LedNrRGB": [ 63, 62, 61 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "player1buttons",
+    "LedNrRGB": [ 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+  {
+    "LedGroupName": "anyname",
+    "LedNrRGB": [ 63, 61, 63 ],
+    "DeviceUUID": "53769:1040:1:3"
+  },
+
+  {
+    "LedGroupName": "p3b1",
+    "LedNrRGB": [ 16, 17, 18 ],
+    "DeviceUUID": "53769:1040:1:3"
+  }
+
+]
