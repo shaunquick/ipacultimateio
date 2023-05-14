@@ -46,7 +46,7 @@ def GetHelpTextListOfDevicesExample(DeviceIDList):
         \"IntensityLevel\": 255 }},
         
  Please Note:  If you have only one device you can ignore the DeviceUUID and the attibute is optional
-               If you have multiple devices, all devices will be set based on the commmand unless you specifc the DeviceUUID
+               If you have multiple devices, all devices will be set based on the commmand unless you specify the DeviceUUID
         """
     return (help_text)
 

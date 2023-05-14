@@ -42,7 +42,8 @@ from ..core.ipacultimateiodevicelist import  GetDeviceList
 
 from ..utils.ledgroupname import IsValidLedGroupNameList
 
-from ..common.globalvar import MAX_LEDS
+from ..common.validations import IsValidLedNr
+
 LED_GROUP_DEFINITIONS = []
 LedGroupDefinitionsFileFound = True
 DEVICE_LED_GROUP_DEFINITIONS = {}
@@ -159,8 +160,8 @@ def _isValidLedGroupNameDefinition(LedGroupNameDefinition):
                 if len(LedGroupNameDefinition["LedNrRGB"]) < 3:
                     raise Exception("LedNrRGB expecting at least 3 values: {0}".format(LedGroupNameDefinition))
                 for LedNr in LedGroupNameDefinition["LedNrRGB"]:
-                    if not (LedNr  >= 0 and LedNr  < MAX_LEDS) :
-                        raise Exception("LedNr not between 0 and 95: {0}".format(LedGroupNameDefinition))
+                    if not IsValidLedNr(LedNr):
+                        raise Exception("LedNr not valid: {0}".format(LedGroupNameDefinition))
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
             
