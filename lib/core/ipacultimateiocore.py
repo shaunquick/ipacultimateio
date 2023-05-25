@@ -47,11 +47,13 @@ from ..utils.ledgroupnamedefinitionslist    import InitialiseLedGroupNameDefinit
 from ..utils.ledcurrentstateslist           import InitialiseDeviceListLEDCurrentStates
 from .ipacultimateiodevicelist              import InitialiseDeviceList
 
-from .ipacultimateiodevicelist              import  GetDeviceList
+from .ipacultimateiodevicelist              import GetDeviceList
 from .ipacultimateioboard                   import IsKernalDriverActive
 from .ipacultimateioboard                   import DetatchKernalDriver
+from .ipacultimateioboard                   import SetDelayBetweenScriptCommands
 
 from .setledall                             import SetAllLedIntensities
+
 
 
 def InitialiseDeviceLists(FreeInterface = True, DeviceUUID = None, xinput_flag=False):
@@ -80,6 +82,8 @@ def InitialiseDeviceLists(FreeInterface = True, DeviceUUID = None, xinput_flag=F
 #            if IsDebugOn(): print(FUNC_NAME+"is driver active = " + str(IsKernalDriverActive(myDevice["DeviceID"])))
             if FreeInterface and IsKernalDriverActive(myDevice["DeviceID"]):
                 DetatchKernalDriver(myDevice["DeviceID"])
+
+        SetDelayBetweenScriptCommands(DeviceUUID=DeviceUUID)
 
         SetAllLedIntensities(DeviceUUID=DeviceUUID, IntensityLevel=0)
     except Exception as err:
