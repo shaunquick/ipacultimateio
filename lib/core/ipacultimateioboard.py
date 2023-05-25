@@ -102,6 +102,66 @@ def SetLEDsToIndividualBrightness(DeviceUUID=None, UseFadeValues = False):
     except Exception as err:
         raise Exception("{0}{1}".format(FUNC_NAME,err))
 
+def SetRampSpeed(DeviceUUID=None, Speed=0):
+# Use the LED States that are stored in a list and set the intensity level based on the
+# list data
+# the list holds 3 values for each LED
+# State - if State is Off - then the Led will be set with intensity of 0
+# Intesnity level - values will be used to set intensity unless calling program asks
+#                  for fade values to be used instaed
+# Fade Intensity Level - and alternate intesnity level which is used when the upstream command
+# wishes to mimic a fade pattern
+
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
+
+
+    try:
+#        if IsDebugOn(): print("retriving Device IDs with id of ")
+#        if IsDebugOn(): print(DeviceUUID)
+#        if IsDebugOn(): print("End of DeviceUUID")
+        DeviceIDList = GetDeviceList(DeviceUUID)
+#        if IsDebugOn(): print("retrived Device IDs")
+        for myDevice in DeviceIDList:
+            if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+                msg = [3,192,Speed]
+#                if IsDebugOn(): print("myDevice")
+#                if IsDebugOn(): print(myDevice)
+#                if IsDebugOn(): print("EndmyDevice")
+#                if IsDebugOn(): print("{0}{1}".format(FUNC_NAME, GetDeviceLEDCurrentStates(myDevice["DeviceUUID"])))
+                _sendMessageToBoard(myDevice["DeviceID"], msg)
+    
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
+
+
+def SetDelayBetweenScriptCommands(DeviceUUID=None, Delay=0):
+# Set the delay between the script commands 
+
+
+    FUNC_NAME=GetMyFuncName()
+    if IsDebugOn(): print(FUNC_NAME)
+
+
+    try:
+#        if IsDebugOn(): print("retriving Device IDs with id of ")
+#        if IsDebugOn(): print(DeviceUUID)
+#        if IsDebugOn(): print("End of DeviceUUID")
+        DeviceIDList = GetDeviceList(DeviceUUID)
+#        if IsDebugOn(): print("retrived Device IDs")
+        for myDevice in DeviceIDList:
+            if (DeviceUUID == None) or (DeviceUUID == myDevice["DeviceUUID"]): 
+                msg = [3,193,Delay]
+#                if IsDebugOn(): print("myDevice")
+#                if IsDebugOn(): print(myDevice)
+#                if IsDebugOn(): print("EndmyDevice")
+#                if IsDebugOn(): print("{0}{1}".format(FUNC_NAME, GetDeviceLEDCurrentStates(myDevice["DeviceUUID"])))
+                _sendMessageToBoard(myDevice["DeviceID"], msg)
+    
+    except Exception as err:
+        raise Exception("{0}{1}".format(FUNC_NAME,err))
+
+
 
 
 
@@ -126,6 +186,8 @@ def ResetDevices(DeviceUUID=None):
 
      # as we cannot call ResetIODevice - just set the LED's to the resetted values
     SetLEDsToIndividualBrightness(DeviceUUID)
+
+
 
 
 def _sendMessageToBoard(DeviceID, payload):
