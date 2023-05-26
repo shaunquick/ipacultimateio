@@ -1,0 +1,35 @@
+[
+{ "Command" : {"comment" : "Used for game that only need the fire button, player 1, player 2, coin 1 coint 2 lit up",
+		"Function" : "Wait",
+		"WaitIntervalTime": 0.1 }},
+
+{ "Command" : {"comment" : "set button 1 blue, coin1/coin2 white, player1/2 green",
+		"Function" : "SetLedGroupNameIntensityList",
+		"LedGroupNameIntensityList": [  {"LedGroupName" : "p1b1", "RGBIntensity" : [0,0,60] },
+                                      {"LedGroupName" : "p1b2", "RGBIntensity" : [0,0,60] },
+					        {"LedGroupName" : "p1coin", "RGBIntensity" : [0,0,60] }, 
+					        {"LedGroupName" : "p1start", "RGBIntensity" : [0,0,60] }, 
+					      
+					        {"LedGroupName" : "top1", "RGBIntensity" : [0,60,0] },
+					        {"LedGroupName" : "top2", "RGBIntensity" : [0,60,0] }
+						]
+						}},
+
+{ "Command" : {"comment" : "Flash just the fire buttons",
+		"Function" : "SetLedGroupNameListFlash",
+		"FlashCount" : 5,
+		"LedGroupNameList": ["p1b1", "p1b2" ],
+		"FlashIntervalTime" : 0.25 }},
+
+{ "Command" : {"comment" : "",
+		"Function" : "SetLedGroupNameListFadeReverb",
+		"LedGroupNameList": ["p1b1", "p2b1" ],
+		"FadeIncrement": 10, 
+		"FadeIntervalTime": 0.2 }},
+
+{ "Command" : {"comment" : "Now repeat the flashing and fades 10 times",
+		"Function" : "RepeatLastCommands",
+		"NrPreviousCommandsToRepeat" : 1,
+		"NrOfRepetitions" :1 }}
+
+]
