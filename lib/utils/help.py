@@ -231,7 +231,6 @@ Mandatory arguments to long options are mandatory for short options too.
       -d --debug            allows debug messages to be shown on stdoutput
       -i --iodev_uuid={ID}  the device ID input will be the only device that will be 
                             have their LED's set
-      -x --xinput_flag      will treat Xinput devices as a ipacultimate LED device
       -l --list_devices     will list all identfied devices - please use to identify your DeviceUUIDs - they will be unique to your setup
 
 

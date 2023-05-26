@@ -45,12 +45,12 @@ from .ipacultimateiovalidations import IsValidIpacUltimateDevice
 
 DEVICE_LIST =[]
 
-def InitialiseDeviceList(DeviceUUID = None, xinput_flag=False):
+def InitialiseDeviceList(DeviceUUID = None):
     FUNC_NAME=GetMyFuncName()
     if IsDebugOn(): print(FUNC_NAME)
 #
 # if DeviceUUID is passed in - this will only return that device if it is found
-# if xinput_flag is set to true - then find all device that we hope are ultimarc ones, including where they are set in XInput mode
+
 # This will return a list of DeviceUUIDs and their associated usb DeviceID's
 
     global DEVICE_LIST
@@ -60,7 +60,7 @@ def InitialiseDeviceList(DeviceUUID = None, xinput_flag=False):
  #       if IsDebugOn():
  #          print(FUNC_NAME)
  #           print(DeviceID)
-        if IsValidIpacUltimateDevice(DeviceID, xinput_flag=xinput_flag):
+        if IsValidIpacUltimateDevice(DeviceID):
             if DeviceUUID == None: # Add all the boards
                 myDevice= { "DeviceUUID": _getDeviceUUID(DeviceID), 
                            "DeviceID" : DeviceID }

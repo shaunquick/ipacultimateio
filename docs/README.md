@@ -286,6 +286,6 @@ We can define unique LedGroupNames, with relevant Led's and target that LedGroup
 
 ## Using Scripts to control Specific Leds on a specific Board ##
 
-In the script folder, there is an example of how to comntrol spefici Leds on a specific board. It is called  MultiboardExample_default_script.json  
+In the script folder, there is an example of how to control specific Leds on a specific board. It is called  MultiboardExample_default_script.json  
 For this to work in yuor setup you will need to change the values for the Device UUID
 

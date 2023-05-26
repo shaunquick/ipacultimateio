@@ -84,7 +84,7 @@ def main ():
 
     DeviceUUID = None
     outputfile=""
-    xinput_flag=False
+
     list_devices=False
 
     for option, arg in opts:
@@ -98,9 +98,6 @@ def main ():
 
         if option in ("-i", "--iodev_uuid"):
             DeviceUUID = arg[1:]
-
-        if option in ("-x", "--xinput_flag"):
-            xinput_flag=True
  
         if option in ("-l", "--list_devices"):
             list_devices=True
@@ -116,7 +113,7 @@ def main ():
         ScriptName = GetScriptName(myScript)
         if IsDebugOn(): print(ScriptName)
         # - 
-        DeviceIDList = InitialiseDeviceLists(DeviceUUID=DeviceUUID, xinput_flag=xinput_flag)
+        DeviceIDList = InitialiseDeviceLists(DeviceUUID=DeviceUUID)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
         elif list_devices:
