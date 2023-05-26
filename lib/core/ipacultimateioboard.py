@@ -204,7 +204,7 @@ def _sendMessageToBoard(DeviceID, payload):
         THIS_MESSAGE_TIME_TO_BOARD = time.perf_counter_ns()
         timeBetweenUSBMessage = (THIS_MESSAGE_TIME_TO_BOARD-LAST_MESSAGE_TIME_TO_BOARD)/ 1000000000
         LAST_MESSAGE_TIME_TO_BOARD = THIS_MESSAGE_TIME_TO_BOARD
-        if IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
+        if IsValidIpacUltimateDevice(DeviceID):
 #            if IsDebugOn(): print(FUNC_NAME+"USB interface Nr:- " + str(GetUSBInterfaceNumber(DeviceID)))
 #            if IsDebugOn(): print("{0}Payload is :- {1}".format(FUNC_NAME,payload))
             DeviceID.ctrl_transfer(USB_BM_REQUESTTYPE_SET_CONFIGURATION, USB_B_REQUEST_SET_CONFIGURATION, USB_W_VALUE,
@@ -236,9 +236,6 @@ def GetUSBInterfaceNumber(DeviceID):
     if IsValidIpacUltimateDevice(DeviceID):
 #        if IsDebugOn(): print(FUNC_NAME+"Index=" + str(USB_INTERFACE_INDEX))
         return(USB_INTERFACE_INDEX)
-    elif IsValidIpacUltimateDevice(DeviceID, xinput_flag=True):
-#        if IsDebugOn(): print(FUNC_NAME+"Index=" + str(USB_XINPUT_INTERFACE_INDEX))
-        return(USB_XINPUT_INTERFACE_INDEX)
     else:
 #        if IsDebugOn(): print(FUNC_NAME+"Exception")
         raise Exception("{0}DeviceID not valid".format(FUNC_NAME))

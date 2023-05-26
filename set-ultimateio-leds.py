@@ -71,8 +71,8 @@ def main ():
     FUNC_NAME="main(): "
 
     try:
-        arg_names = ["help", "debug", "iodev_uuid=", "xinput_flag", "list_devices"]
-        opts, args = getopt.getopt(sys.argv[1:], "hdxli:", arg_names)
+        arg_names = ["help", "debug", "iodev_uuid=", "list_devices"]
+        opts, args = getopt.getopt(sys.argv[1:], "hdli:", arg_names)
     except getopt.GetoptError:
         print("Opt error - this should not have happened")
         print(GetHelpTextMain())
@@ -81,7 +81,7 @@ def main ():
     DeviceUUID = None
 
     outputfile=""
-    xinput_flag=False
+
     list_devices=False
     for option, arg in opts:
         if option in ("-h", "--help"):
@@ -94,8 +94,6 @@ def main ():
         if option in ("-i", "--iodev_uuid"):
             DeviceUUID = arg[1:]
  
-        if option in ("-x", "--xinput_flag"):
-            xinput_flag=True
 
         if option in ("-l", "--list_devices"):
             list_devices=True
@@ -110,7 +108,7 @@ def main ():
 
     try:
 # Initialise the board and run the script privided or run the default script
-        DeviceIDList = InitialiseDeviceLists(DeviceUUID=DeviceUUID, xinput_flag=xinput_flag)
+        DeviceIDList = InitialiseDeviceLists(DeviceUUID=DeviceUUID)
         if len(DeviceIDList) == 0:
             raise Exception("Error: Could not find Ultimarc I/O Board")
         elif list_devices:

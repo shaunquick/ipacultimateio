@@ -44,12 +44,10 @@ from ..common.common_lib    import IsDebugOn
 UM_VENDOR_ID_LIST = [ 0xD209 ] # There should only be one Vendor - but there may be an issue when setup as XInput
 UM_PRODUCT_ID_LIST = [ 0x0410, 0x0411, 0x0412, 0x0413 ]
 
-UM_XINPUT_VENDOR_ID_LIST = [ 0X045e ]
-UM_XINPUT_PRODUCT_ID_LIST =[ 0X028e ]
 
 
 
-def IsValidIpacUltimateDevice(DeviceID, xinput_flag=False):
+def IsValidIpacUltimateDevice(DeviceID):
     FUNC_NAME=GetMyFuncName()
     if IsDebugOn(): print(FUNC_NAME)
 
@@ -57,8 +55,6 @@ def IsValidIpacUltimateDevice(DeviceID, xinput_flag=False):
 
 # Verify the board is an iPAC Ultimate IO
     if (DeviceID != None and DeviceID.idProduct in UM_PRODUCT_ID_LIST and DeviceID.idVendor in UM_VENDOR_ID_LIST ):
-        return (True)
-    elif xinput_flag and DeviceID.idProduct in UM_XINPUT_PRODUCT_ID_LIST and DeviceID.idVendor in UM_XINPUT_VENDOR_ID_LIST:
         return (True)
     else:
         return(False)

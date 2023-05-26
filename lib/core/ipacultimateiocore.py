@@ -56,10 +56,9 @@ from .setledall                             import SetAllLedIntensities
 
 
 
-def InitialiseDeviceLists(FreeInterface = True, DeviceUUID = None, xinput_flag=False):
+def InitialiseDeviceLists(FreeInterface = True, DeviceUUID = None):
 #
 # if DeviceUUID is passed in - this will only return that device if it is found
-# if xinput_flag is set to true - then find all device that we hope are ultimarc ones, including where they are set in XInput mode
 # This will return a list of DeviceUUIDs and their associated usb DeviceID's
  
     FUNC_NAME=GetMyFuncName()
