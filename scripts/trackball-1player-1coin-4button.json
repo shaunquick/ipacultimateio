@@ -1,0 +1,42 @@
+[
+{ "Command" : {"comment" : "Light Up only Start 1, Coin 1, FireButton1 and trackball",
+		"Function" : "Wait",
+		"WaitIntervalTime": 0.2 }},
+
+{ "Command" : {"comment" : "",
+		"Function" :    "SetAllLedIntensities",
+				"IntensityLevel": 0 }},
+
+{ "Command" : {"comment" : "set button 1 blue, coin1/coin2 white, player1/2 green",
+		"Function" : "SetLedGroupNameIntensityList",
+		"LedGroupNameIntensityList": [  {"LedGroupName" : "p1coin", "RGBIntensity" : [0,0,60] }, 
+					        {"LedGroupName" : "p1start", "RGBIntensity" : [0,0,60] },
+
+					        {"LedGroupName" : "top1", "RGBIntensity" : [0,60,0] },
+					        {"LedGroupName" : "top2", "RGBIntensity" : [0,60,0] },
+						{"LedGroupName" : "p1b1", "RGBIntensity" : [0,0,60] }, 
+						{"LedGroupName" : "p1b2", "RGBIntensity" : [0,0,60] },
+						{"LedGroupName" : "p1b3", "RGBIntensity" : [0,0,60] },
+						{"LedGroupName" : "p1b4", "RGBIntensity" : [0,0,60] },
+						{"LedGroupName" : "trackball", "RGBIntensity" : [0,0,60] }
+
+ 
+					        ]
+						}},
+
+{ "Command" : {"comment" : "Flash just the fire buttons",
+		"Function" : "SetLedGroupNameListFlash",
+		"FlashCount" : 15,
+		"LedGroupNameList": ["p1b1", "p1b2", "p1b3", "p1b4", "trackball" ],
+		"FlashIntervalTime" : 0.2 }},
+
+{ "Command" : {"comment" : "ask the script to wait this number of seconds between commands to the board",
+		"Function" :    "Wait",
+				"WaitIntervalTime": 5 }},
+
+{ "Command" : {"comment" : "Now repeat the flashing and fades 10 times",
+		"Function" : "RepeatLastCommands",
+		"NrPreviousCommandsToRepeat" : 2,
+		"NrOfRepetitions" : 100 }}
+
+]
