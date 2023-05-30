@@ -1,0 +1,23 @@
+[
+{ "Command" : {"comment" : "Light Up only Start 1 & 2, Coin 1 & 2, FireButton1 & 2",
+		"Function" : "Wait",
+		"WaitIntervalTime": 0.2 }},
+
+{ "Command" : {"comment" : "",
+		"Function" :    "SetAllLedIntensities",
+				"IntensityLevel": 0 }},
+
+{ "Command" : {"comment" : "set button 1 blue, coin1/coin2 white, player1/2 green",
+		"Function" : "SetLedGroupNameIntensityList",
+		"LedGroupNameIntensityList": [  {"LedGroupName" : "p1coin", "RGBIntensity" : [0,0,60] }, 
+					        {"LedGroupName" : "p1start", "RGBIntensity" : [0,0,60] },
+					        {"LedGroupName" : "p2coin", "RGBIntensity" : [60,0,0] },
+					        {"LedGroupName" : "p2start", "RGBIntensity" : [60,0,0] },
+					        {"LedGroupName" : "top1", "RGBIntensity" : [0,60,0] },
+					        {"LedGroupName" : "top2", "RGBIntensity" : [0,60,0] }
+					        ]
+						}}
+
+
+
+]
